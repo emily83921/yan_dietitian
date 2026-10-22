@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>減脂對策｜營養師彥彥 Brighter Me</title>
+<meta name="description" content="營養師彥彥為你這一型整理的減脂對策：卡關特徵、原因、飲食與生活調整。">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,500;1,500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FFF7F9; --panel:#fff; --panel2:#FFF0F4; --ink:#2E1A24; --muted:#7D6470; --faint:#B49AA6; --line:#F5DCE5;
+  --pink:#FF5C8D; --rose:#FF3D7A; --glow:rgba(255,92,141,.18); --tint:#FFE6EE; --peach:#FFF3EA; --good:#22A06B;
+  --f-body:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-en:"Playfair Display","Times New Roman",serif; --f-num:"DM Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.8;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(60% 40% at 100% 0%,rgba(255,179,138,.22),transparent 70%),radial-gradient(50% 35% at 0% 20%,rgba(201,168,255,.18),transparent 70%),var(--bg);background-attachment:fixed}
+h1,h2,h3,p{margin:0} h1,h2,h3{font-weight:900;line-height:1.3;text-wrap:balance}
+a{color:inherit}
+.g{padding-inline:max(20px,env(safe-area-inset-left,0px))}
+.col{max-width:680px;margin:0 auto}
+.mono{font-family:var(--f-num);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink)}
+.en{font-family:var(--f-en);font-style:italic}
+[hidden]{display:none!important}
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,247,249,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .col{display:flex;justify-content:space-between;align-items:center;padding-block:14px;gap:10px}
+.nav b{font-size:16px}.nav .en{color:var(--rose);font-size:14px;margin-left:8px}
+.nav a.ig{font-size:12.5px;border:1px solid var(--line);border-radius:99px;padding:5px 12px;text-decoration:none;white-space:nowrap}
+main{padding-block:28px 60px;display:flex;flex-direction:column;gap:18px}
+/* cover */
+.cover{border-radius:28px;padding:30px 26px;background:linear-gradient(135deg,#FFE6EE,#FFF3EA);position:relative;overflow:hidden}
+.cover .k{display:inline-block;background:#fff;border-radius:99px;padding:4px 12px;font-size:12.5px;color:var(--muted)}
+.cover .ic{position:absolute;right:22px;top:22px;width:72px;height:72px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:36px;box-shadow:0 10px 30px rgba(255,92,141,.15)}
+.cover .no{font-family:var(--f-num);color:var(--rose);font-size:14px;margin-top:18px;display:block}
+.cover h1{font-size:clamp(32px,8vw,44px)}
+.cover .en.nm{color:var(--rose);font-size:17px}
+.cover .tag{font-size:16px;margin-top:14px;max-width:30em}
+.cover .where{margin-top:16px;display:inline-flex;gap:10px;align-items:center;background:#fff;border-radius:16px;padding:8px 14px;font-size:13.5px}
+.cover .where b{color:var(--rose)}
+.block{background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:26px 22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 30px rgba(255,92,141,.06)}
+.bh h2{font-size:21px}
+.signs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.signs li{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;background:var(--panel2);border-radius:14px;padding:10px 14px;font-size:14.5px}
+.signs li::before{content:"✓";width:22px;height:22px;border-radius:6px;border:1.5px solid var(--pink);color:var(--pink);display:grid;place-items:center;font-size:12px;margin-top:3px}
+.signs-note{font-size:13px;color:var(--muted)}
+.mech{font-size:15px;line-height:1.95}
+.mech b{color:var(--rose)}
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.plan>div{border-radius:20px;padding:16px 18px}
+.plan .food{background:var(--panel2)} .plan .life{background:var(--peach)}
+.plan h3{font-size:16px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.plan ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.swaps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sw{background:var(--panel2);border-radius:16px;padding:12px 14px;font-size:14px}
+.sw s{display:block;color:var(--faint);font-size:13px}
+.sw b{display:block;font-weight:500;margin-top:2px}.sw b::before{content:"→ ";color:var(--rose)}
+.week{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.wk{border:1.5px dashed var(--pink);border-radius:18px;padding:14px;text-align:center;font-size:14px}
+.wk .d{font-family:var(--f-num);color:var(--rose);font-size:12px;display:block;margin-bottom:4px}
+.core{font-size:17px;font-weight:700;color:var(--rose);text-align:center;padding:4px 0}
+/* closing logic */
+.step-k{display:inline-flex;align-items:center;gap:8px}
+.step-k i{font-style:normal;width:26px;height:26px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;font-family:var(--f-num);font-size:13px}
+.path{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;text-align:center}
+.path div{border-radius:16px;padding:14px 8px;font-size:14px;font-weight:700}
+.path .ok{background:var(--panel2)} .path .ok small{display:block;font-weight:400;color:var(--good);font-size:12px}
+.path .q{background:linear-gradient(135deg,var(--pink),var(--rose));color:#fff} .path .q small{display:block;font-weight:400;font-size:12px;opacity:.85}
+.path span{color:var(--faint)}
+.eq{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.eq span{background:var(--ink);color:#fff;border-radius:99px;padding:6px 16px;font-size:14px;font-weight:700}
+.qs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.qs li{background:var(--panel2);border-radius:14px;padding:11px 14px;font-size:14.5px}
+.qs li::before{content:"？";color:var(--rose);font-weight:900;margin-right:6px}
+.offer{border-radius:28px;padding:28px 24px;background:linear-gradient(135deg,#FFE6EE,#FFF3EA);display:flex;flex-direction:column;gap:14px;border:1px solid var(--pink)}
+.offer .who{display:flex;gap:14px;align-items:center}
+.offer .who img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #fff}
+.offer .who b{font-size:18px;display:block}.offer .who small{color:var(--muted);font-size:13px}
+.offer ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.offer li{background:#fff;border-radius:14px;padding:10px 14px;font-size:14px}
+.offer li b{display:block;color:var(--rose);font-size:13px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:99px;padding:17px 24px;font-weight:700;font-size:16.5px;text-decoration:none;color:#fff;background:linear-gradient(135deg,var(--pink),var(--rose));box-shadow:0 14px 40px rgba(255,61,122,.28);animation:hop 2.6s ease-in-out infinite}
+@keyframes hop{0%,60%,100%{transform:translateY(0)}68%{transform:translateY(-7px)}76%{transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.btn{animation:none}}
+.small{font-size:12.5px;color:var(--muted);text-align:center}
+.sign{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;font-size:13px;color:var(--rose)}
+.sign img{width:44px;opacity:.8}
+footer{font-size:12px;color:var(--faint);text-align:center;padding:10px 0 40px}
+.notfound{text-align:center;padding:60px 0}
+@media (max-width:560px){.plan,.swaps,.offer ul{grid-template-columns:1fr}.week{grid-template-columns:1fr}.path{grid-template-columns:1fr;}.path span{transform:rotate(90deg)}.cover .ic{width:56px;height:56px;font-size:28px}}
+</style>
+</head>
+<body>
+<header class="nav g"><div class="col"><span><b>營養師彥彥</b><span class="en">Brighter Me</span></span><a class="ig" href="https://www.instagram.com/yan_dietitian/" target="_blank" rel="noopener">@yan_dietitian</a></div></header>
+<main class="g"><div class="col" id="app" style="display:flex;flex-direction:column;gap:18px"></div></main>
+<footer class="g">本頁內容僅供生活參考，不是醫療診斷。懷孕、哺乳、正在用藥或有慢性病者，請先諮詢醫師或營養師。</footer>
+<script>
+/* ============================================================
+   ✏️ 6 型減脂對策內容（要改文字就改這裡，或跟 Claude 說）
+   網址：guide.html?t=P（P 高壓、E 情緒、N 作息、M 代謝、G 血糖、D 節食）
+   ============================================================ */
+const BOOK_URL = "book.html";
+const GUIDE = {
+  P:{no:1,name:"高壓緊繃型",en:"High-Tension",icon:"⚡",area:"腹部 × 壓力",tag:"身體一直處在備戰狀態，脂肪也跟著守在腹部。",
+    signs:["肚子特別容易胖，四肢相對細","壓力大的時候吃不下，或反而狂吃重口味","一整天靠咖啡撐著","躺在床上腦袋停不下來，睡醒還是累","明明吃得不多，腰圍卻越來越粗"],
+    mech:"長期處在壓力下，身體會分泌較多的<b>壓力荷爾蒙（皮質醇）</b>。它的任務是讓你隨時準備應戰：拉高血糖、增加食慾，並且傾向把脂肪存在<b>腹部</b>。壓力沒有被消化，再怎麼少吃，身體都會想守住這些能量。",
+    food:["三餐定時，不要空腹靠咖啡撐到中午","每餐一掌心蛋白質＋一份深綠色蔬菜","晚餐保留一份原型澱粉（地瓜、糙米），幫助放鬆好入睡","咖啡一天 1–2 杯，下午 2 點後不喝","壓力大想吃東西時，先備好堅果、無糖優格"],
+    life:["運動以肌力訓練、散步、瑜伽為主，避免天天高強度","每天留 10 分鐘真正放鬆：伸展、深呼吸都可以","睡前 1 小時離開工作訊息","每週至少留半天不排任何行程"],
+    swaps:[["靠咖啡硬撐","早餐先吃，再喝咖啡"],["忙到忘記吃、晚上大吃","下午先備一份點心"],["睡不夠還硬做高強度","改成散步或伸展"],["壓力大就吃甜食","配無糖茶，慢慢吃一小份"]],
+    week:["早餐一定要吃","下午 2 點後不喝咖啡","睡前 10 分鐘伸展"],core:"先讓身體鬆下來，脂肪才願意離開。"},
+  E:{no:2,name:"情緒飢餓型",en:"Emotional Hunger",icon:"🧠",area:"大腦 × 情緒",tag:"你餓的不是胃，而是心情。",
+    signs:["肚子不餓，嘴巴就是想吃","累了、無聊、心情差就想找零食","邊滑手機邊吃，回神已經吃完一整包","吃完常常自責","越晚越想吃"],
+    mech:"甜的、炸的、重口味的食物，能讓大腦很快產生<b>愉悅感</b>。所以當你疲累或低落時，大腦會自動找食物當安慰。問題不在你嘴饞，而是<b>情緒需要一個出口</b>，食物剛好最快、最方便。",
+    food:["三餐吃飽、蛋白質吃夠，避免「餓」加上「情緒」一起來","零食不整包放在旁邊，先分裝一小碗","備好替代品：毛豆、無糖優格、海苔、氣泡水","想吃甜就放在飯後吃，份量減半"],
+    life:["想吃之前先問自己：我是餓，還是累、煩？","等 10 分鐘再決定要不要吃","列 5 個不靠食物的紓壓方法","吃東西時放下手機，專心吃"],
+    swaps:[["追劇配洋芋片","毛豆、無糖優格，先分裝一小碗"],["心情差就叫外送","先喝一杯水，等 3 分鐘再決定"],["用甜點獎勵自己","甜點照吃，放在飯後、分一半"],["整包吃完才回神","放下手機，一口一口慢慢吃"]],
+    week:["寫好零食替代清單","吃東西時不滑手機","記下 3 次想吃時的心情"],core:"照顧好情緒，食物就不用負責安慰你。"},
+  N:{no:3,name:"作息失衡型",en:"Off-Rhythm",icon:"🌙",area:"生理時鐘",tag:"身體的時鐘，跟你的生活對不上。",
+    signs:["常常超過 12 點才睡","早上起不來，常常跳過早餐","白天靠糖和咖啡撐","晚上精神特別好，特別想吃宵夜","假日和平日的作息差很多"],
+    mech:"身體有自己的<b>生理時鐘</b>，決定什麼時候該消化、什麼時候該儲存。睡不夠的時候，讓人<b>想吃的荷爾蒙上升</b>、讓人有飽足感的下降，隔天自然特別想吃；而晚上吃進去的東西，身體也比較傾向存起來。",
+    food:["每天固定時間吃早餐，而且要有蛋白質","一天的進食時間控制在 10–12 小時內","睡前 3 小時不再吃東西","晚餐吃夠蛋白質和蔬菜，半夜比較不會餓","真的餓了，選溫豆漿或一顆蛋"],
+    life:["固定起床時間，假日差距不超過 1 小時","早上曬 10 分鐘太陽，幫身體校正時鐘","12 點前上床，先從提早 30 分鐘開始","睡前 1 小時調暗燈光、遠離螢幕"],
+    swaps:[["熬夜追劇","提早 30 分鐘關螢幕"],["深夜泡麵、鹹酥雞","晚餐蛋白質吃夠，餓了喝溫豆漿"],["睡前一杯手搖飲","換成溫熱的無糖豆漿或鮮奶"],["睡過頭跳過早餐","超商茶葉蛋＋地瓜帶著走"]],
+    week:["固定起床時間","早上曬 10 分鐘太陽","睡前 3 小時不吃東西"],core:"把時鐘調回來，代謝就會跟上。"},
+  M:{no:4,name:"代謝低速型",en:"Slow Burner",icon:"🔋",area:"肌肉 × 循環",tag:"不是吃太多，是身體燃燒得太少。",
+    signs:["一天坐超過 8 小時","吃得不多，卻還是瘦不下來","容易怕冷、手腳冰冷","下半身容易水腫","身上沒什麼肌肉線條，摸起來軟軟的"],
+    mech:"每天消耗的熱量，大部分來自你<b>沒在運動的時候</b>：站著、走路、做家事，還有<b>肌肉本身的消耗</b>。久坐少動、肌肉量又不足時，身體的燃燒速度自然變慢，少吃一點也很難看到成果。",
+    food:["每餐一掌心蛋白質，幫助保住、增加肌肉","運動後 1 小時內補一份蛋白質","不要只用少吃取代運動","水要喝夠，一天至少 2,000 ml"],
+    life:["每坐 1 小時，起來動 3 分鐘","每天多走 2,000 步","每週 2–3 次肌力訓練：深蹲、臀橋、彈力帶都可以","通勤提早一站下車走路"],
+    swaps:[["吃完就坐著或躺著","飯後走 10 分鐘"],["通勤全程都坐著","提早一站下車走路"],["只節食不運動","吃夠，每週加兩次肌力訓練"],["週末宅一整天","約朋友散步或逛街"]],
+    week:["設定每小時起身提醒","每天多走 2,000 步","這週做兩次深蹲"],core:"肌肉，是你最好的燃脂引擎。"},
+  G:{no:5,name:"血糖起伏型",en:"Sugar Swing",icon:"🎢",area:"血糖",tag:"能量忽高忽低，跟著血糖坐雲霄飛車。",
+    signs:["吃完飯特別想睡","下午三、四點一定要吃點甜的","餓的時候心慌手抖、脾氣變差","很愛麵包、手搖飲","肚子和腰圍特別明顯"],
+    mech:"精緻澱粉和含糖飲料，會讓<b>血糖快速衝高、又快速掉下來</b>。血糖一掉，大腦以為能量不夠，就催你再吃甜的。長期下來，負責降血糖的<b>胰島素</b>常常偏高，身體也更容易把多的能量存成脂肪。",
+    food:["吃飯順序：先吃菜、再吃肉，最後吃澱粉","精緻澱粉換成全穀、地瓜、燕麥","手搖飲每週降一級甜度，最後到無糖","下午固定安排一份點心（堅果、無糖優格），避免餓過頭"],
+    life:["飯後散步 10–15 分鐘","澱粉比較多的那一餐，安排在運動之後","睡滿 7 小時，隔天比較不會想吃甜"],
+    swaps:[["全糖手搖飲","每週降一級甜度"],["麵包當早餐","地瓜或燕麥＋蛋"],["飯後一定要甜點","先吃完正餐，甜點分一半"],["下午三點的餅乾","一小把堅果或無糖優格"]],
+    week:["改變吃飯順序","飯後散步 10 分鐘","手搖飲降一級甜度"],core:"穩住血糖，嘴饞就會安靜下來。"},
+  D:{no:6,name:"節食耗損型",en:"Under-Fueled",icon:"🪫",area:"整體代謝",tag:"吃得很少，身體卻開始省電。",
+    signs:["吃得很少，體重卻不動","減了又復胖，來回好幾次","常常不太餓，會忘記吃飯","容易疲倦、手腳冰冷、經期不太規律","每天量體重，心情跟著數字起伏"],
+    mech:"長期吃太少，身體會以為遇到<b>飢荒</b>，主動降低消耗來保護自己：體溫、精神、肌肉都在<b>省電</b>。這時候再少吃，只會讓代謝更低，一放鬆就復胖。先把身體餵飽，它才願意重新燃燒。",
+    food:["先把熱量吃回建議值，不要低於基礎代謝","每餐都要有一掌心蛋白質和一份澱粉","三餐定時，不跳餐","一週可以安排一天吃到維持熱量，讓身體安心"],
+    life:["搭配肌力訓練，把流失的肌肉練回來","一週量一次體重就好，多看腰圍和體脂","睡滿 7 小時，讓身體好好修復"],
+    swaps:[["一杯咖啡當早餐","咖啡配蛋和地瓜"],["只吃沙拉","沙拉加一掌心蛋白質和一份澱粉"],["極端斷食","三餐定時，份量吃夠"],["天天量體重","一週量一次，多看腰圍"]],
+    week:["三餐都要吃","每餐都有蛋白質","一週只量一次體重"],core:"先吃夠，身體才願意燃燒。"},
+};
+/* ============================================================ */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const code=(new URLSearchParams(location.search).get("t")||"").toUpperCase();
+const t=GUIDE[code];
+if(!t){
+  $("app").innerHTML=`<div class="notfound"><h2>選擇你的型態</h2><p style="margin:12px 0 20px;color:var(--muted)">做完代謝卡關檢測，信裡會有你這一型的連結。</p>${Object.entries(GUIDE).map(([k,v])=>`<p><a href="?t=${k}">${v.icon} No.${v.no} ${esc(v.name)}</a></p>`).join("")}</div>`;
+}else{
+  document.title=`${t.name}減脂對策｜營養師彥彥 Brighter Me`;
+  const sec=(n,en,zh)=>`<div class="bh"><span class="mono">${n} · ${en}</span><h2>${zh}</h2></div>`;
+  const book=`${BOOK_URL}?t=${code}`;
+  $("app").innerHTML=`
+  <section class="cover">
+    <span class="k">你的減脂對策 · Fat-loss Guide</span>
+    <div class="ic">${t.icon}</div>
+    <span class="no">No.${t.no}</span>
+    <h1>${esc(t.name)}</h1>
+    <span class="en nm">${esc(t.en)}</span>
+    <p class="tag">${esc(t.tag)}</p>
+    <div class="where">卡關的位置 <b>${esc(t.area)}</b></div>
+  </section>
+
+  <article class="block">${sec("01","Signs","你是不是也這樣？")}
+    <ul class="signs">${t.signs.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    <p class="signs-note">符合 3 項以上，這一型很可能就是你目前最大的卡關點。</p>
+  </article>
+
+  <article class="block">${sec("02","Why","為什麼會這樣？")}
+    <p class="mech">${t.mech}</p>
+  </article>
+
+  <article class="block">${sec("03","Strategy",`${esc(t.name)}的減脂對策`)}
+    <div class="plan">
+      <div class="food"><h3>🥗 飲食這樣調</h3><ul>${t.food.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="life"><h3>🌿 生活這樣改</h3><ul>${t.life.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+    </div>
+  </article>
+
+  <article class="block">${sec("04","Swap, don't skip","不用忌口，換個吃法就好")}
+    <div class="swaps">${t.swaps.map(([o,n])=>`<div class="sw"><s>${esc(o)}</s><b>${esc(n)}</b></div>`).join("")}</div>
+  </article>
+
+  <article class="block">${sec("05","This week","這週先做這 3 件事")}
+    <div class="week">${t.week.map((x,i)=>`<div class="wk"><span class="d">STEP ${i+1}</span>${esc(x)}</div>`).join("")}</div>
+    <p class="core">「${esc(t.core)}」</p>
+  </article>
+
+  <article class="block">
+    <div class="step-k"><i>1</i><h2>你已經走到這裡了⋯</h2></div>
+    <div class="path">
+      <div class="ok">認識問題<small>✓ 你是${esc(t.name)}</small></div><span>→</span>
+      <div class="ok">理解原因<small>✓ 知道為什麼卡關</small></div><span>→</span>
+      <div class="q">但如何真正解決？<small>下一步</small></div>
+    </div>
+    <p>你已經知道自己卡在哪、為什麼會卡住。但每個人的工作、作息、飲食習慣都不一樣，同一套方法放在不同人身上，結果也會不一樣。</p>
+  </article>
+
+  <article class="block">
+    <div class="step-k"><i>2</i><h2>這就是為什麼你需要「實戰指南」</h2></div>
+    <div class="eq"><span>理論 ≠ 執行</span><span>知道 ≠ 做到</span></div>
+    <ul class="qs">
+      <li>大部分的人同時有 2–3 種卡關，要先處理哪一個？</li>
+      <li>外食、聚餐、加班、出差的時候，到底要怎麼吃？</li>
+      <li>做了一段時間卡住了，誰來幫你看問題、調整方向？</li>
+    </ul>
+  </article>
+
+  <section class="offer">
+    <div class="step-k"><i>3</i><h2>準備好開始了嗎？</h2></div>
+    <p style="font-size:16px">從理解到實踐，只差這一步。</p>
+    <div class="who"><img src="yan-face.jpg" alt=""><div><b>一對一營養諮詢</b><small>營養師彥彥｜臺北醫學大學・肥胖研究學會 體重管理營養師</small></div></div>
+    <ul>
+      <li><b>01 · 分析</b>看懂你的檢測結果和生活作息</li>
+      <li><b>02 · 排序</b>依你的型態，排出先做什麼、後做什麼</li>
+      <li><b>03 · 計畫</b>外食、聚餐、加班也做得到的飲食安排</li>
+      <li><b>04 · 陪伴</b>過程中遇到卡關，隨時幫你調整</li>
+    </ul>
+    <a class="btn" href="${book}">預約一對一諮詢 →</a>
+    <p class="small">填寫只要 30 秒，彥彥會主動聯絡你</p>
+    <div class="sign"><span>Lighter every day, brighter every way<br>每天輕盈一點，遇見更閃耀的自己</span><img src="sig.png" alt="彥彥"></div>
+  </section>`;
+}
+</script>
+</body>
+</html>
