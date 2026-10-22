@@ -167,7 +167,7 @@ body::before{background:#000!important}
   <div class="layout" id="layout">
     <aside class="side">
       <div class="filters">
-        <input id="q" type="search" placeholder="搜尋稱呼、IG、LINE、Email">
+        <input id="q" type="search" placeholder="搜尋 Email 或型態">
         <div class="row">
           <select id="fStatus"><option value="">全部狀態</option></select>
           <select id="fType"><option value="">全部型態</option></select>
@@ -184,8 +184,8 @@ body::before{background:#000!important}
 /* ============================================================
    ✏️ 貼上和評估網站一樣的 Apps Script 網址；試算表網址可選填
    ============================================================ */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCuRnCtxBRVf-uYLjCzdebiS-LIKLnoYOzijaSBqlSv9RTvZAFvvwaEIE2WGc3FIuK/exec";
-const SHEET_LINK = "https://docs.google.com/spreadsheets/d/1WHv-Hx909q5DqSZsZgbYBxyCvJlmGWKKHqiXh102nf8/edit";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0Nxt96fvNhbqZiAakp7eYNWfbSMcsAAE0RSGLydxpFaMZBCofaEoE5UUoWgVhEe4yiA/exec";
+const SHEET_LINK = "https://docs.google.com/spreadsheets/d/1LWcy7e5Oe6kcSZPDLhZhbvUQyp8_ghPetr155U3HY4g/edit";
 /* ============================================================ */
 
 const STATUSES = ["未聯繫","已聯繫","已成交","不需追蹤"];
@@ -198,9 +198,9 @@ const DEMO = !SCRIPT_URL;
 let KEY="", ROWS=[], CUR=null, lastError="";
 
 const SAMPLE = [
-  {"編號":"範例-001","填寫時間":"2026-10-21 21:14","狀態":"未聯繫","備註":"","稱呼":"（範例）小美","Instagram":"@example_mei","LINE":"","Email":"","願意收訊息":"是","主要型態":"血糖起伏型","次要型態":"節食耗損型","性別":"女","年齡":"29","身高":"160","體重":"62","體脂率":"31","腰圍":"81","目標體重":"55","目標":"減脂、穩定血糖","活動量":"輕度工作","飲食型態":"葷食","健康狀況":"便秘或腸胃不適","過敏或不吃":"蝦","指數｜血糖起伏型":"78","指數｜高壓緊繃型":"30","指數｜節食耗損型":"52","指數｜作息失衡型":"33","指數｜情緒飢餓型":"40","指數｜代謝低速型":"67","BMI":"24.2","基礎代謝":"1290","維持熱量":"1548","建議熱量":"1290","蛋白質g":"93","全天醣類份數":"7","理想體重":"47–61 kg","營養素分配":"碳水 127 g／蛋白質 93 g／脂肪 52 g","減脂節奏":"每週 −0.4 kg，約 18 週，到 55 kg","報告編號":"482913","來源連結":"utm_source=ig","同意蒐集":"是","題目｜手搖飲、含糖飲料，一週喝幾杯？":"3 到 5 杯","題目｜關於甜點和零食，哪個最像你？":"正餐吃飽了，還是要來點甜的","題目｜你通常幾點睡？":"12 點到 1 點"},
-  {"編號":"範例-002","填寫時間":"2026-10-20 12:40","狀態":"已聯繫","備註":"已私訊，週五回覆菜單","稱呼":"（範例）阿凱","Instagram":"@example_kai","LINE":"example_kai","Email":"","願意收訊息":"是","主要型態":"高壓緊繃型","次要型態":"","性別":"男","年齡":"34","身高":"175","體重":"78","體脂率":"","腰圍":"","目標體重":"","目標":"增肌","活動量":"中度工作","飲食型態":"葷食","健康狀況":"無","過敏或不吃":"","指數｜血糖起伏型":"11","指數｜高壓緊繃型":"64","指數｜節食耗損型":"20","指數｜作息失衡型":"22","指數｜情緒飢餓型":"13","指數｜代謝低速型":"17","BMI":"25.5","基礎代謝":"1724","維持熱量":"2672","建議熱量":"2872","蛋白質g":"140","全天醣類份數":"10","報告編號":"118264","來源連結":"","同意蒐集":"是"},
-  {"編號":"範例-003","填寫時間":"2026-10-14 22:05","狀態":"已成交","備註":"報名一對一 4 週","稱呼":"（範例）Jessica","Instagram":"@example_jess","LINE":"","Email":"jess@example.com","願意收訊息":"否","主要型態":"情緒飢餓型","次要型態":"作息失衡型","性別":"女","年齡":"41","身高":"163","體重":"68","體脂率":"34","腰圍":"86","目標體重":"60","目標":"減脂、增肌","活動量":"輕度工作","飲食型態":"蛋奶素","健康狀況":"血糖偏高","過敏或不吃":"","指數｜血糖起伏型":"33","指數｜高壓緊繃型":"20","指數｜節食耗損型":"28","指數｜作息失衡型":"56","指數｜情緒飢餓型":"75","指數｜代謝低速型":"42","BMI":"25.6","基礎代謝":"1286","維持熱量":"1768","建議熱量":"1468","蛋白質g":"122","全天醣類份數":"7","報告編號":"770215","來源連結":"","同意蒐集":"是"},
+  {"編號":"範例-001","填寫時間":"2026-10-21 21:14","狀態":"未聯繫","備註":"","Email":"mei@example.com","報告寄送":"已寄出","主要型態":"血糖起伏型","次要型態":"節食耗損型","性別":"女","年齡":"29","身高":"160","體重":"62","體脂率":"31","腰圍":"81","目標體重":"55","目標":"減脂、穩定血糖","活動量":"輕度工作","飲食型態":"葷食","健康狀況":"便秘或腸胃不適","過敏或不吃":"蝦","指數｜血糖起伏型":"78","指數｜高壓緊繃型":"30","指數｜節食耗損型":"52","指數｜作息失衡型":"33","指數｜情緒飢餓型":"40","指數｜代謝低速型":"67","BMI":"24.2","基礎代謝":"1290","維持熱量":"1548","建議熱量":"1290","蛋白質g":"93","全天醣類份數":"7","理想體重":"47–61 kg","營養素分配":"碳水 127 g／蛋白質 93 g／脂肪 52 g","減脂節奏":"每週 −0.4 kg，約 18 週，到 55 kg","報告編號":"482913","來源連結":"utm_source=ig","同意蒐集":"是","題目｜手搖飲、含糖飲料，一週喝幾杯？":"3 到 5 杯","題目｜關於甜點和零食，哪個最像你？":"正餐吃飽了，還是要來點甜的","題目｜你通常幾點睡？":"12 點到 1 點"},
+  {"編號":"範例-002","填寫時間":"2026-10-20 12:40","狀態":"已聯繫","備註":"已私訊，週五回覆菜單","Email":"kai@example.com","報告寄送":"已寄出","主要型態":"高壓緊繃型","次要型態":"","性別":"男","年齡":"34","身高":"175","體重":"78","體脂率":"","腰圍":"","目標體重":"","目標":"增肌","活動量":"中度工作","飲食型態":"葷食","健康狀況":"無","過敏或不吃":"","指數｜血糖起伏型":"11","指數｜高壓緊繃型":"64","指數｜節食耗損型":"20","指數｜作息失衡型":"22","指數｜情緒飢餓型":"13","指數｜代謝低速型":"17","BMI":"25.5","基礎代謝":"1724","維持熱量":"2672","建議熱量":"2872","蛋白質g":"140","全天醣類份數":"10","報告編號":"118264","來源連結":"","同意蒐集":"是"},
+  {"編號":"範例-003","填寫時間":"2026-10-14 22:05","狀態":"已成交","備註":"報名一對一 4 週","Email":"jess@example.com","報告寄送":"未寄：10 分鐘內已寄過","主要型態":"情緒飢餓型","次要型態":"作息失衡型","性別":"女","年齡":"41","身高":"163","體重":"68","體脂率":"34","腰圍":"86","目標體重":"60","目標":"減脂、增肌","活動量":"輕度工作","飲食型態":"蛋奶素","健康狀況":"血糖偏高","過敏或不吃":"","指數｜血糖起伏型":"33","指數｜高壓緊繃型":"20","指數｜節食耗損型":"28","指數｜作息失衡型":"56","指數｜情緒飢餓型":"75","指數｜代謝低速型":"42","BMI":"25.6","基礎代謝":"1286","維持熱量":"1768","建議熱量":"1468","蛋白質g":"122","全天醣類份數":"7","報告編號":"770215","來源連結":"","同意蒐集":"是"},
 ];
 
 async function api(body){
@@ -248,12 +248,13 @@ function renderKpis(){
     ["最多的型態",top?`${TYPE_EM[top[0]]||""}${esc(top[0])}<small>${top[1]} 人</small>`:"—"]]
     .map(([k,v])=>`<div class="kpi"><span>${k}</span><b>${v}</b></div>`).join("");
 }
-const contactOf=r=>[r["Instagram"],r["LINE"]&&("LINE "+r["LINE"]),r["Email"]].filter(Boolean).join(" · ");
+const nameOf=r=>r["Email"]||r["稱呼"]||"（未填 email）";
+const contactOf=r=>[r["主要型態"],r["報告寄送"]&&("報告"+(String(r["報告寄送"]).startsWith("已寄")?"已寄出":"未寄出"))].filter(Boolean).join(" · ");
 function renderList(){
   const q=$("q").value.trim().toLowerCase(), fs=$("fStatus").value, ft=$("fType").value;
-  const rows=ROWS.filter(r=>(!fs||(r["狀態"]||"未聯繫")===fs)&&(!ft||r["主要型態"]===ft)&&(!q||[r["稱呼"],r["Instagram"],r["LINE"],r["Email"]].join(" ").toLowerCase().includes(q)));
+  const rows=ROWS.filter(r=>(!fs||(r["狀態"]||"未聯繫")===fs)&&(!ft||r["主要型態"]===ft)&&(!q||[r["Email"],r["稱呼"],r["Instagram"],r["主要型態"]].join(" ").toLowerCase().includes(q)));
   $("list").innerHTML=rows.length?rows.map(r=>{ const st=r["狀態"]||"未聯繫"; return `<button type="button" class="item${r["編號"]===CUR?" on":""}" data-id="${esc(r["編號"])}">
-    <b><span class="em">${TYPE_EM[r["主要型態"]]||""}</span>${esc(r["稱呼"]||"（未填稱呼）")}</b><span class="st" style="color:var(${ST_COLOR[st]||"--muted"})">${esc(st)}</span>
+    <b><span class="em">${TYPE_EM[r["主要型態"]]||""}</span>${esc(nameOf(r))}</b><span class="st" style="color:var(${ST_COLOR[st]||"--muted"})">${esc(st)}</span>
     <span class="meta"><span>${esc(r["填寫時間"])}</span><span>${esc(r["主要型態"])}</span><span>${esc(contactOf(r))}</span></span></button>`; }).join("")
     :`<div class="empty"><b style="font-family:var(--f-zh)">${ROWS.length?"沒有符合條件的填答":"還沒有人填寫"}</b><span>${ROWS.length?"試試看調整搜尋或篩選。":"把測驗網址放到 IG 簡介，第一筆資料就會出現在這裡。"}</span></div>`;
 }
@@ -273,7 +274,7 @@ function renderDetail(r){
       <div style="display:flex;flex-direction:column;gap:6px">
         <button class="btn back" type="button" id="backBtn" style="align-self:flex-start;margin-bottom:6px">← 名單</button>
         <small>${esc(r["填寫時間"])} · 報告編號 ${esc(show(r["報告編號"]))}</small>
-        <h2>${esc(r["稱呼"]||"（未填稱呼）")}</h2>
+        <h2>${esc(nameOf(r))}</h2>
         <span class="typebadge">${TYPE_EM[r["主要型態"]]||""} ${esc(show(r["主要型態"]))}${r["次要型態"]?`　＋ ${esc(r["次要型態"])}`:""}</span>
       </div>
       <div class="status-row"><select id="stSel" aria-label="狀態">${STATUSES.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div>
@@ -281,17 +282,17 @@ function renderDetail(r){
 
     <div class="blk"><h3>聯絡方式 <span class="en">Contact</span></h3>
       <div class="contact">
-        <div><span>Instagram</span><b>${ig?`<a href="https://www.instagram.com/${encodeURIComponent(ig)}/" target="_blank" rel="noopener">@${esc(ig)}</a>`:"—"}</b>${copy(r["Instagram"])}</div>
-        <div><span>LINE</span><b>${esc(show(r["LINE"]))}</b>${copy(r["LINE"])}</div>
-        <div><span>Email</span><b>${esc(show(r["Email"]))}</b>${copy(r["Email"])}</div>
-        <div><span>願意收訊息</span><b>${esc(show(r["願意收訊息"]))}</b><span></span></div>
+        <div><span>Email</span><b>${r["Email"]?`<a href="mailto:${esc(r["Email"])}">${esc(r["Email"])}</a>`:"—"}</b>${copy(r["Email"])}</div>
+        <div><span>報告寄送</span><b>${esc(show(r["報告寄送"]))}</b><span></span></div>
+        ${r["Instagram"]?`<div><span>Instagram</span><b>${esc(r["Instagram"])}</b>${copy(r["Instagram"])}</div>`:""}
+        ${/^https:\/\//.test(r["報告連結"]||"")?`<div><span>他的報告</span><b><a href="${esc(r["報告連結"])}" target="_blank" rel="noopener">打開報告 →</a></b><span></span></div>`:""}
       </div>
     </div>
 
     ${idx.length?`<div class="blk"><h3>型態指數 <span class="en">Type Fingerprint</span></h3><div class="bars">${idx.map(([c,v])=>`<div class="bar"><span>${TYPE_EM[c]||""} ${esc(c)}</span><div class="tr"><div class="fl" style="width:${+v||0}%;background:${+v>=60?"var(--st-new)":+v>=35?"var(--gold)":"var(--line)"}"></div></div><span class="p">${esc(v)}</span></div>`).join("")}</div></div>`:""}
 
     <div class="blk"><h3>評估數字 <span class="en">Numbers</span></h3>
-      ${kv([["建議熱量（大卡）",r["建議熱量"],1],["蛋白質（g）",r["蛋白質g"],1],["全天醣類（份）",r["全天醣類份數"],1],["BMI",r["BMI"],1],["基礎代謝",r["基礎代謝"],1],["維持熱量",r["維持熱量"]||r["每日消耗"],1]])}${kv([["理想體重",r["理想體重"]],["營養素分配",r["營養素分配"]],["減脂節奏",r["減脂節奏"]]])}
+      ${r["跳過身體數據"]==="是"?`<p class="muted">他跳過了身體數據</p>`:kv([["建議熱量（大卡）",r["建議熱量"],1],["BMI",r["BMI"],1],["基礎代謝",r["基礎代謝"],1],["維持熱量",r["維持熱量"],1]])+kv([["理想體重",r["理想體重"]]])}
     </div>
 
     <div class="blk"><h3>身體數據 <span class="en">Profile</span></h3>
