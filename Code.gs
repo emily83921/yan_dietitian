@@ -564,7 +564,7 @@ function buildMail(d, text, forPdf) {
   }
   // breakfast
   rows += h2(n ? '04' : '03', '明天早餐這樣吃', "Tomorrow's breakfast");
-  rows += '<tr><td style="padding:0 28px">' + d.bk.items.map(x => '<div style="background:' + C.panel2 + ';border-radius:14px;padding:12px 16px;margin-bottom:8px"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:15px;color:' + C.ink + ';font-weight:600">' + e(x[0]) + '</td><td style="text-align:right;font-family:' + mono + ';color:' + C.pink + ';font-size:13.5px">' + e(x[1]) + '</td></tr></table></div>').join('') + '</td></tr>';
+  rows += '<tr><td style="padding:0 28px">' + d.bk.items.map(x => '<div style="background:' + C.panel2 + ';border-radius:14px;padding:12px 16px;margin-bottom:8px"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:15px;color:' + C.ink + ';font-weight:600">' + e(x.n) + '</td><td style="text-align:right;font-family:' + mono + ';color:' + C.pink + ';font-size:13.5px">' + e(x.a) + '</td></tr></table></div>').join('') + '</td></tr>';
   rows += p('<span style="font-size:13.5px">' + e(d.bk.alt) + (d.bk.tip ? '<br><b style="color:' + C.ink + '">點餐小提醒　</b>' + e(d.bk.tip) : '') + '</span>');
   if (t.bkWhy) rows += '<tr><td style="padding:0 28px 12px"><div style="background:' + C.panel2 + ';border-radius:14px;padding:14px 16px"><div style="font-family:' + mono + ';font-size:11px;letter-spacing:2px;color:' + C.pink + '">WHY · 為什麼這樣吃</div><div style="font-size:14.5px;color:' + C.ink + ';line-height:1.8;margin-top:4px">' + e(t.bkWhy) + '</div></div></td></tr>';
   if (t.menuTip) rows += p('<div style="border-left:2px solid ' + C.pink + ';padding-left:14px"><b style="color:' + C.pink + '">提醒　</b>' + e(t.menuTip) + '</div>');
