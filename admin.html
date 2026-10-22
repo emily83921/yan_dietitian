@@ -8,15 +8,15 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,500&display=swap">
 <style>
 /* Layout: 營養師的個案夾（黑底粉色點綴，單一深色配色）。左邊是填答名單，右邊打開一位個案的完整檔案；手機上兩欄改成先列表、點進去看檔案。 */
 :root{
-  color-scheme:dark;
-  --bg:#0D0B0C; --paper:#151213; --sunk:#1C1819; --ink:#F4EDEF; --muted:#A3949A; --line:#2B2427;
-  --espresso:#F4EDEF; --espresso-ink:#0D0B0C; --sage:#8FCFA6; --gold:#F2A7BD; --gold-soft:#2A1A20;
-  --st-new:#F08A8A; --st-done:#8FCFA6; --st-won:#E9C08A; --st-skip:#8D8279;
-  --f-zh:"Noto Serif TC","Songti TC",serif; --f-en:"Playfair Display","Times New Roman",serif;
+  color-scheme:light;
+  --bg:#FFF7F9; --paper:#FFFFFF; --sunk:#FFF0F4; --ink:#2E1A24; --muted:#7D6470; --line:#F5DCE5;
+  --espresso:#2E1A24; --espresso-ink:#FFFFFF; --sage:#22A06B; --gold:#FF3D7A; --gold-soft:#FFE6EE;
+  --st-new:#E5484D; --st-done:#22A06B; --st-won:#E08A1E; --st-skip:#B49AA6;
+  --f-zh:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif; --f-en:"Playfair Display","Times New Roman",serif;
   --f-body:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
 }
 *{box-sizing:border-box}
@@ -127,14 +127,43 @@ textarea{border:1px solid var(--line);background:var(--paper);padding:10px 12px;
 .btn{border-radius:99px}
 </style>
 <style>
-.top{background:#000!important;color:#F4EDEF!important}
-.top h1{color:#F4EDEF!important}
-body::before{background:#000!important}
-.typebadge{background:var(--gold-soft);color:var(--gold)}
-.item.on{border-left-color:var(--gold)}
-.btn-dark{background:var(--gold);color:#140E10;border-color:var(--gold)}
-.demo{color:var(--ink)}
-.login input{color:var(--ink)}
+/* 淺色版：和前台一致 */
+body{background:radial-gradient(60% 40% at 100% 0%,rgba(255,179,138,.18),transparent 70%),radial-gradient(50% 35% at 0% 20%,rgba(201,168,255,.14),transparent 70%),var(--bg);background-attachment:fixed}
+body::before{background:var(--bg)}
+h1,h2,h3{font-weight:900}
+.top{background:rgba(255,247,249,.92);backdrop-filter:blur(10px);color:var(--ink);border-bottom:1px solid var(--line)}
+.top h1{color:var(--ink)}
+.top .en{color:var(--gold)}
+.top .btn{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn{background:#fff}
+.btn-dark{background:linear-gradient(135deg,#FF5C8D,#FF3D7A);color:#fff;border-color:transparent}
+.login form{box-shadow:0 14px 40px rgba(255,92,141,.12);border-radius:28px}
+.login .input{border:1px solid var(--line);border-radius:14px;padding:0 14px;background:#fff}
+.demo{background:var(--gold-soft);color:var(--ink);border-radius:12px}
+.kpis{gap:12px;padding:16px max(20px,env(safe-area-inset-left,0px));border-bottom:0}
+.kpi{background:#fff;border:1px solid var(--line)!important;border-radius:20px;box-shadow:0 8px 24px rgba(255,92,141,.06)}
+.kpi b{color:var(--ink);font-weight:900}
+.kpi:first-child{background:linear-gradient(135deg,#FF5C8D,#FF3D7A);border-color:transparent!important}
+.kpi:first-child span,.kpi:first-child b{color:#fff}
+.layout{margin:0 max(20px,env(safe-area-inset-left,0px)) 24px;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 10px 30px rgba(255,92,141,.06)}
+.filters{background:var(--sunk)}
+.filters input,.filters select,.status-row select,textarea{border-radius:12px!important;background:#fff}
+.item.on{background:var(--sunk);border-left-color:var(--gold)}
+.item b{color:var(--ink)}
+.st{border-radius:99px!important}
+.d-head{border-bottom:1px solid var(--line)}
+.typebadge{background:var(--gold-soft);color:var(--gold);font-weight:700}
+.kv{border-radius:14px;overflow:hidden}
+.kv b.num{font-family:"DM Mono",ui-monospace,monospace;color:var(--ink)}
+.bar .tr{border-radius:99px;background:var(--sunk)}.bar .fl{border-radius:99px}
+.chip{border-radius:99px;background:var(--gold-soft)}
+.toast{background:var(--ink);color:#fff;border-radius:99px}
+.tabs{display:flex;gap:8px;padding:14px max(20px,env(safe-area-inset-left,0px)) 0}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 18px;font-weight:700;cursor:pointer;color:var(--muted)}
+.tabs button b{font-family:"DM Mono",monospace;margin-left:6px;font-weight:500}
+.tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.worry{background:var(--sunk);border-radius:14px;padding:12px 14px;white-space:pre-wrap}
+@media (max-width:860px){.kpis{grid-template-columns:1fr 1fr}.kpi{border-bottom:1px solid var(--line)!important}}
 </style>
 
 </head>
@@ -142,7 +171,7 @@ body::before{background:#000!important}
 <div id="loginView" class="login g">
   <form id="loginForm" novalidate>
     <span class="en" style="font-size:16px">Client Files</span>
-    <h1>代謝卡關後台</h1>
+    <h1>Brighter Me 後台</h1>
     <p style="color:var(--muted);font-size:13.5px">輸入你在 Google Apps Script 設定的後台密碼。</p>
     <label class="input"><input id="key" type="password" autocomplete="current-password" placeholder="後台密碼"></label>
     <p class="err" id="loginErr" role="alert" hidden></p>
@@ -154,7 +183,7 @@ body::before{background:#000!important}
 <div id="appView" hidden style="height:100%;display:flex;flex-direction:column">
   <header class="top g">
     <div class="in">
-      <h1>代謝卡關後台 <span class="en">Client Files</span></h1>
+      <h1>Brighter Me 後台 <span class="en">Client Files</span></h1>
       <div class="acts">
         <button class="btn" type="button" id="refresh">重新整理</button>
         <a class="btn js-sheet" href="#" target="_blank" rel="noopener" hidden>開啟試算表</a>
@@ -163,6 +192,7 @@ body::before{background:#000!important}
     </div>
   </header>
   <p class="demo js-demo g" hidden style="padding-block:10px">這是範例資料，用來預覽後台的樣子。貼上 Apps Script 網址後就會顯示真實填答。</p>
+  <nav class="tabs" id="tabs"><button type="button" data-m="quiz" class="on">檢測填答<b id="nQuiz">0</b></button><button type="button" data-m="book">預約諮詢<b id="nBook">0</b></button></nav>
   <div class="kpis" id="kpis"></div>
   <div class="layout" id="layout">
     <aside class="side">
@@ -195,7 +225,8 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const show = v => (v===undefined||v===null||v==="") ? "—" : v;
 const DEMO = !SCRIPT_URL;
-let KEY="", ROWS=[], CUR=null, lastError="";
+let KEY="", ROWS=[], BOOKS=[], MODE="quiz", CUR=null, lastError="";
+const DATA=()=>MODE==="book"?BOOKS:ROWS, TK=()=>MODE==="book"?"型態":"主要型態", TT=()=>MODE==="book"?"預約時間":"填寫時間";
 
 const SAMPLE = [
   {"編號":"範例-001","填寫時間":"2026-10-21 21:14","狀態":"未聯繫","備註":"","Email":"mei@example.com","報告寄送":"已寄出","主要型態":"血糖起伏型","次要型態":"節食耗損型","性別":"女","年齡":"29","身高":"160","體重":"62","體脂率":"31","腰圍":"81","目標體重":"55","目標":"減脂、穩定血糖","活動量":"輕度工作","飲食型態":"葷食","健康狀況":"便秘或腸胃不適","過敏或不吃":"蝦","指數｜血糖起伏型":"78","指數｜高壓緊繃型":"30","指數｜節食耗損型":"52","指數｜作息失衡型":"33","指數｜情緒飢餓型":"40","指數｜代謝低速型":"67","BMI":"24.2","基礎代謝":"1290","維持熱量":"1548","建議熱量":"1290","蛋白質g":"93","全天醣類份數":"7","理想體重":"47–61 kg","營養素分配":"碳水 127 g／蛋白質 93 g／脂肪 52 g","減脂節奏":"每週 −0.4 kg，約 18 週，到 55 kg","報告編號":"482913","來源連結":"utm_source=ig","同意蒐集":"是","題目｜手搖飲、含糖飲料，一週喝幾杯？":"3 到 5 杯","題目｜關於甜點和零食，哪個最像你？":"正餐吃飽了，還是要來點甜的","題目｜你通常幾點睡？":"12 點到 1 點"},
@@ -214,9 +245,11 @@ if(SHEET_LINK){ const a=document.querySelector(".js-sheet"); a.href=SHEET_LINK; 
 try{ KEY=sessionStorage.getItem("yan-admin-key")||""; }catch(e){}
 $("fStatus").innerHTML+=STATUSES.map(s=>`<option>${s}</option>`).join("");
 
+const SAMPLE_BOOK=[{"編號":"範例-B01","預約時間":"2026-10-22 18:20","狀態":"未聯繫","備註":"","稱呼":"（範例）小美","聯絡方式":"Instagram","聯絡帳號":"@example_mei","型態":"情緒飢餓型","想改變的":"減脂、瘦下來、外食也能瘦","試過的方法":"少吃、節食、斷食","三餐":"大多外食","最困擾的":"晚上很容易嘴饞，減了又復胖","方便時段":"平日晚上","來源":"減脂對策頁"}];
 async function load(){
-  if(DEMO){ ROWS=SAMPLE.map(r=>({...r})); return true; }
-  try{ const res=await api({action:"list"}); if(!res.ok){ lastError=res.error==="密碼錯誤"?"密碼錯誤，請再試一次。":res.error; return false; } ROWS=res.rows||[]; return true; }
+  if(DEMO){ ROWS=SAMPLE.map(r=>({...r})); BOOKS=SAMPLE_BOOK.map(r=>({...r})); return true; }
+  try{ const res=await api({action:"list"}); if(!res.ok){ lastError=res.error==="密碼錯誤"?"密碼錯誤，請再試一次。":res.error; return false; } ROWS=res.rows||[];
+    try{ const rb=await api({action:"listBook"}); BOOKS=rb.ok?(rb.rows||[]):[]; }catch(e){ BOOKS=[]; } return true; }
   catch(e){ lastError="連不上後台，請確認 Apps Script 網址和部署設定。"; return false; }
 }
 $("loginForm").addEventListener("submit",async e=>{
@@ -233,35 +266,77 @@ $("refresh").addEventListener("click",async()=>{ const b=$("refresh"); b.disable
 if(KEY && !DEMO) load().then(ok=>{ if(ok){ $("loginView").hidden=true; $("appView").hidden=false; renderAll(); } });
 
 ["q","fStatus","fType"].forEach(id=>$(id).addEventListener("input",renderList));
+$("tabs").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; MODE=b.dataset.m; CUR=null; $("tabs").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b)); $("q").placeholder=MODE==="book"?"搜尋稱呼、帳號或型態":"搜尋 Email 或型態"; $("layout").classList.remove("open"); renderAll(); });
 function renderAll(){
-  const types=[...new Set(ROWS.map(r=>r["主要型態"]).filter(Boolean))];
+  $("nQuiz").textContent=ROWS.length; $("nBook").textContent=BOOKS.length;
+  const types=[...new Set(DATA().map(r=>r[TK()]).filter(Boolean))];
   const keep=$("fType").value;
   $("fType").innerHTML=`<option value="">全部型態</option>`+types.map(t=>`<option ${t===keep?"selected":""}>${esc(t)}</option>`).join("");
   renderKpis(); renderList();
-  const r=CUR&&ROWS.find(x=>x["編號"]===CUR); r?renderDetail(r):showEmpty();
+  const r=CUR&&DATA().find(x=>x["編號"]===CUR); r?renderDetail(r):showEmpty();
 }
 function renderKpis(){
-  const now=Date.now(), week=ROWS.filter(r=>{ const t=Date.parse((r["填寫時間"]||"").replace(" ","T")+":00+08:00"); return t&&now-t<7*864e5; }).length;
-  const cnt={}; ROWS.forEach(r=>{ const t=r["主要型態"]; if(t) cnt[t]=(cnt[t]||0)+1; });
+  const D=DATA(), now=Date.now(), week=D.filter(r=>{ const t=Date.parse((r[TT()]||"").replace(" ","T")+":00+08:00"); return t&&now-t<7*864e5; }).length;
+  const cnt={}; D.forEach(r=>{ const t=r[TK()]; if(t) cnt[t]=(cnt[t]||0)+1; });
   const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
-  $("kpis").innerHTML=[["總填答",ROWS.length],["近 7 天",week],["未聯繫",ROWS.filter(r=>(r["狀態"]||"未聯繫")==="未聯繫").length],
+  $("kpis").innerHTML=[[MODE==="book"?"總預約":"總填答",D.length],["近 7 天",week],["未聯繫",D.filter(r=>(r["狀態"]||"未聯繫")==="未聯繫").length],
     ["最多的型態",top?`${TYPE_EM[top[0]]||""}${esc(top[0])}<small>${top[1]} 人</small>`:"—"]]
     .map(([k,v])=>`<div class="kpi"><span>${k}</span><b>${v}</b></div>`).join("");
 }
-const nameOf=r=>r["Email"]||r["稱呼"]||"（未填 email）";
-const contactOf=r=>[r["主要型態"],r["報告寄送"]&&("報告"+(String(r["報告寄送"]).startsWith("已寄")?"已寄出":"未寄出"))].filter(Boolean).join(" · ");
+const nameOf=r=>MODE==="book"?(r["稱呼"]||"（未填稱呼）"):(r["Email"]||r["稱呼"]||"（未填 email）");
+const contactOf=r=>MODE==="book"?[r["聯絡方式"]&&(r["聯絡方式"]+" "+(r["聯絡帳號"]||""))].filter(Boolean).join(""):[r["主要型態"],r["報告寄送"]&&("報告"+(String(r["報告寄送"]).startsWith("已寄")?"已寄出":"未寄出"))].filter(Boolean).join(" · ");
 function renderList(){
   const q=$("q").value.trim().toLowerCase(), fs=$("fStatus").value, ft=$("fType").value;
-  const rows=ROWS.filter(r=>(!fs||(r["狀態"]||"未聯繫")===fs)&&(!ft||r["主要型態"]===ft)&&(!q||[r["Email"],r["稱呼"],r["Instagram"],r["主要型態"]].join(" ").toLowerCase().includes(q)));
+  const rows=DATA().filter(r=>(!fs||(r["狀態"]||"未聯繫")===fs)&&(!ft||r[TK()]===ft)&&(!q||[r["Email"],r["稱呼"],r["Instagram"],r["聯絡帳號"],r[TK()]].join(" ").toLowerCase().includes(q)));
   $("list").innerHTML=rows.length?rows.map(r=>{ const st=r["狀態"]||"未聯繫"; return `<button type="button" class="item${r["編號"]===CUR?" on":""}" data-id="${esc(r["編號"])}">
     <b><span class="em">${TYPE_EM[r["主要型態"]]||""}</span>${esc(nameOf(r))}</b><span class="st" style="color:var(${ST_COLOR[st]||"--muted"})">${esc(st)}</span>
-    <span class="meta"><span>${esc(r["填寫時間"])}</span><span>${esc(r["主要型態"])}</span><span>${esc(contactOf(r))}</span></span></button>`; }).join("")
-    :`<div class="empty"><b style="font-family:var(--f-zh)">${ROWS.length?"沒有符合條件的填答":"還沒有人填寫"}</b><span>${ROWS.length?"試試看調整搜尋或篩選。":"把測驗網址放到 IG 簡介，第一筆資料就會出現在這裡。"}</span></div>`;
+    <span class="meta"><span>${esc(r[TT()])}</span><span>${esc(r[TK()])}</span><span>${esc(contactOf(r))}</span></span></button>`; }).join("")
+    :`<div class="empty"><b style="font-family:var(--f-zh)">${DATA().length?"沒有符合條件的資料":(MODE==="book"?"還沒有人預約":"還沒有人填寫")}</b><span>${DATA().length?"試試看調整搜尋或篩選。":(MODE==="book"?"有人從對策頁預約後，會出現在這裡。":"把測驗網址放到 IG 簡介，第一筆資料就會出現在這裡。")}</span></div>`;
 }
-$("list").addEventListener("click",e=>{ const b=e.target.closest(".item"); if(!b) return; CUR=b.dataset.id; renderList(); renderDetail(ROWS.find(r=>r["編號"]===CUR)); $("layout").classList.add("open"); window.scrollTo({top:0}); });
+$("list").addEventListener("click",e=>{ const b=e.target.closest(".item"); if(!b) return; CUR=b.dataset.id; renderList(); renderDetail(DATA().find(r=>r["編號"]===CUR)); $("layout").classList.add("open"); window.scrollTo({top:0}); });
 function showEmpty(){ $("detail").innerHTML=`<div class="empty" style="margin-top:60px"><span class="en" style="font-size:22px">Select a client</span><span>從左邊點一位填答者，查看完整資料。</span></div>`; }
 
+function bindSave(r){
+  $("backBtn").addEventListener("click",()=>$("layout").classList.remove("open"));
+  $("detail").querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{ try{ await navigator.clipboard.writeText(b.dataset.copy); toast("已複製"); }catch(e){ toast("無法複製，請手動選取"); } }));
+  $("saveBtn").addEventListener("click",async()=>{
+    const status=$("stSel").value, note=$("note").value, b=$("saveBtn"); b.disabled=true; let ok=true;
+    if(!DEMO){ try{ const res=await api({action:"update",id:r["編號"],status,note,sheet:MODE==="book"?"book":"data"}); ok=res.ok; if(!ok) toast(res.error||"儲存失敗"); }catch(e){ ok=false; toast("儲存失敗，請檢查網路"); } }
+    if(ok){ r["狀態"]=status; r["備註"]=note; renderKpis(); renderList(); toast(DEMO?"範例模式：不會真的存檔":"已儲存"); }
+    b.disabled=false;
+  });
+}
+function renderBook(r){
+  const st=r["狀態"]||"未聯繫";
+  const copy=v=>v?`<button class="btn" type="button" data-copy="${esc(v)}">複製</button>`:"<span></span>";
+  const acc=r["聯絡帳號"]||"", ig=r["聯絡方式"]==="Instagram"?acc.replace(/^@/,""):"";
+  const link=ig?`<a href="https://www.instagram.com/${encodeURIComponent(ig)}/" target="_blank" rel="noopener">@${esc(ig)}</a>`:r["聯絡方式"]==="Email"?`<a href="mailto:${esc(acc)}">${esc(acc)}</a>`:esc(show(acc));
+  const kv=arr=>`<div class="kv">${arr.map(([k,v])=>`<div><span>${k}</span><b>${esc(show(v))}</b></div>`).join("")}</div>`;
+  $("detail").innerHTML=`
+    <div class="d-head">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn back" type="button" id="backBtn" style="align-self:flex-start;margin-bottom:6px">← 名單</button>
+        <small>${esc(r["預約時間"])} · 來源 ${esc(show(r["來源"]))}</small>
+        <h2>${esc(nameOf(r))}</h2>
+        <span class="typebadge">${esc(show(r["型態"]))}</span>
+      </div>
+      <div class="status-row"><select id="stSel" aria-label="狀態">${STATUSES.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div>
+    </div>
+    <div class="blk"><h3>聯絡方式 <span class="en">Contact</span></h3>
+      <div class="contact"><div><span>${esc(show(r["聯絡方式"]))}</span><b>${link}</b>${copy(acc)}</div><div><span>方便時段</span><b>${esc(show(r["方便時段"]))}</b><span></span></div></div>
+    </div>
+    <div class="blk"><h3>預約問卷 <span class="en">Intake</span></h3>
+      ${kv([["想改變的",r["想改變的"]],["試過的方法",r["試過的方法"]],["三餐",r["三餐"]]])}
+    </div>
+    <div class="blk"><h3>最困擾的 <span class="en">Concern</span></h3><p class="worry">${esc(show(r["最困擾的"]))}</p></div>
+    <div class="blk"><h3>備註 <span class="en">Notes</span></h3>
+      <textarea id="note" placeholder="例如：已私訊，約週六下午 2 點線上諮詢">${esc(r["備註"]||"")}</textarea>
+      <div><button class="btn btn-dark" type="button" id="saveBtn">儲存狀態與備註</button></div>
+    </div>`;
+  bindSave(r);
+}
 function renderDetail(r){
+  if(MODE==="book") return renderBook(r);
   const st=r["狀態"]||"未聯繫";
   const pick=pre=>Object.keys(r).filter(k=>k.startsWith(pre)).map(k=>[k.slice(pre.length),r[k]]);
   const idx=pick("指數｜").sort((a,b)=>b[1]-a[1]), ans=pick("題目｜");
@@ -311,14 +386,7 @@ function renderDetail(r){
     </div>
     ${r["來源連結"]?`<p style="font-size:12px;color:var(--muted)">來源連結參數：${esc(r["來源連結"])}</p>`:""}`;
 
-  $("backBtn").addEventListener("click",()=>$("layout").classList.remove("open"));
-  $("detail").querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{ try{ await navigator.clipboard.writeText(b.dataset.copy); toast("已複製"); }catch(e){ toast("無法複製，請手動選取"); } }));
-  $("saveBtn").addEventListener("click",async()=>{
-    const status=$("stSel").value, note=$("note").value, b=$("saveBtn"); b.disabled=true; let ok=true;
-    if(!DEMO){ try{ const res=await api({action:"update",id:r["編號"],status,note}); ok=res.ok; if(!ok) toast(res.error||"儲存失敗"); }catch(e){ ok=false; toast("儲存失敗，請檢查網路"); } }
-    if(ok){ r["狀態"]=status; r["備註"]=note; renderKpis(); renderList(); toast(DEMO?"範例模式：不會真的存檔":"已儲存"); }
-    b.disabled=false;
-  });
+  bindSave(r);
 }
 </script>
 

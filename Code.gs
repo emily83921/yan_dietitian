@@ -415,7 +415,8 @@ function doPost(e) {
     return json({ ok: false, error: '密碼錯誤' });
   }
   if (body.action === 'list') return json(listRows());
-  if (body.action === 'update') return json(updateRow(body.id, body.status, body.note));
+  if (body.action === 'listBook') return json(listRows(SHEET_BOOK));
+  if (body.action === 'update') return json(updateRow(body.id, body.status, body.note, body.sheet === 'book' ? SHEET_BOOK : SHEET_DATA));
   return json({ ok: false, error: '未知的動作' });
 }
 
@@ -446,16 +447,19 @@ function submit(data, mail) {
 /* ---------- 預約一對一諮詢 ---------- */
 const SHEET_BOOK = '預約諮詢';
 function book(data) {
-  const keep = ['稱呼', '聯絡方式', '聯絡帳號', '型態', '來源'];
-  const d = {}; keep.forEach(k => { d[k] = String(data[k] || '').slice(0, 80); });
+  const keep = ['稱呼', '聯絡方式', '聯絡帳號', '型態', '想改變的', '試過的方法', '三餐', '最困擾的', '方便時段', '來源'];
+  const d = {}; keep.forEach(k => { d[k] = String(data[k] || '').slice(0, k === '最困擾的' ? 300 : 120); });
   if (!d['稱呼'] || !d['聯絡帳號']) return { ok: false, error: '資料不完整' };
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     const ss = SS();
     let sh = ss.getSheetByName(SHEET_BOOK);
-    const headers = ['編號', '預約時間', '狀態', '備註'].concat(keep);
-    if (!sh) { sh = ss.insertSheet(SHEET_BOOK, 1); sh.getRange(1, 1, 1, headers.length).setValues([headers]); styleHeader(sh, headers.length); sh.setColumnWidth(7, 200); }
+    if (!sh) { sh = ss.insertSheet(SHEET_BOOK, 1); }
+    const want = ['編號', '預約時間', '狀態', '備註'].concat(keep);
+    const headers = sh.getLastColumn() ? sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].filter(String) : [];
+    want.forEach(h => { if (headers.indexOf(h) === -1) headers.push(h); });
+    sh.getRange(1, 1, 1, headers.length).setValues([headers]); styleHeader(sh, headers.length);
     const when = Utilities.formatDate(new Date(), 'Asia/Taipei', 'yyyy-MM-dd HH:mm');
     const row = { '編號': Utilities.getUuid().slice(0, 8), '預約時間': when, '狀態': '未聯繫', '備註': '' };
     keep.forEach(k => row[k] = d[k]);
@@ -465,7 +469,7 @@ function book(data) {
   try {
     if (MailApp.getRemainingDailyQuota() > 5) {
       MailApp.sendEmail(Session.getEffectiveUser().getEmail(), '【新預約】' + d['稱呼'] + '（' + (d['型態'] || '未填型態') + '）',
-        '有人預約一對一營養諮詢：\n\n稱呼：' + d['稱呼'] + '\n聯絡方式：' + d['聯絡方式'] + '　' + d['聯絡帳號'] + '\n型態：' + (d['型態'] || '—') + '\n\n完整名單在試算表「' + SHEET_BOOK + '」分頁。');
+        '有人預約一對一營養諮詢：\n\n稱呼：' + d['稱呼'] + '\n聯絡方式：' + d['聯絡方式'] + '　' + d['聯絡帳號'] + '\n型態：' + (d['型態'] || '—') + '\n想改變的：' + (d['想改變的'] || '—') + '\n最困擾的：' + (d['最困擾的'] || '—') + '\n方便時段：' + (d['方便時段'] || '—') + '\n\n完整名單在試算表「' + SHEET_BOOK + '」分頁。');
     }
   } catch (e) { /* 通知失敗不影響預約 */ }
   return { ok: true };
@@ -478,8 +482,8 @@ function clean(v) {
   return v;
 }
 
-function listRows() {
-  const sh = SS().getSheetByName(SHEET_DATA);
+function listRows(name) {
+  const sh = SS().getSheetByName(name || SHEET_DATA);
   if (!sh || sh.getLastRow() < 2) return { ok: true, rows: [] };
   const values = sh.getRange(1, 1, sh.getLastRow(), sh.getLastColumn()).getDisplayValues();
   const headers = values.shift();
@@ -487,8 +491,9 @@ function listRows() {
   return { ok: true, rows: rows.reverse() };
 }
 
-function updateRow(id, status, note) {
-  const sh = SS().getSheetByName(SHEET_DATA);
+function updateRow(id, status, note, name) {
+  const sh = SS().getSheetByName(name || SHEET_DATA);
+  if (!sh) return { ok: false, error: '找不到分頁' };
   const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
   const idCol = headers.indexOf('編號') + 1, stCol = headers.indexOf('狀態') + 1, noteCol = headers.indexOf('備註') + 1;
   const ids = sh.getRange(2, idCol, Math.max(sh.getLastRow() - 1, 1), 1).getValues().map(r => String(r[0]));
