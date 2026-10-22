@@ -23,7 +23,7 @@ body{margin:0;color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-h
 h1,h2,h3,p{margin:0} h1,h2,h3{font-weight:900;line-height:1.3;text-wrap:balance}
 a{color:inherit}
 .g{padding-inline:max(20px,env(safe-area-inset-left,0px))}
-.col{max-width:680px;margin:0 auto}
+.col{max-width:820px;margin:0 auto}
 .mono{font-family:var(--f-num);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink)}
 .en{font-family:var(--f-en);font-style:italic}
 [hidden]{display:none!important}
@@ -92,6 +92,58 @@ main{padding-block:28px 60px;display:flex;flex-direction:column;gap:18px}
 footer{font-size:12px;color:var(--faint);text-align:center;padding:10px 0 40px}
 .notfound{text-align:center;padding:60px 0}
 @media (max-width:560px){.plan,.swaps,.offer ul{grid-template-columns:1fr}.week{grid-template-columns:1fr}.path{grid-template-columns:1fr;}.path span{transform:rotate(90deg)}.cover .ic{width:56px;height:56px;font-size:28px}}
+/* 圖卡 slide */
+.slide{background:#fff;border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 14px 40px rgba(255,92,141,.08)}
+.slide h2{font-size:22px;margin:4px 0 14px}
+.slide .mono{color:var(--acc)}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;min-height:320px;background:linear-gradient(135deg,#fff 0%,var(--tn) 100%)}
+.hero .txt{padding:32px 28px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.hero .k{background:#fff;border-radius:99px;padding:4px 12px;font-size:12.5px;color:var(--muted);border:1px solid var(--line)}
+.hero .no{font-family:var(--f-num);color:var(--acc);font-size:14px;margin-top:18px}
+.hero h1{font-size:clamp(32px,7vw,46px)}
+.hero .nm{color:var(--acc);font-size:17px}
+.hero .tag{font-size:16px;margin-top:12px}
+.hero .where{margin-top:16px;background:#fff;border-radius:14px;padding:8px 14px;font-size:13.5px;box-shadow:0 6px 18px rgba(0,0,0,.05)}
+.hero .where b{color:var(--acc)}
+.art{position:relative;background:radial-gradient(circle at 50% 50%,#fff 0%,var(--tn) 55%,var(--acc) 160%);min-height:240px;overflow:hidden}
+.art .orb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:76px;box-shadow:0 20px 50px rgba(0,0,0,.08),0 0 0 18px rgba(255,255,255,.45),0 0 0 40px rgba(255,255,255,.2)}
+.art .fl{position:absolute;width:54px;height:54px;border-radius:18px;background:#fff;display:grid;place-items:center;font-size:26px;box-shadow:0 10px 24px rgba(0,0,0,.08);animation:float 5s ease-in-out infinite}
+.art .f0{left:12%;top:14%}.art .f1{right:12%;top:20%;animation-delay:-1.2s}.art .f2{left:16%;bottom:14%;animation-delay:-2.4s}.art .f3{right:14%;bottom:12%;animation-delay:-3.6s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+@media (prefers-reduced-motion:reduce){.art .fl{animation:none}}
+.banner{height:96px;background:linear-gradient(120deg,var(--tn),#fff 60%,var(--tn));display:flex;justify-content:space-around;align-items:center;font-size:34px;border-bottom:1px solid var(--line)}
+.banner span{filter:drop-shadow(0 6px 10px rgba(0,0,0,.08))}
+.body{padding:26px 24px}
+.signs2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sg{display:flex;gap:12px;align-items:center;background:var(--tn);border-radius:16px;padding:12px 14px}
+.sg .ic{flex:0 0 40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:22px}
+.sg p{font-size:14.5px;line-height:1.6}
+.slide .note{font-size:13px;color:var(--muted);margin-top:12px}
+.split{display:grid;grid-template-columns:1fr 1.3fr}
+.split .txt{padding:28px 24px}
+.art2{background:linear-gradient(160deg,var(--tn),#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:28px 16px;text-align:center}
+.art2 .ring{width:170px;height:170px;border-radius:50%;border:2px dashed var(--acc);display:grid;place-items:center;opacity:.95}
+.art2 .ring2{width:120px;height:120px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:60px;box-shadow:0 14px 34px rgba(0,0,0,.08)}
+.art2 b{color:var(--acc);font-size:17px;background:#fff;border-radius:99px;padding:4px 14px}
+.mech{font-size:15px;line-height:1.95}.mech b{color:var(--acc)}
+.callout{margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:var(--tn);border-radius:16px;padding:12px 14px;font-weight:700;font-size:15px}
+.plan2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pc{border-radius:22px;overflow:hidden;border:1px solid var(--line)}
+.pc .pb{padding:18px;display:flex;align-items:center;gap:10px}
+.pc .pb span{font-size:30px;width:52px;height:52px;border-radius:16px;background:#fff;display:grid;place-items:center}
+.pc .pb b{font-size:17px}.pc .pb small{margin-left:auto;font-family:var(--f-num);font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.pc.food .pb{background:linear-gradient(120deg,#E3F7EC,#fff)}.pc.life .pb{background:linear-gradient(120deg,#FFF0E2,#fff)}
+.pc ul{margin:0;padding:14px 18px 18px 36px;display:flex;flex-direction:column;gap:8px;font-size:14.5px}
+.pc li::marker{color:var(--acc)}
+.swap2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sc{border-radius:20px;overflow:hidden;border:1px solid var(--line)}
+.sc .o,.sc .n{display:flex;gap:10px;align-items:center;padding:12px 14px;font-size:14px}
+.sc .o{background:#F7F2F4;color:var(--faint)}
+.sc .n{background:#fff}
+.sc .o span,.sc .n span{flex:0 0 24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900}
+.sc .o span{background:#E9DFE3;color:#9C8A92}.sc .n span{background:var(--acc);color:#fff}
+.sc .n b{font-weight:700}
+@media (max-width:620px){.hero,.split{grid-template-columns:1fr}.hero .art{order:-1;min-height:220px}.signs2,.plan2,.swap2{grid-template-columns:1fr}.split .art2{padding:22px}.art2 .ring{width:140px;height:140px}.art2 .ring2{width:100px;height:100px;font-size:50px}}
 </style>
 </head>
 <body>
@@ -105,42 +157,42 @@ footer{font-size:12px;color:var(--faint);text-align:center;padding:10px 0 40px}
    ============================================================ */
 const BOOK_URL = "book.html";
 const GUIDE = {
-  P:{no:1,name:"高壓緊繃型",en:"High-Tension",icon:"⚡",area:"腹部 × 壓力",tag:"身體一直處在備戰狀態，脂肪也跟著守在腹部。",
+  P:{no:1,si:"🫃｜🍟｜☕｜🧠｜📏",acc:"#FF3D7A",tint:"#FFE1EA",name:"高壓緊繃型",en:"High-Tension",icon:"⚡",area:"腹部 × 壓力",tag:"身體一直處在備戰狀態，脂肪也跟著守在腹部。",
     signs:["肚子特別容易胖，四肢相對細","壓力大的時候吃不下，或反而狂吃重口味","一整天靠咖啡撐著","躺在床上腦袋停不下來，睡醒還是累","明明吃得不多，腰圍卻越來越粗"],
     mech:"長期處在壓力下，身體會分泌較多的<b>壓力荷爾蒙（皮質醇）</b>。它的任務是讓你隨時準備應戰：拉高血糖、增加食慾，並且傾向把脂肪存在<b>腹部</b>。壓力沒有被消化，再怎麼少吃，身體都會想守住這些能量。",
     food:["三餐定時，不要空腹靠咖啡撐到中午","每餐一掌心蛋白質＋一份深綠色蔬菜","晚餐保留一份原型澱粉（地瓜、糙米），幫助放鬆好入睡","咖啡一天 1–2 杯，下午 2 點後不喝","壓力大想吃東西時，先備好堅果、無糖優格"],
     life:["運動以肌力訓練、散步、瑜伽為主，避免天天高強度","每天留 10 分鐘真正放鬆：伸展、深呼吸都可以","睡前 1 小時離開工作訊息","每週至少留半天不排任何行程"],
     swaps:[["靠咖啡硬撐","早餐先吃，再喝咖啡"],["忙到忘記吃、晚上大吃","下午先備一份點心"],["睡不夠還硬做高強度","改成散步或伸展"],["壓力大就吃甜食","配無糖茶，慢慢吃一小份"]],
     week:["早餐一定要吃","下午 2 點後不喝咖啡","睡前 10 分鐘伸展"],core:"先讓身體鬆下來，脂肪才願意離開。"},
-  E:{no:2,name:"情緒飢餓型",en:"Emotional Hunger",icon:"🧠",area:"大腦 × 情緒",tag:"你餓的不是胃，而是心情。",
+  E:{no:2,si:"🍪｜😮‍💨｜📱｜😔｜🌙",acc:"#E8559A",tint:"#FCE3F1",name:"情緒飢餓型",en:"Emotional Hunger",icon:"🧠",area:"大腦 × 情緒",tag:"你餓的不是胃，而是心情。",
     signs:["肚子不餓，嘴巴就是想吃","累了、無聊、心情差就想找零食","邊滑手機邊吃，回神已經吃完一整包","吃完常常自責","越晚越想吃"],
     mech:"甜的、炸的、重口味的食物，能讓大腦很快產生<b>愉悅感</b>。所以當你疲累或低落時，大腦會自動找食物當安慰。問題不在你嘴饞，而是<b>情緒需要一個出口</b>，食物剛好最快、最方便。",
     food:["三餐吃飽、蛋白質吃夠，避免「餓」加上「情緒」一起來","零食不整包放在旁邊，先分裝一小碗","備好替代品：毛豆、無糖優格、海苔、氣泡水","想吃甜就放在飯後吃，份量減半"],
     life:["想吃之前先問自己：我是餓，還是累、煩？","等 10 分鐘再決定要不要吃","列 5 個不靠食物的紓壓方法","吃東西時放下手機，專心吃"],
     swaps:[["追劇配洋芋片","毛豆、無糖優格，先分裝一小碗"],["心情差就叫外送","先喝一杯水，等 3 分鐘再決定"],["用甜點獎勵自己","甜點照吃，放在飯後、分一半"],["整包吃完才回神","放下手機，一口一口慢慢吃"]],
     week:["寫好零食替代清單","吃東西時不滑手機","記下 3 次想吃時的心情"],core:"照顧好情緒，食物就不用負責安慰你。"},
-  N:{no:3,name:"作息失衡型",en:"Off-Rhythm",icon:"🌙",area:"生理時鐘",tag:"身體的時鐘，跟你的生活對不上。",
+  N:{no:3,si:"🕛｜⏰｜☕｜🍜｜📅",acc:"#7B61FF",tint:"#ECE7FF",name:"作息失衡型",en:"Off-Rhythm",icon:"🌙",area:"生理時鐘",tag:"身體的時鐘，跟你的生活對不上。",
     signs:["常常超過 12 點才睡","早上起不來，常常跳過早餐","白天靠糖和咖啡撐","晚上精神特別好，特別想吃宵夜","假日和平日的作息差很多"],
     mech:"身體有自己的<b>生理時鐘</b>，決定什麼時候該消化、什麼時候該儲存。睡不夠的時候，讓人<b>想吃的荷爾蒙上升</b>、讓人有飽足感的下降，隔天自然特別想吃；而晚上吃進去的東西，身體也比較傾向存起來。",
     food:["每天固定時間吃早餐，而且要有蛋白質","一天的進食時間控制在 10–12 小時內","睡前 3 小時不再吃東西","晚餐吃夠蛋白質和蔬菜，半夜比較不會餓","真的餓了，選溫豆漿或一顆蛋"],
     life:["固定起床時間，假日差距不超過 1 小時","早上曬 10 分鐘太陽，幫身體校正時鐘","12 點前上床，先從提早 30 分鐘開始","睡前 1 小時調暗燈光、遠離螢幕"],
     swaps:[["熬夜追劇","提早 30 分鐘關螢幕"],["深夜泡麵、鹹酥雞","晚餐蛋白質吃夠，餓了喝溫豆漿"],["睡前一杯手搖飲","換成溫熱的無糖豆漿或鮮奶"],["睡過頭跳過早餐","超商茶葉蛋＋地瓜帶著走"]],
     week:["固定起床時間","早上曬 10 分鐘太陽","睡前 3 小時不吃東西"],core:"把時鐘調回來，代謝就會跟上。"},
-  M:{no:4,name:"代謝低速型",en:"Slow Burner",icon:"🔋",area:"肌肉 × 循環",tag:"不是吃太多，是身體燃燒得太少。",
+  M:{no:4,si:"🪑｜⚖️｜🥶｜🦵｜🫠",acc:"#1FA97A",tint:"#DDF5EC",name:"代謝低速型",en:"Slow Burner",icon:"🔋",area:"肌肉 × 循環",tag:"不是吃太多，是身體燃燒得太少。",
     signs:["一天坐超過 8 小時","吃得不多，卻還是瘦不下來","容易怕冷、手腳冰冷","下半身容易水腫","身上沒什麼肌肉線條，摸起來軟軟的"],
     mech:"每天消耗的熱量，大部分來自你<b>沒在運動的時候</b>：站著、走路、做家事，還有<b>肌肉本身的消耗</b>。久坐少動、肌肉量又不足時，身體的燃燒速度自然變慢，少吃一點也很難看到成果。",
     food:["每餐一掌心蛋白質，幫助保住、增加肌肉","運動後 1 小時內補一份蛋白質","不要只用少吃取代運動","水要喝夠，一天至少 2,000 ml"],
     life:["每坐 1 小時，起來動 3 分鐘","每天多走 2,000 步","每週 2–3 次肌力訓練：深蹲、臀橋、彈力帶都可以","通勤提早一站下車走路"],
     swaps:[["吃完就坐著或躺著","飯後走 10 分鐘"],["通勤全程都坐著","提早一站下車走路"],["只節食不運動","吃夠，每週加兩次肌力訓練"],["週末宅一整天","約朋友散步或逛街"]],
     week:["設定每小時起身提醒","每天多走 2,000 步","這週做兩次深蹲"],core:"肌肉，是你最好的燃脂引擎。"},
-  G:{no:5,name:"血糖起伏型",en:"Sugar Swing",icon:"🎢",area:"血糖",tag:"能量忽高忽低，跟著血糖坐雲霄飛車。",
+  G:{no:5,si:"😪｜🍰｜😵｜🥐｜📏",acc:"#E79A12",tint:"#FFF0D6",name:"血糖起伏型",en:"Sugar Swing",icon:"🎢",area:"血糖",tag:"能量忽高忽低，跟著血糖坐雲霄飛車。",
     signs:["吃完飯特別想睡","下午三、四點一定要吃點甜的","餓的時候心慌手抖、脾氣變差","很愛麵包、手搖飲","肚子和腰圍特別明顯"],
     mech:"精緻澱粉和含糖飲料，會讓<b>血糖快速衝高、又快速掉下來</b>。血糖一掉，大腦以為能量不夠，就催你再吃甜的。長期下來，負責降血糖的<b>胰島素</b>常常偏高，身體也更容易把多的能量存成脂肪。",
     food:["吃飯順序：先吃菜、再吃肉，最後吃澱粉","精緻澱粉換成全穀、地瓜、燕麥","手搖飲每週降一級甜度，最後到無糖","下午固定安排一份點心（堅果、無糖優格），避免餓過頭"],
     life:["飯後散步 10–15 分鐘","澱粉比較多的那一餐，安排在運動之後","睡滿 7 小時，隔天比較不會想吃甜"],
     swaps:[["全糖手搖飲","每週降一級甜度"],["麵包當早餐","地瓜或燕麥＋蛋"],["飯後一定要甜點","先吃完正餐，甜點分一半"],["下午三點的餅乾","一小把堅果或無糖優格"]],
     week:["改變吃飯順序","飯後散步 10 分鐘","手搖飲降一級甜度"],core:"穩住血糖，嘴饞就會安靜下來。"},
-  D:{no:6,name:"節食耗損型",en:"Under-Fueled",icon:"🪫",area:"整體代謝",tag:"吃得很少，身體卻開始省電。",
+  D:{no:6,si:"🍽️｜🔁｜😶｜😩｜⚖️",acc:"#F0703C",tint:"#FFE7DC",name:"節食耗損型",en:"Under-Fueled",icon:"🪫",area:"整體代謝",tag:"吃得很少，身體卻開始省電。",
     signs:["吃得很少，體重卻不動","減了又復胖，來回好幾次","常常不太餓，會忘記吃飯","容易疲倦、手腳冰冷、經期不太規律","每天量體重，心情跟著數字起伏"],
     mech:"長期吃太少，身體會以為遇到<b>飢荒</b>，主動降低消耗來保護自己：體溫、精神、肌肉都在<b>省電</b>。這時候再少吃，只會讓代謝更低，一放鬆就復胖。先把身體餵飽，它才願意重新燃燒。",
     food:["先把熱量吃回建議值，不要低於基礎代謝","每餐都要有一掌心蛋白質和一份澱粉","三餐定時，不跳餐","一週可以安排一天吃到維持熱量，讓身體安心"],
@@ -159,36 +211,54 @@ if(!t){
   document.title=`${t.name}減脂對策｜營養師彥彥 Brighter Me`;
   const sec=(n,en,zh)=>`<div class="bh"><span class="mono">${n} · ${en}</span><h2>${zh}</h2></div>`;
   const book=`${BOOK_URL}?t=${code}`;
+  const si=String(t.si||"").split("｜");
   $("app").innerHTML=`
-  <section class="cover">
-    <span class="k">你的減脂對策 · Fat-loss Guide</span>
-    <div class="ic">${t.icon}</div>
-    <span class="no">No.${t.no}</span>
-    <h1>${esc(t.name)}</h1>
-    <span class="en nm">${esc(t.en)}</span>
-    <p class="tag">${esc(t.tag)}</p>
-    <div class="where">卡關的位置 <b>${esc(t.area)}</b></div>
+  <section class="slide hero" style="--acc:${t.acc};--tn:${t.tint}">
+    <div class="txt">
+      <span class="k">你的減脂對策 · Fat-loss Guide</span>
+      <span class="no">No.${t.no}</span>
+      <h1>${esc(t.name)}</h1>
+      <span class="en nm">${esc(t.en)}</span>
+      <p class="tag">${esc(t.tag)}</p>
+      <div class="where">卡關的位置 <b>${esc(t.area)}</b></div>
+    </div>
+    <div class="art" aria-hidden="true"><div class="orb">${t.icon}</div>${si.slice(0,4).map((x,i)=>`<span class="fl f${i}">${x}</span>`).join("")}</div>
   </section>
 
-  <article class="block">${sec("01","Signs","你是不是也這樣？")}
-    <ul class="signs">${t.signs.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
-    <p class="signs-note">符合 3 項以上，這一型很可能就是你目前最大的卡關點。</p>
-  </article>
-
-  <article class="block">${sec("02","Why","為什麼會這樣？")}
-    <p class="mech">${t.mech}</p>
-  </article>
-
-  <article class="block">${sec("03","Strategy",`${esc(t.name)}的減脂對策`)}
-    <div class="plan">
-      <div class="food"><h3>🥗 飲食這樣調</h3><ul>${t.food.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
-      <div class="life"><h3>🌿 生活這樣改</h3><ul>${t.life.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+  <section class="slide" style="--acc:${t.acc};--tn:${t.tint}">
+    <div class="banner" aria-hidden="true">${si.map(x=>`<span>${x}</span>`).join("")}</div>
+    <div class="body">
+      <span class="mono">01 · Signs</span><h2>你是不是也這樣？</h2>
+      <div class="signs2">${t.signs.map((x,i)=>`<div class="sg"><span class="ic">${si[i]||"✓"}</span><p>${esc(x)}</p></div>`).join("")}</div>
+      <p class="note">符合 3 項以上，這一型很可能就是你目前最大的卡關點。</p>
     </div>
-  </article>
+  </section>
 
-  <article class="block">${sec("04","Swap, don't skip","不用忌口，換個吃法就好")}
-    <div class="swaps">${t.swaps.map(([o,n])=>`<div class="sw"><s>${esc(o)}</s><b>${esc(n)}</b></div>`).join("")}</div>
-  </article>
+  <section class="slide split rev" style="--acc:${t.acc};--tn:${t.tint}">
+    <div class="art2" aria-hidden="true"><div class="ring"><div class="ring2"><span>${t.icon}</span></div></div><b>${esc(t.area)}</b></div>
+    <div class="txt">
+      <span class="mono">02 · Why</span><h2>為什麼會這樣？</h2>
+      <p class="mech">${t.mech}</p>
+      <div class="callout"><span>💡</span><p>${esc(t.core)}</p></div>
+    </div>
+  </section>
+
+  <section class="slide" style="--acc:${t.acc};--tn:${t.tint}">
+    <div class="body">
+      <span class="mono">03 · Strategy</span><h2>${esc(t.name)}的減脂對策</h2>
+      <div class="plan2">
+        <div class="pc food"><div class="pb"><span>🥗</span><b>飲食這樣調</b><small>Nutrition</small></div><ul>${t.food.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+        <div class="pc life"><div class="pb"><span>🌿</span><b>生活這樣改</b><small>Lifestyle</small></div><ul>${t.life.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" style="--acc:${t.acc};--tn:${t.tint}">
+    <div class="body">
+      <span class="mono">04 · Swap, don't skip</span><h2>不用忌口，換個吃法就好</h2>
+      <div class="swap2">${t.swaps.map(([o,n])=>`<div class="sc"><div class="o"><span>✕</span><s>${esc(o)}</s></div><div class="n"><span>✓</span><b>${esc(n)}</b></div></div>`).join("")}</div>
+    </div>
+  </section>
 
   <article class="block">${sec("05","This week","這週先做這 3 件事")}
     <div class="week">${t.week.map((x,i)=>`<div class="wk"><span class="d">STEP ${i+1}</span>${esc(x)}</div>`).join("")}</div>
