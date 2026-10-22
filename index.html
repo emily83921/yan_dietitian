@@ -411,9 +411,9 @@ body{background:radial-gradient(60% 40% at 100% 0%,rgba(255,179,138,.22),transpa
 .brandline{font-family:var(--f-en);font-style:italic;color:var(--rose);font-size:14px;margin-top:-2px}
 .slogan{font-size:11.5px;color:var(--faint);line-height:1.6;margin:2px 0 6px;display:flex;flex-direction:column}
 .slogan em{font-style:normal;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:5px}
-.chips span{font-size:11px;padding:3px 9px;border-radius:99px;background:var(--pink-tint);color:var(--ink)}
-.by2 .sig{position:absolute;right:0;bottom:-6px;width:58px;opacity:.85}
+.chips{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.chips span{font-size:11px;padding:3px 9px;border-radius:10px;background:var(--pink-tint);color:var(--ink)}
+.by2 .sig{align-self:flex-end;width:40px;opacity:.8;margin-top:2px}
 @media (max-width:520px){.by2{grid-template-columns:104px 1fr;gap:14px}.by2-photo{width:104px;height:140px}}
 /* 結果頁 */
 .where{display:inline-flex;align-items:center;gap:12px;margin-top:14px;background:#fff;border-radius:16px;padding:10px 16px;box-shadow:0 8px 24px rgba(255,92,141,.12)}
@@ -426,13 +426,32 @@ body{background:radial-gradient(60% 40% at 100% 0%,rgba(255,179,138,.22),transpa
 .sw s{display:block;color:var(--faint);font-size:13px}
 .sw b{display:block;font-weight:500;margin-top:2px}
 .sw b::before{content:"→ ";color:var(--rose)}
-.from-yan{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px}
+.from-yan{position:relative;display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px 20px 34px}
 .from-yan>img{width:72px;height:72px;border-radius:50%;object-fit:cover}
 .from-yan .mono{color:var(--pink);font-size:11px}
 .from-yan p{font-size:14.5px;margin:6px 0 0;line-height:1.85}
-.from-yan .sl{font-size:12.5px;color:var(--muted)}
-.from-yan .sig{width:76px;margin-top:6px}
+.from-yan .sl{font-size:13px;color:var(--rose);margin-top:4px}
+.from-yan .sig{position:absolute;right:16px;bottom:8px;width:44px;opacity:.8}
 @media (max-width:520px){.swaps{grid-template-columns:1fr}.from-yan{grid-template-columns:52px 1fr}.from-yan>img{width:52px;height:52px}}
+/* v7 報告：與信件一致 */
+.yan-note{border-left:3px solid var(--pink);background:var(--panel2);border-radius:0 18px 18px 0;padding:16px 18px;font-size:15px;line-height:1.85}
+.yan-note .acc{color:var(--rose);font-weight:700}
+.fp2{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:center}
+.tiles{display:flex;flex-direction:column;gap:10px}
+.tile{background:var(--panel2);border-radius:16px;padding:12px 16px}
+.tile small{font-size:12px;color:var(--faint)}
+.tile b{display:block;font-size:19px;font-weight:900}
+.tile b em{font-style:normal;font-family:var(--f-num);color:var(--rose);font-size:17px;margin-left:8px}
+.tile b em.m{color:var(--muted)}
+.tile.hl{background:linear-gradient(135deg,var(--pink),var(--rose));color:#fff}
+.tile.hl small{color:rgba(255,255,255,.8)}.tile.hl b em{color:#fff}
+.why3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.wc{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff}
+.wc .ic{font-size:26px;display:block;margin-bottom:6px}
+.wc p{margin:0;font-size:14px;line-height:1.7}
+.why2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bk-why.tip{background:#FFF3EA}
+@media (max-width:620px){.fp2{grid-template-columns:1fr}.why3{grid-template-columns:1fr}.why2{grid-template-columns:1fr}}
 </style>
 
 </head>
@@ -600,42 +619,42 @@ const DEFAULT_TYPES = [
    mines:["靠咖啡硬撐","忙到忘記吃，晚上補償性大吃","睡不夠還做高強度運動","把甜食當紓壓"],
    food:["三餐定時，不讓血糖大起大落","每餐都有蛋白質和深綠色蔬菜","咖啡一天 1–2 杯，下午 2 點後不喝"],
    life:["每天留 10 分鐘放鬆：散步、伸展或深呼吸","運動以中低強度和肌力訓練為主","睡前 1 小時離開工作訊息"],
-   core:"先讓身體鬆下來，脂肪才願意離開。",bkWhy:"早餐有蛋白質和高纖澱粉，血糖穩、飽足感久，身體不用靠壓力荷爾蒙硬撐，下午比較不會累到想亂吃。",menuTip:"咖啡放在早餐後再喝，不要空腹靠咖啡撐到中午。",area:"腹部 × 壓力",areaIcon:"⚡",areaLine:"身體一直在備戰，脂肪守在肚子",swaps:"靠咖啡硬撐→早餐先吃，再喝咖啡｜忙到忘記吃、晚上大吃→下午先備一份點心｜睡不夠還硬做高強度→改成散步或伸展｜壓力大就吃甜食→想吃甜就配無糖茶，慢慢吃一小份"},
+   core:"先讓身體鬆下來，脂肪才願意離開。",bkWhy:"早餐有蛋白質和高纖澱粉，血糖穩、飽足感久，身體不用靠壓力荷爾蒙硬撐，下午比較不會累到想亂吃。",menuTip:"咖啡放在早餐後再喝，不要空腹靠咖啡撐到中午。",area:"腹部 × 壓力",areaIcon:"⚡",areaLine:"身體一直在備戰，脂肪守在肚子",swaps:"靠咖啡硬撐→早餐先吃，再喝咖啡｜忙到忘記吃、晚上大吃→下午先備一份點心｜睡不夠還硬做高強度→改成散步或伸展｜壓力大就吃甜食→想吃甜就配無糖茶，慢慢吃一小份",whyIcons:"⚡｜🍟｜😵‍💫"},
   {code:"E",name:"情緒飢餓型",en:"Emotional Hunger",tag:"你餓的不是胃，而是心情。",
    why:["疲累或低落時，大腦會想用食物快速得到安慰","邊滑手機邊吃，飽足訊號被忽略，不知不覺吃多","吃完自責，壓力更大，又想再吃"],
    mines:["追劇配零食","心情差就叫外送","用甜點獎勵自己","整包吃完才回神"],
    food:["想吃時先喝一杯水，等 3 分鐘再決定","零食換成無糖優格、毛豆或堅果，先分裝好","每吃一口放下筷子，一餐吃 20 分鐘"],
    life:["列 5 件不靠食物的紓壓方法","吃東西時不看手機","記下想吃東西的時間和心情，找出觸發點"],
-   core:"照顧好情緒，食物就不用負責安慰你。",bkWhy:"蛋白質＋原型澱粉的組合消化慢、飽足感久，上午情緒比較穩，不容易想用零食找安慰。",menuTip:"坐下來吃，放下手機，吃 15 分鐘以上。",area:"大腦 × 情緒",areaIcon:"🧠",areaLine:"餓的不是胃，是心情",swaps:"追劇配洋芋片→毛豆、無糖優格，先分裝一小碗｜心情差就叫外送→先喝一杯水，等 3 分鐘再決定｜用甜點獎勵自己→甜點照吃，放在飯後、分一半｜整包吃完才回神→放下手機，一口一口慢慢吃"},
+   core:"照顧好情緒，食物就不用負責安慰你。",bkWhy:"蛋白質＋原型澱粉的組合消化慢、飽足感久，上午情緒比較穩，不容易想用零食找安慰。",menuTip:"坐下來吃，放下手機，吃 15 分鐘以上。",area:"大腦 × 情緒",areaIcon:"🧠",areaLine:"餓的不是胃，是心情",swaps:"追劇配洋芋片→毛豆、無糖優格，先分裝一小碗｜心情差就叫外送→先喝一杯水，等 3 分鐘再決定｜用甜點獎勵自己→甜點照吃，放在飯後、分一半｜整包吃完才回神→放下手機，一口一口慢慢吃",whyIcons:"😮‍💨｜📱｜🔁"},
   {code:"N",name:"作息失衡型",en:"Off-Rhythm",tag:"身體的時鐘，跟你的生活對不上。",
    why:["睡不夠時飢餓感上升、飽足感下降，隔天特別想吃","晚睡讓進食時間一路往後延，宵夜變成常態","白天沒精神，只好靠糖和咖啡撐住"],
    mines:["熬夜追劇","深夜泡麵、鹹酥雞","睡前一杯手搖飲","睡過頭跳過早餐"],
    food:["晚餐吃夠蛋白質和蔬菜，半夜比較不會餓","睡前 3 小時不再進食","真的餓了，選無糖豆漿或一顆蛋"],
    life:["固定起床時間，假日差距不超過 1 小時","12 點前上床，先從提早 30 分鐘開始","早上曬 10 分鐘太陽，幫身體校正時鐘"],
-   core:"把時鐘調回來，代謝就會跟上。",bkWhy:"固定時間吃一份有蛋白質的早餐，是幫身體校正時鐘的訊號，也能減少晚上的飢餓感和宵夜。",menuTip:"就算前一晚晚睡，也在差不多的時間吃。",area:"生理時鐘",areaIcon:"🌙",areaLine:"身體的時間，跟生活對不上",swaps:"熬夜追劇→提早 30 分鐘關螢幕｜深夜泡麵、鹹酥雞→晚餐蛋白質吃夠，餓了喝溫豆漿｜睡前一杯手搖飲→換成溫熱的無糖豆漿或鮮奶｜睡過頭跳過早餐→超商茶葉蛋＋地瓜帶著走"},
+   core:"把時鐘調回來，代謝就會跟上。",bkWhy:"固定時間吃一份有蛋白質的早餐，是幫身體校正時鐘的訊號，也能減少晚上的飢餓感和宵夜。",menuTip:"就算前一晚晚睡，也在差不多的時間吃。",area:"生理時鐘",areaIcon:"🌙",areaLine:"身體的時間，跟生活對不上",swaps:"熬夜追劇→提早 30 分鐘關螢幕｜深夜泡麵、鹹酥雞→晚餐蛋白質吃夠，餓了喝溫豆漿｜睡前一杯手搖飲→換成溫熱的無糖豆漿或鮮奶｜睡過頭跳過早餐→超商茶葉蛋＋地瓜帶著走",whyIcons:"😴｜🌙｜☕"},
   {code:"M",name:"代謝低速型",en:"Slow Burner",tag:"不是吃太多，是身體燃燒得太少。",
    why:["久坐少動，每天實際消耗的熱量比想像中少","肌肉量不足，基礎代謝跟著往下掉","循環變慢，容易怕冷、下半身水腫"],
    mines:["吃完就坐著或躺著","通勤全程都坐","只節食不運動","週末宅一整天"],
    food:["每餐一掌心蛋白質，幫助保住肌肉","運動後 1 小時內補一份蛋白質","不要用少吃取代運動"],
    life:["每坐 1 小時，起來動 3 分鐘","每天多走 2,000 步","每週 2–3 次肌力訓練：深蹲、臀橋都可以"],
-   core:"肌肉，是你最好的燃脂引擎。",bkWhy:"早餐的蛋白質幫你保住肌肉，肌肉越多，你平常沒在動的時候燃燒的熱量也越多。",menuTip:"吃完可以提早一站下車，走 10 分鐘再進辦公室。",area:"肌肉 × 循環",areaIcon:"🔋",areaLine:"不是吃太多，是燃燒得太少",swaps:"吃完就坐著或躺著→飯後走 10 分鐘｜通勤全程都坐著→提早一站下車走路｜只節食不運動→吃夠，每週加兩次肌力訓練｜週末宅一整天→約朋友散步或逛街"},
+   core:"肌肉，是你最好的燃脂引擎。",bkWhy:"早餐的蛋白質幫你保住肌肉，肌肉越多，你平常沒在動的時候燃燒的熱量也越多。",menuTip:"吃完可以提早一站下車，走 10 分鐘再進辦公室。",area:"肌肉 × 循環",areaIcon:"🔋",areaLine:"不是吃太多，是燃燒得太少",swaps:"吃完就坐著或躺著→飯後走 10 分鐘｜通勤全程都坐著→提早一站下車走路｜只節食不運動→吃夠，每週加兩次肌力訓練｜週末宅一整天→約朋友散步或逛街",whyIcons:"🪑｜💪｜🧊"},
   {code:"G",name:"血糖起伏型",en:"Sugar Swing",tag:"能量忽高忽低，跟著血糖坐雲霄飛車。",
    why:["精緻澱粉和含糖飲料讓血糖快速上升，又快速掉下來","血糖一掉，就頭暈、想睡、特別想吃甜","胰島素長期偏高時，脂肪比較容易囤積"],
    mines:["全糖手搖飲","麵包當早餐","飯後一定要甜點","下午三點的餅乾"],
    food:["吃飯順序：先菜、再肉、最後飯","精緻澱粉換成全穀、地瓜、南瓜","飲料每週降一級甜度，最後到無糖"],
    life:["飯後散步 10 分鐘","下午固定安排一份點心，避免餓過頭","睡飽 7 小時，隔天比較不會想吃甜"],
-   core:"穩住血糖，嘴饞就會安靜下來。",bkWhy:"原型澱粉消化慢，搭配蛋白質和蔬菜一起吃，血糖上升比較平緩，不會一早就坐雲霄飛車，下午也比較不會想吃甜。",menuTip:"吃的順序：蔬菜和蛋白質先吃，澱粉留到最後。",area:"血糖",areaIcon:"🎢",areaLine:"能量忽高忽低，跟著血糖坐雲霄飛車",swaps:"全糖手搖飲→每週降一級甜度｜麵包當早餐→地瓜或燕麥＋蛋｜飯後一定要甜點→甜點照吃，先吃完正餐、分一半｜下午三點的餅乾→一小把堅果或無糖優格"},
+   core:"穩住血糖，嘴饞就會安靜下來。",bkWhy:"原型澱粉消化慢，搭配蛋白質和蔬菜一起吃，血糖上升比較平緩，不會一早就坐雲霄飛車，下午也比較不會想吃甜。",menuTip:"吃的順序：蔬菜和蛋白質先吃，澱粉留到最後。",area:"血糖",areaIcon:"🎢",areaLine:"能量忽高忽低，跟著血糖坐雲霄飛車",swaps:"全糖手搖飲→每週降一級甜度｜麵包當早餐→地瓜或燕麥＋蛋｜飯後一定要甜點→甜點照吃，先吃完正餐、分一半｜下午三點的餅乾→一小把堅果或無糖優格",whyIcons:"🧋｜😵｜📈"},
   {code:"D",name:"節食耗損型",en:"Under-Fueled",tag:"吃得很少，身體卻開始省電。",
    why:["長期吃太少，身體會降低消耗來保護自己","蛋白質不夠，肌肉流失、代謝跟著下降","一放鬆就復胖，越減越難瘦"],
    mines:["一杯咖啡當早餐","只吃沙拉","極端斷食","天天量體重"],
    food:["每餐都吃到一掌心蛋白質","熱量不要低於基礎代謝","三餐定時，不跳餐"],
    life:["一週量一次體重就好","搭配肌力訓練，把肌肉練回來","把目標放在體脂和腰圍，不只看體重"],
-   core:"先吃夠，身體才願意燃燒。",bkWhy:"份量足、醣類和蛋白質都有，讓身體知道食物是夠的，它才願意把代謝開回來。",menuTip:"請照份量吃完，不要自己再減。",area:"整體代謝",areaIcon:"🪫",areaLine:"吃得太少，身體開始省電",swaps:"一杯咖啡當早餐→咖啡配蛋和地瓜｜只吃沙拉→沙拉加一掌心蛋白質和一份澱粉｜極端斷食→三餐定時，份量吃夠｜天天量體重→一週量一次，多看腰圍"},
+   core:"先吃夠，身體才願意燃燒。",bkWhy:"份量足、醣類和蛋白質都有，讓身體知道食物是夠的，它才願意把代謝開回來。",menuTip:"請照份量吃完，不要自己再減。",area:"整體代謝",areaIcon:"🪫",areaLine:"吃得太少，身體開始省電",swaps:"一杯咖啡當早餐→咖啡配蛋和地瓜｜只吃沙拉→沙拉加一掌心蛋白質和一份澱粉｜極端斷食→三餐定時，份量吃夠｜天天量體重→一週量一次，多看腰圍",whyIcons:"🪫｜🥚｜🔁"},
   {code:"B",name:"穩定平衡型",en:"In Balance",tag:"你的代謝節奏很穩，接下來只差細節。",
    why:["飲食、作息、壓力都沒有明顯的卡關點","接下來的重點是份量控制和持續","照著建議熱量吃，維持或調整體態都會很順"],
    mines:["偶爾的聚餐大餐","忙起來就忘了喝水"],
    food:["照建議熱量吃","每週嘗試一種新的蔬菜或蛋白質"],life:["維持現在的運動習慣","每週量一次體重和腰圍"],
-   core:"穩定，就是最強的優勢。",bkWhy:"份量剛好、營養均衡，延續你目前穩定的節奏就好。",menuTip:"好好享受食物，偶爾換換不同的蛋白質來源。",area:"目前很穩定",areaIcon:"✨",areaLine:"節奏很好，只差一點細節",swaps:"聚餐大吃→先吃菜和肉，飯減半｜忙起來忘了喝水→水瓶放在看得到的地方"},
+   core:"穩定，就是最強的優勢。",bkWhy:"份量剛好、營養均衡，延續你目前穩定的節奏就好。",menuTip:"好好享受食物，偶爾換換不同的蛋白質來源。",area:"目前很穩定",areaIcon:"✨",areaLine:"節奏很好，只差一點細節",swaps:"聚餐大吃→先吃菜和肉，飯減半｜忙起來忘了喝水→水瓶放在看得到的地方",whyIcons:"✅｜🍽️｜📏"},
 ];
 const DIM = {B:"Body Signals · 身體訊號",F:"Eating Patterns · 飲食行為",M:"Energy & Metabolism · 能量與代謝",S:"Sleep & Stress · 作息與壓力"};
 const DEFAULT_QS = [
@@ -714,7 +733,7 @@ $("prev").addEventListener("click",()=>{ if(cur>0){ cur--; if(SCREENS[cur]==="ac
 function toast(html,ms=3200){ const t=$("toast"); t.innerHTML=html; t.hidden=false; t.classList.remove("in"); void t.offsetWidth; t.classList.add("in"); clearTimeout(t._t); t._t=setTimeout(()=>{ t.hidden=true; },ms); }
 
 const head=(label,dim,t,s,zh)=>`<div class="qno">${label}</div><div class="dim mono">${esc(dim)}</div><h2>${esc(t)}</h2>${s?`<p class="scen${zh?" zh":""}">${esc(s)}</p>`:""}`;
-const qlabel=i=>`<span class="n">Q.${pad(i+1)}</span><span class="mono">/ ${pad(QS.length)}</span>`;
+const qlabel=i=>`<span class="n">${i+1}</span><span class="mono">/ ${pad(QS.length)}</span>`;
 const seg=(name,items,sel,multi)=>`<div class="seg" data-name="${name}" data-multi="${multi?1:""}">${items.map(([v,l])=>`<button type="button" data-v="${esc(v)}" class="${(multi?sel.includes(v):sel===v)?"on":""}">${esc(l)}</button>`).join("")}</div>`;
 function render(){
   let id=SCREENS[cur];
@@ -1003,25 +1022,30 @@ function renderResult(sample,mailed){
       ${d.second?`<span class="mix">混合 <b>No.${NO(d.second)} ${esc(TYPE(d.second).name)}</b> 傾向</span>`:""}
       ${t.area?`<div class="where"><span class="ic">${esc(t.areaIcon||"")}</span><span><small>卡關的位置</small><b>${esc(t.area)}</b><em>${esc(t.areaLine||"")}</em></span></div>`:""}
     </div>
-    <article class="block">${sec("01","你的代謝指紋","Fingerprint")}
-      <div class="hex">${radar(MAIN().map(x=>[x.code,d.pct[x.code]]),d.main)}</div>
-      <div class="fp-list">${d.order.map(k=>`<div class="fp${k===d.main?" main":""}"><span class="dot" style="background:${TYPE_COLORS[k]||"#888"}"></span><span>No.${NO(k)} ${esc(TYPE(k).name)}</span><span class="p">${d.pct[k]}%</span></div>`).join("")}</div>
-      <p class="sub">百分比代表你在每一型的傾向強度，越高代表這個卡關點越明顯。</p>
+    <div class="yan-note">${rich(TEXT["信件開頭"])}</div>
+    <article class="block">${sec("01","你的身體，現在大概是這樣","Where you are")}
+      <div class="fp2">
+        <div class="hex">${radar(MAIN().map(x=>[x.code,d.pct[x.code]]),d.main)}</div>
+        <div class="tiles">
+          <div class="tile hl"><small>主要卡關</small><b>${esc(TYPE(d.order[0]).name.replace(/型$/,""))}<em>${d.pct[d.order[0]]}%</em></b></div>
+          <div class="tile"><small>第二個要注意的</small><b>${esc(TYPE(d.order[1]).name.replace(/型$/,""))}<em>${d.pct[d.order[1]]}%</em></b></div>
+          <div class="tile"><small>相對穩定的</small><b>${esc(TYPE(d.order[d.order.length-1]).name.replace(/型$/,""))}<em class="m">${d.pct[d.order[d.order.length-1]]}%</em></b></div>
+        </div>
+      </div>
+      <p class="sub">百分比越高，代表這個卡關點越明顯。</p>
     </article>
-    <article class="block">${sec("02","為什麼你會卡關","Why you're stuck")}
-      <ol class="why">${t.why.map((w,i)=>i===0||!sample?`<li><i>${i+1}</i><span>${esc(w)}</span></li>`:`<li><i>${i+1}</i><span class="mzt">${esc(w)}</span></li>`).join("")}</ol>
-      ${M(`<div><p class="sub" style="margin-bottom:8px">不用忌口，換個吃法就好</p><div class="swaps">${swaps(t).map(([o,n])=>`<div class="sw"><s>${esc(o)}</s><b>${esc(n)}</b></div>`).join("")}</div></div>`)}
+    <article class="block">${sec("02","為什麼你會卡在這一關","Why you're stuck")}
+      <div class="why3">${t.why.slice(0,3).map((w,i)=>`<div class="wc"><span class="ic">${esc(bars(t.whyIcons)[i]||"•")}</span><p class="${sample&&i>0?"mzt":""}">${esc(w)}</p></div>`).join("")}</div>
     </article>
-    <article class="block">${sec("03",`${esc(t.name)}的調整方向`,"Protocol")}
-      ${M(`<div class="fix"><div><h3>飲食<span class="mono">Nutrition</span></h3><ul>${t.food.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div><h3>生活<span class="mono">Lifestyle</span></h3><ul>${t.life.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>`)}
-      <p class="core">${esc(t.core)}</p>
+    <article class="block">${sec("03","不用忌口，換個吃法就好","Swap, don't skip")}
+      ${M(`<div class="swaps">${swaps(t).map(([o,n])=>`<div class="sw"><s>${esc(o)}</s><b>${esc(n)}</b></div>`).join("")}</div>`)}
     </article>
     <article class="block">${sec("04","你每天該吃多少","Your numbers")}${numbers}</article>
     <article class="block">${sec("05","明天早餐這樣吃","Tomorrow's breakfast")}
       <p class="sub">${d.skip?"依一般成人的份量":"依你的建議熱量"}，照衛福部食物代換表排好份量，約 ${r0(bk.kcal)} 大卡。</p>
       <ul class="bkf">${bk.items.map(x=>`<li><div class="bk-h"><span><i class="dot" style="background:var(--g-${x.g})"></i>${x.n}</span><span class="amt">${x.a}</span></div></li>`).join("")}</ul>
-      <p class="eatout">${esc(bk.alt)}</p>${bk.tip?`<p class="eatout"><b>點餐小提醒　</b>${esc(bk.tip)}</p>`:""}
-      ${M(`<div class="bk-why"><span class="mono">Why · 為什麼這樣吃</span><p>${esc(t.bkWhy||"")}</p></div><p class="typetip"><b>提醒　</b>${esc(t.menuTip)}</p>`)}
+      <p class="eatout">${esc(bk.alt)}${bk.tip?`<br><b>點餐小提醒　</b>${esc(bk.tip)}`:""}</p>
+      ${M(`<div class="why2"><div class="bk-why"><span class="mono">Why · 為什麼這樣吃</span><p>${esc(t.bkWhy||"")}</p></div><div class="bk-why tip"><span class="mono">Tip · 彥彥提醒</span><p>${esc(t.menuTip)}</p></div></div>`)}
       ${!sample&&ns.length?`<ul class="notes">${ns.map(([a,b])=>`<li><b>${a}：</b>${b}</li>`).join("")}</ul>`:""}
     </article>
     <section class="cta">
@@ -1033,7 +1057,7 @@ function renderResult(sample,mailed){
       </div>
       ${sample?`<div class="row"><button type="button" class="btn btn-line js-start">開始我的免費檢測 →</button></div>`:`<div class="row"><button type="button" class="btn btn-line" id="copy">複製結果，私訊時貼給我</button></div>`}
     </section>
-    <section class="from-yan"><img src="yan-face.jpg" alt=""><div><span class="mono">From 彥彥</span><p>${esc(TEXT["品牌故事"])}</p><p class="sl">${esc(TEXT["Slogan英文"])}<br>${esc(TEXT["Slogan中文"])}</p><img class="sig" src="sig.png" alt="彥彥 手寫簽名"></div></section>
+    <section class="from-yan"><img src="yan-face.jpg" alt=""><div><span class="mono">From 彥彥</span><p class="sl">${esc(TEXT["Slogan英文"])}<br>${esc(TEXT["Slogan中文"])}</p><p>${esc(TEXT["品牌故事"])}</p></div><img class="sig" src="sig.png" alt="彥彥 手寫簽名"></section>
     <p class="disclaimer">${esc(TEXT["免責聲明"])} 每日熱量依衛福部國健署「體位 × 活動量」建議計算，基礎代謝僅供參考，份量參考衛福部食物代換表。</p>
   </div>`;
   $("result").querySelectorAll(".js-start").forEach(b=>b.addEventListener("click",begin));
