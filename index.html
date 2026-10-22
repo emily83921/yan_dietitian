@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>代謝卡關檢測</title>
+<meta name="description" content="3 分鐘找出你的代謝卡關型態，拿到每日熱量與低醣第一天菜單。營養師設計，免費。">
+<meta property="og:title" content="代謝卡關檢測｜營養師彥彥">
+<meta property="og:description" content="瘦不下來，不是不夠努力。3 分鐘找出你屬於 6 種代謝卡關型態的哪一型。">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 黑色實驗室報告。首頁＝襯線大標＋上鎖報告卡；一題一頁以 Q.01 編號推進；結果頁是一份編號報告，粉色只用在重點與細線。
+   刻意只用一種深色配色，不隨淺色模式反轉。 */
+:root{
+  color-scheme:dark;
+  --bg:#0D0B0C; --panel:#151213; --panel2:#1C1819; --ink:#F4EDEF; --muted:#A3949A; --faint:#6E6166; --line:#2B2427;
+  --pink:#F2A7BD; --rose:#E8658C; --pink-glow:rgba(232,101,140,.16); --pink-tint:#2A1A20;
+  --good:#8FCFA6; --warn:#E9C08A; --bad:#F08A8A;
+  --g-grain:#E9C08A; --g-protein:#E8658C; --g-dairy:#9DBBE0; --g-veg:#8FCFA6; --g-fruit:#F2A7BD; --g-fat:#BFAE95;
+  --f-zh:"Noto Serif TC","Songti TC",serif;
+  --f-en:"Playfair Display","Times New Roman",serif;
+  --f-body:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-num:"DM Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.75;margin:0;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
+.g{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1060px;margin:0 auto}
+.col{max-width:620px;margin:0 auto}
+h1,h2,h3{margin:0;line-height:1.3;text-wrap:balance;font-family:var(--f-zh);font-weight:700}
+p{margin:0}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:1.5px solid var(--pink);outline-offset:3px}
+[hidden]{display:none!important}
+.en{font-family:var(--f-en);font-style:italic;font-weight:500}
+.mono{font-family:var(--f-num);letter-spacing:.12em;text-transform:uppercase;font-size:11.5px}
+.pk{color:var(--pink)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(13,11,12,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;white-space:nowrap;overflow:hidden;min-width:0}
+.brand b{font-family:var(--f-zh);font-size:16px}
+.brand .en{color:var(--pink);font-size:14px}
+.social{display:flex;gap:8px;flex:0 0 auto}
+.sbtn{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border:1px solid var(--line);border-radius:99px;font-size:12.5px;text-decoration:none;white-space:nowrap;color:var(--ink)}
+.sbtn:hover{border-color:var(--pink)}
+.sbtn svg{width:15px;height:15px}
+.sbtn[aria-disabled="true"]{opacity:.45}
+.sbtn small{font-size:11px;color:var(--muted)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:99px;padding:15px 30px;font-weight:500;font-size:15.5px;letter-spacing:.06em;cursor:pointer;border:1px solid transparent;text-decoration:none;transition:background .2s,box-shadow .2s,transform .12s}
+.btn:active{transform:scale(.98)}
+.btn-pink{background:var(--pink);color:#140E10;box-shadow:0 0 0 0 var(--pink-glow)}
+.btn-pink:hover{box-shadow:0 0 0 8px var(--pink-glow)}
+.btn-line{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-line:hover{border-color:var(--pink)}
+.btn[disabled]{opacity:.6;cursor:progress}
+
+/* landing */
+.hero{padding-block:72px 56px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;width:620px;height:620px;right:-220px;top:-200px;border-radius:50%;background:radial-gradient(circle,var(--pink-glow),transparent 65%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;position:relative}
+.hero-copy{display:flex;flex-direction:column;gap:20px;min-width:0}
+.tag{align-self:flex-start;display:inline-flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:99px;padding:6px 14px;color:var(--muted)}
+.tag i{width:6px;height:6px;border-radius:50%;background:var(--rose);box-shadow:0 0 10px var(--rose)}
+.pre{font-size:18px;color:var(--muted)}
+.hero h1{font-weight:900;font-size:clamp(34px,6vw,58px);line-height:1.2;letter-spacing:.01em}
+.acc{color:var(--pink)}
+.hero .en.big{font-size:clamp(19px,2.6vw,24px);color:var(--muted)}
+.lead{color:var(--muted);max-width:30em}
+.lead b{color:var(--ink);font-weight:500;border-bottom:1px solid var(--pink)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.cta-row small{color:var(--faint);font-size:13px}
+.typelist{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.typelist div{display:flex;align-items:baseline;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;min-width:0}
+.typelist div:nth-child(odd){padding-right:14px}
+.typelist .mono{color:var(--pink);font-size:11px}
+.typelist .en{color:var(--faint);font-size:13px;margin-left:auto;white-space:nowrap}
+.report-card{position:relative;justify-self:center;width:100%;max-width:380px}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.sheet-h{display:flex;justify-content:space-between;color:var(--faint)}
+.sheet-h b{color:var(--good);font-weight:400}
+.blur{filter:blur(4px);user-select:none;display:flex;flex-direction:column;gap:13px;opacity:.85}
+.blur .big{font-family:var(--f-zh);font-size:24px;font-weight:900}
+.blur .row{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
+.blur .m{height:6px;border-radius:3px;background:var(--rose);flex:0 0 45%;align-self:center}
+.unlock{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);background:#000;border:1px solid var(--line);border-radius:18px;padding:12px 18px 12px 12px;display:flex;gap:12px;align-items:center;white-space:nowrap;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.unlock .lk{width:38px;height:38px;border-radius:50%;background:var(--rose);display:grid;place-items:center;color:#fff}
+.unlock b{display:block;font-size:14.5px}
+.unlock small{font-size:12px;color:var(--pink)}
+.how{padding-block:48px 64px}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.how-item{background:var(--bg);padding:24px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.how-item .mono{color:var(--pink)}
+.how-item h3{font-size:18px}
+.how-item p{font-size:14px;color:var(--muted)}
+
+/* CTA & credentials */
+.cta-block{display:flex;flex-direction:column;gap:12px;align-items:flex-start;max-width:440px}
+.btn-xl{width:100%;justify-content:space-between;padding:19px 26px;font-size:17px;font-weight:700;letter-spacing:.04em;box-shadow:0 14px 40px rgba(232,101,140,.28)}
+.btn-xl .arr{width:34px;height:34px;border-radius:50%;background:#140E10;color:var(--pink);display:grid;place-items:center;font-size:16px;flex:0 0 auto}
+.facts{display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;font-size:13px;color:var(--muted)}
+.facts i{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);margin-right:10px}
+.facts span+span::before{content:"·";margin:0 8px;color:var(--faint)}
+.link-sample{background:none;border:0;padding:2px 0;color:var(--pink);font-size:14px;cursor:pointer;border-bottom:1px solid rgba(242,167,189,.4)}
+.link-sample:hover{border-color:var(--pink)}
+.by{display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--pink);padding:2px 0 2px 14px}
+.by .mono{color:var(--faint)}
+.by b{font-family:var(--f-zh);font-size:16px}
+.by .creds{display:flex;flex-wrap:wrap;gap:2px 0;font-size:13px;color:var(--muted)}
+.by .creds span+span::before{content:"／";color:var(--faint);margin:0 6px}
+button.report-card{background:none;border:0;padding:0;text-align:left;cursor:pointer;color:inherit;font:inherit}
+button.report-card:hover .sheet{border-color:var(--pink)}
+.sample-bar{border:1px dashed var(--pink);border-radius:20px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between}
+.sample-bar .mono{color:var(--pink)}
+.sample-bar p{font-size:14px;color:var(--muted);max-width:30em}
+.sample-bar .btn{padding:11px 20px;font-size:14px}
+
+/* numbers grid */
+.block .stats{grid-template-columns:1fr 1fr}
+.block .stats .stat.hl,.block .stats .stat.lkbig{grid-column:1/-1}
+.minor{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(242,167,189,.18);font-size:12px;color:var(--faint)}
+.minor b{font-family:var(--f-num);font-weight:400;color:var(--muted)}
+.stat.lkbig{position:relative;overflow:hidden}
+.lkin{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lkin.blur{filter:blur(6px);user-select:none;pointer-events:none}
+.adv{font-family:var(--f-num);font-size:15px;line-height:1.7;margin-top:4px}
+.tagbig{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);white-space:nowrap;background:#000;border:1px solid var(--pink);color:var(--pink);border-radius:99px;padding:8px 20px;font-size:14px;display:inline-flex;gap:8px;align-items:center;box-shadow:0 0 0 8px rgba(232,101,140,.12)}
+/* hexagon, mosaic */
+.hex{display:flex;justify-content:center}
+.hex svg{width:100%;max-width:420px;height:auto}
+.hex .rl{font-family:var(--f-body);font-size:13px;fill:var(--muted)}
+.hex .rp{font-family:var(--f-num);font-size:12px;fill:var(--faint)}
+.hex .on{fill:var(--pink)}
+.mosaic{position:relative;border-radius:16px;overflow:hidden}
+.mz{filter:blur(7px);user-select:none;pointer-events:none;opacity:.75}
+.mz-tag{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:8px;background:#000;border:1px solid var(--pink);color:var(--pink);border-radius:99px;padding:7px 16px;font-size:13px;white-space:nowrap}
+.mzt{filter:blur(6px);user-select:none}
+.mz-meal{filter:blur(7px);user-select:none;pointer-events:none;opacity:.7}
+
+/* quiz */
+.quiz{padding-block:26px 60px;min-height:72vh}
+.qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:var(--muted)}
+.qtop button{background:none;border:0;cursor:pointer;color:var(--muted);padding:4px 0;font-size:13.5px}
+.qtop button:disabled{visibility:hidden}
+.track{height:2px;background:var(--line);margin-bottom:36px}
+.track i{display:block;height:100%;background:var(--pink);transition:width .35s ease;box-shadow:0 0 10px var(--rose)}
+.screen{display:flex;flex-direction:column;gap:16px;animation:in .35s ease both}
+@keyframes in{from{opacity:.001;transform:translateY(8px)}to{opacity:1;transform:none}}
+.qno{display:flex;align-items:baseline;justify-content:center;gap:12px}
+.qno .n{font-family:var(--f-en);font-style:italic;font-size:44px;color:var(--pink);line-height:1}
+.qno .mono{color:var(--faint)}
+.dim{text-align:center;color:var(--muted)}
+.screen h2{font-size:clamp(21px,3.6vw,26px);text-align:center;font-weight:900}
+.scen{text-align:center;color:var(--faint);font-size:14px;font-family:var(--f-en);font-style:italic}
+.scen.zh{font-family:var(--f-body);font-style:normal}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.opt{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:center;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px 18px;cursor:pointer;font-size:15px;width:100%;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--faint)}
+.opt .L{font-family:var(--f-en);font-style:italic;font-size:18px;color:var(--faint)}
+.opt small{display:block;color:var(--muted);font-size:12.5px}
+.opt.on{border-color:var(--pink);background:var(--pink-tint)}
+.opt.on .L{color:var(--pink)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px 20px;display:flex;flex-direction:column;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.label{font-weight:500;font-size:14.5px}
+.label small{color:var(--faint);font-size:12px;margin-left:6px;font-weight:400}
+.hint{font-size:12.5px;color:var(--faint)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.seg button{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:11px 8px;cursor:pointer;font-size:14.5px}
+.seg button.on{border-color:var(--pink);background:var(--pink-tint);color:var(--pink)}
+.inp{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:2px}
+.inp:focus-within{border-color:var(--pink)}
+.inp input{border:0;background:transparent;width:100%;min-width:0;padding:10px 0;font-size:16px}
+.inp input:focus{outline:none}
+.inp input::placeholder{color:var(--faint)}
+.inp.num input{font-family:var(--f-num);font-size:20px}
+.inp em{font-style:normal;color:var(--faint);font-size:13px;white-space:nowrap}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;cursor:pointer;color:var(--muted)}
+.check input{width:18px;height:18px;margin-top:3px;accent-color:var(--rose);flex:0 0 auto}
+.err{color:var(--bad);font-size:14px;text-align:center}
+.multi .opt{grid-template-columns:20px 1fr}
+.multi .opt .L{width:18px;height:18px;border:1px solid var(--faint);border-radius:5px;font-family:var(--f-body);font-style:normal;font-size:12px;display:grid;place-items:center;color:#140E10}
+.multi .opt.on .L{background:var(--pink);border-color:var(--pink)}
+
+/* analyzing & gate */
+.analyzing{display:flex;flex-direction:column;align-items:center;gap:16px;padding-block:100px;text-align:center}
+.pulse{width:72px;height:72px;border-radius:50%;border:1px solid var(--pink);position:relative}
+.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid var(--pink);animation:pl 1.4s ease-out infinite}
+@keyframes pl{to{transform:scale(1.8);opacity:0}}
+.analyzing p{color:var(--muted)}
+.gate{padding-block:30px 60px}
+.gate-card{background:var(--panel);border:1px solid var(--line);border-radius:26px;overflow:hidden}
+.gate-top{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;border-bottom:1px solid var(--line);color:var(--faint)}
+.gate-top b{color:var(--pink);font-weight:400}
+.gate-top .rd{color:var(--good)}
+.gate-body{padding:28px 22px;display:flex;flex-direction:column;gap:18px}
+.gate-lock{width:54px;height:54px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;margin:0 auto;box-shadow:0 0 0 10px var(--pink-glow)}
+.gate-body h2{font-size:23px;text-align:center;font-weight:900}
+.gate-body .sub{text-align:center;color:var(--muted);font-size:14.5px}
+.loadbar{display:flex;flex-direction:column;gap:6px}
+.loadbar .t{display:flex;justify-content:space-between;color:var(--pink)}
+.loadbar .tr{height:2px;background:var(--line)}
+.loadbar .tr i{display:block;height:100%;width:96%;background:var(--pink);box-shadow:0 0 8px var(--rose)}
+.gets{border-top:1px solid var(--line);margin:0;padding:0;list-style:none}
+.gets li{padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;display:flex;gap:12px}
+.gets li span{color:var(--pink);font-family:var(--f-num);font-size:12px;padding-top:3px}
+.note{font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:10px 14px}
+
+/* result */
+.result{padding-block:30px 60px}
+.result .col{max-width:800px;display:flex;flex-direction:column;gap:16px}
+.type-hero{border:1px solid var(--line);border-radius:28px;padding:36px 26px 32px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;background:radial-gradient(120% 100% at 100% 0%,var(--pink-glow),transparent 55%),var(--panel)}
+.type-hero .row{display:flex;justify-content:space-between;color:var(--faint)}
+.type-hero .no{font-family:var(--f-en);font-style:italic;font-size:76px;line-height:1;color:var(--pink)}
+.type-hero h1{font-weight:900;font-size:clamp(32px,5.6vw,46px)}
+.type-hero .en.nm{font-size:22px;color:var(--muted)}
+.type-hero p.tg{font-size:17px;max-width:24em;border-left:1px solid var(--pink);padding-left:14px;margin-top:6px}
+.type-hero .mix{align-self:flex-start;border:1px solid var(--line);border-radius:99px;padding:4px 14px;font-size:13px;color:var(--muted);margin-top:4px}
+.type-hero .mix b{color:var(--pink);font-weight:500}
+.block{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:26px 22px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.bh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.bh h2{font-size:20px;font-weight:900}
+.bh .mono{color:var(--pink)}
+.sub{color:var(--muted);font-size:13.5px}
+.fp-bar{display:flex;height:6px;gap:2px}
+.fp-bar span{display:block;height:100%}
+.fp-list{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+.fp{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:14px;padding:9px 0;border-bottom:1px solid var(--line)}
+.fp .p{font-family:var(--f-num);color:var(--muted)}
+.fp.main{color:var(--pink)}
+.fp.main .p{color:var(--pink)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.why{display:flex;flex-direction:column;margin:0;padding:0;list-style:none}
+.why li{display:grid;grid-template-columns:40px 1fr;gap:8px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.why li:last-child{border-bottom:0}
+.why i{font-family:var(--f-en);font-style:normal;font-size:24px;color:var(--pink);line-height:1.1}
+.mines{display:flex;flex-wrap:wrap;gap:8px}
+.mine{border:1px solid rgba(240,138,138,.45);color:var(--bad);border-radius:99px;padding:3px 12px;font-size:13px}
+.fix{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fix>div{background:var(--panel2);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.fix h3{font-size:15px;display:flex;justify-content:space-between;align-items:baseline}
+.fix h3 .mono{color:var(--pink)}
+.fix ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:14.5px;color:var(--muted)}
+.fix li::marker{color:var(--pink)}
+.core{font-family:var(--f-zh);font-size:18px;font-weight:700;padding:6px 0 0;display:flex;gap:12px}
+.core::before{content:"";width:2px;background:var(--pink);flex:0 0 auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.stat{background:var(--panel);padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat .k{font-size:12.5px;color:var(--muted)}
+.stat .v{font-family:var(--f-num);font-size:22px;line-height:1.35;font-variant-numeric:tabular-nums}
+.stat .v small{font-family:var(--f-body);font-size:12px;color:var(--faint);margin-left:4px}
+.stat .s{font-size:12px;color:var(--faint)}
+.stat.hl{grid-column:span 3;background:var(--pink-tint)}
+.stat.hl .v{font-size:38px;color:var(--pink)}
+.lowcarb{border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
+.lowcarb b{color:var(--ink);font-family:var(--f-zh)}
+.lowcarb b span{color:var(--pink)}
+.portions{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px;color:var(--muted)}
+.portions span{display:inline-flex;align-items:center;gap:7px}
+.portions b{font-family:var(--f-num);color:var(--ink);font-weight:400}
+.meals{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.meal{background:var(--panel2);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.meal-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.meal-h h3{font-size:16px;display:flex;align-items:baseline;gap:8px}
+.meal-h h3 .en{font-size:13px;color:var(--faint);font-weight:400}
+.carb{font-family:var(--f-num);font-size:11.5px;color:var(--pink);border:1px solid var(--pink);border-radius:99px;padding:1px 9px;white-space:nowrap}
+.items{display:flex;flex-direction:column;gap:7px;margin:0;padding:0;list-style:none}
+.items li{display:grid;grid-template-columns:8px 1fr auto;gap:10px;align-items:baseline;font-size:14.5px}
+.items .amt{color:var(--muted);font-size:13px;text-align:right}
+.eatout{border-top:1px dashed var(--line);padding-top:9px;font-size:13px;color:var(--faint)}
+.eatout b{color:var(--muted);font-weight:500}
+.macro-bar{display:flex;height:6px;gap:2px}
+.macro-bar span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.typetip{border-left:2px solid var(--pink);padding:4px 0 4px 14px;font-size:14.5px}
+.typetip b{color:var(--pink);font-weight:500}
+.notes{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.notes li{background:var(--panel2);border-radius:12px;padding:10px 14px;font-size:14px;color:var(--muted)}
+.notes li b{color:var(--ink);font-weight:500}
+.cta{border:1px solid var(--pink);border-radius:28px;padding:30px 24px;display:flex;flex-direction:column;gap:14px;background:radial-gradient(100% 120% at 0% 100%,var(--pink-glow),transparent 60%),var(--bg)}
+.cta .mono{color:var(--pink)}
+.cta h2{font-size:24px;font-weight:900}
+.cta p{color:var(--muted);font-size:15px}
+.cta .row{display:flex;flex-wrap:wrap;gap:10px}
+.cta .btn{flex:1 1 180px;padding:13px 18px;font-size:14.5px}
+.cta .btn[aria-disabled="true"]{opacity:.4;cursor:default}
+.disclaimer{font-size:12px;color:var(--faint);text-align:center}
+footer{border-top:1px solid var(--line);padding-block:26px 34px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+footer p{font-size:12.5px;color:var(--faint);max-width:36em}
+
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:44px}
+  .how-grid,.meals,.fix{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .g{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .hero{padding-block:44px 36px}
+  .brand .en,.sbtn .lbl,.sbtn small{display:none}
+  .sbtn{padding:7px}
+  .typelist{grid-template-columns:1fr}
+  .cta-block{max-width:none;align-items:stretch}
+  .link-sample{align-self:center}
+  .facts{justify-content:center}
+  .typelist div:nth-child(odd){padding-right:0}
+  .g3{grid-template-columns:1fr 1fr}
+  .fp-list{grid-template-columns:1fr}
+  .type-hero .no{font-size:60px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<header class="nav g">
+  <div class="wrap">
+    <a class="brand" href="#" id="home"><b data-t="品牌名稱">營養師彥彥</b><span class="en" data-t="品牌英文">Metabolic Block Assessment</span></a>
+    <div class="social">
+      <a class="sbtn js-ig" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor"/></svg><span class="lbl">Instagram</span></a>
+      <a class="sbtn js-line" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1 0-2-.1-2.9-.4L5 20.5l1.2-3.6C4.2 15.6 3 13.6 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5Z"/></svg><span class="lbl">LINE</span><small class="js-soon">即將開放</small></a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="landing">
+    <section class="hero g">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="tag mono"><i></i><span data-t="首頁徽章">3 分鐘 · 6 型代謝卡關檢測</span></span>
+          <p class="pre" data-t="首頁前言">瘦不下來，卡住你的不是意志力——</p>
+          <h1 data-t="首頁標題">是這 <span class="acc">6 種代謝卡關</span><br>的其中一種</h1>
+          <p class="en big" data-t="首頁英文">It's not willpower. It's your metabolic pattern.</p>
+          <p class="lead" data-t="首頁說明">同樣少吃多動，有人瘦、有人卡住，差別在**你是哪一型**。回答 16 題，找出你的代謝卡關型態，拿到每日熱量建議和一份第一天菜單。</p>
+          <div class="cta-block">
+            <button class="btn btn-pink btn-xl js-start" type="button"><span data-t="開始按鈕">免費檢測，看看我是哪一型</span><span class="arr" aria-hidden="true">→</span></button>
+            <p class="facts"><i></i><span>完全免費</span><span>約 3 分鐘</span><span>16 題</span><span>結果立即解鎖</span></p>
+            <button type="button" class="link-sample js-sample">先看檢測報告長什麼樣子 →</button>
+          </div>
+          <div class="by"><span class="mono">Designed by</span><b data-t="品牌名稱">營養師彥彥</b><div class="creds" id="creds"></div></div>
+          <div class="typelist" id="typeList"></div>
+        </div>
+        <button type="button" class="report-card js-sample" aria-label="查看範例報告">
+          <div class="sheet">
+            <div class="sheet-h mono"><span>Metabolic Report</span><b>● Ready</b></div>
+            <div class="blur">
+              <div class="big">No.05 血糖起伏型</div>
+              <div class="row"><span>每日建議熱量</span><span>1,450 kcal</span></div>
+              <div class="row"><span>血糖起伏指數</span><span class="m"></span></div>
+              <div class="row"><span>壓力指數</span><span class="m" style="flex-basis:26%;background:var(--faint)"></span></div>
+              <div class="row"><span>第一天菜單</span><span>早・午・點心・晚</span></div>
+            </div>
+          </div>
+          <div class="unlock"><span class="lk"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span><b>分析報告已就緒</b><small>點我看範例報告 →</small></span></div>
+        </button>
+      </div>
+    </section>
+    <section class="how g">
+      <div class="wrap how-grid">
+        <div class="how-item"><span class="mono">01 · Your Pattern</span><h3>你的代謝卡關型態</h3><p>6 型指紋分析，找出瘦不下來的真正原因，和這一型最常踩的地雷。</p></div>
+        <div class="how-item"><span class="mono">02 · Your Numbers</span><h3>每天該吃多少</h3><p>依衛福部國健署的體位與活動量標準，算出建議熱量、蛋白質與喝水量。</p></div>
+        <div class="how-item"><span class="mono">03 · Day One</span><h3>第一天菜單</h3><p>依你的熱量需求，照食物代換表排好份量，附超商和自助餐外食版。</p></div>
+      </div>
+    </section>
+  </div>
+
+  <section id="quiz" class="quiz g" hidden>
+    <div class="col">
+      <div class="qtop"><button type="button" id="prev">← 上一題</button><span class="mono">Progress <span class="pk" id="pct">0%</span></span></div>
+      <div class="track"><i id="bar" style="width:0%"></i></div>
+      <div id="screen"></div>
+    </div>
+  </section>
+
+  <section id="analyzing" class="analyzing g" hidden>
+    <div class="pulse" aria-hidden="true"></div>
+    <h2 style="font-size:22px">正在分析你的代謝型態…</h2>
+    <p id="anaText">比對 6 種代謝卡關型態</p>
+  </section>
+
+  <section id="gate" class="gate g" hidden>
+    <div class="col">
+      <form class="gate-card" id="gateForm" novalidate>
+        <div class="gate-top mono"><span>Metabolic Report · <b id="gateType">Type</b></span><span class="rd">● Ready</span></div>
+        <div class="gate-body">
+          <div class="gate-lock"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <h2 data-t="解鎖標題">你的代謝報告已經生成</h2>
+          <p class="sub" data-t="解鎖說明">留下 IG 就能解鎖。我會親自看過你的結果，有需要會私訊你。</p>
+          <div class="loadbar"><div class="t mono"><span>Assembling report…</span><span>96%</span></div><div class="tr"><i></i></div></div>
+          <ul class="gets"><li><span>01</span>你屬於哪一型，以及瘦不下來的真正原因</li><li><span>02</span>每天該吃多少熱量、蛋白質、喝多少水</li><li><span>03</span>照份量排好的第一天菜單</li></ul>
+          <div class="field"><label class="label" for="name">怎麼稱呼你</label><div class="inp"><input id="name" type="text" autocomplete="nickname" placeholder="例如：小美"></div></div>
+          <div class="field"><label class="label" for="c-ig">Instagram 帳號<small>必填</small></label><div class="inp"><em>@</em><input id="c-ig" type="text" placeholder="your_ig" autocapitalize="off" autocomplete="off"></div></div>
+          <div class="g2">
+            <div class="field"><label class="label" for="c-line">LINE ID<small>選填</small></label><div class="inp"><input id="c-line" type="text" autocapitalize="off"></div></div>
+            <div class="field"><label class="label" for="c-email">Email<small>選填</small></label><div class="inp"><input id="c-email" type="email" autocapitalize="off"></div></div>
+          </div>
+          <label class="check"><input type="checkbox" id="agree"><span data-t="同意條款">我同意營養師彥彥蒐集我填寫的資料（包含健康狀況），只用於提供營養建議與後續聯繫，不會提供給第三方，我可以隨時要求刪除。</span></label>
+          <label class="check"><input type="checkbox" id="optin" checked><span>我願意收到營養師的私訊、課程與優惠資訊。</span></label>
+          <p class="note js-preview" hidden>預覽模式：資料不會送出。貼上 Google 試算表的網址後就會開始收資料。</p>
+          <p class="err" id="gateErr" role="alert" hidden></p>
+          <button type="submit" class="btn btn-pink" id="unlockBtn">解鎖我的代謝報告</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="result" class="result g" hidden></section>
+</main>
+
+<footer class="g">
+  <div class="wrap">
+    <p data-t="免責聲明">本檢測依你的作答整理出「傾向」，僅供生活參考，不是醫療診斷。懷孕、哺乳、正在用藥或有慢性病者，請先諮詢醫師或營養師。</p>
+    <div class="social">
+      <a class="sbtn js-ig" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor"/></svg><span class="lbl js-ig-handle">@yan_dietitian</span></a>
+      <a class="sbtn js-line" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1 0-2-.1-2.9-.4L5 20.5l1.2-3.6C4.2 15.6 3 13.6 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5Z"/></svg><span class="lbl">LINE</span><small class="js-soon">即將開放</small></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   ✏️ 唯一要改的地方：貼上 Google Apps Script 網址
+   題目、型態說明、首頁文字、IG／LINE 網址都在 Google 試算表裡改。
+   ============================================================ */
+const SCRIPT_URL = "";
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rich = s => esc(s).replace(/\*\*(.+?)\*\*/g,'<span class="acc">$1</span>').replace(/\n/g,"<br>");
+const list = s => String(s||"").split(/[,，、\n]/).map(x=>x.trim()).filter(Boolean);
+const bars = s => Array.isArray(s) ? s : String(s||"").split(/[｜|\n]/).map(x=>x.trim()).filter(Boolean);
+const pad = n => String(n).padStart(2,"0");
+
+/* ---------- 預設內容（試算表連不上時使用） ---------- */
+const DEFAULT_TEXT = {
+  "品牌名稱":"營養師彥彥","品牌英文":"Metabolic Block Assessment",
+  "首頁徽章":"3 分鐘 · 6 型代謝卡關檢測","首頁前言":"瘦不下來，卡住你的不是意志力——",
+  "首頁標題":"是這 **6 種代謝卡關**\n的其中一種","首頁英文":"It's not willpower. It's your metabolic pattern.",
+  "首頁說明":"同樣少吃多動，有人瘦、有人卡住，差別在**你是哪一型**。回答 16 題，找出你的代謝卡關型態，拿到每日熱量建議和一份第一天菜單。",
+  "開始按鈕":"免費檢測，看看我是哪一型",
+  "資歷":"臺北醫學大學｜肥胖研究學會 體重管理營養師｜CTSSN 運動營養專業認證｜體適能健身 C 級指導員",
+  "IG網址":"https://www.instagram.com/yan_dietitian/","IG帳號":"@yan_dietitian","LINE網址":"",
+  "健康狀況選項":"血壓偏高,血糖偏高或胰島素阻抗,多囊性卵巢（PCOS）,甲狀腺功能低下,血脂偏高,便秘或腸胃不適,經期不規則,長期失眠,懷孕或哺乳中,腎臟或其他慢性病",
+  "解鎖標題":"你的代謝報告已經生成","解鎖說明":"留下 IG 就能解鎖。我會親自看過你的結果，有需要會私訊你。",
+  "同意條款":"我同意營養師彥彥蒐集我填寫的資料（包含健康狀況），只用於提供營養建議與後續聯繫，不會提供給第三方，我可以隨時要求刪除。",
+  "結果CTA標題":"想知道你這一型，怎麼瘦才最有效？","結果CTA說明":"報告只是起點。私訊我「代謝」兩個字，跟我分享你的作息和飲食習慣，我會依照你的型態，給你更深入、更適合你的減脂建議。",
+  "免責聲明":"本檢測依你的作答整理出「傾向」，僅供生活參考，不是醫療診斷。懷孕、哺乳、正在用藥或有慢性病者，請先諮詢醫師或營養師。",
+};
+const DEFAULT_TYPES = [
+  {code:"P",name:"高壓緊繃型",en:"High-Tension",tag:"身體一直處在備戰狀態，脂肪也跟著守在腹部。",
+   why:["長期壓力讓壓力荷爾蒙（皮質醇）偏高，身體傾向把脂肪囤在腹部","壓力大時，食慾和選擇容易偏向高油、高糖","緊繃會影響睡眠，睡不好又讓壓力更難消化，形成循環"],
+   mines:["靠咖啡硬撐","忙到忘記吃，晚上補償性大吃","睡不夠還做高強度運動","把甜食當紓壓"],
+   food:["三餐定時，不讓血糖大起大落","每餐都有蛋白質和深綠色蔬菜","咖啡一天 1–2 杯，下午 2 點後不喝"],
+   life:["每天留 10 分鐘放鬆：散步、伸展或深呼吸","運動以中低強度和肌力訓練為主","睡前 1 小時離開工作訊息"],
+   core:"先讓身體鬆下來，脂肪才願意離開。",menuTip:"今天每一餐都準時吃，下午那份點心不要省，避免晚上補償性大吃。"},
+  {code:"E",name:"情緒飢餓型",en:"Emotional Hunger",tag:"你餓的不是胃，而是心情。",
+   why:["疲累或低落時，大腦會想用食物快速得到安慰","邊滑手機邊吃，飽足訊號被忽略，不知不覺吃多","吃完自責，壓力更大，又想再吃"],
+   mines:["追劇配零食","心情差就叫外送","用甜點獎勵自己","整包吃完才回神"],
+   food:["想吃時先喝一杯水，等 3 分鐘再決定","零食換成無糖優格、毛豆或堅果，先分裝好","每吃一口放下筷子，一餐吃 20 分鐘"],
+   life:["列 5 件不靠食物的紓壓方法","吃東西時不看手機","記下想吃東西的時間和心情，找出觸發點"],
+   core:"照顧好情緒，食物就不用負責安慰你。",menuTip:"今天每一餐都放下手機，專心吃完再做別的事。"},
+  {code:"N",name:"作息失衡型",en:"Off-Rhythm",tag:"身體的時鐘，跟你的生活對不上。",
+   why:["睡不夠時飢餓感上升、飽足感下降，隔天特別想吃","晚睡讓進食時間一路往後延，宵夜變成常態","白天沒精神，只好靠糖和咖啡撐住"],
+   mines:["熬夜追劇","深夜泡麵、鹹酥雞","睡前一杯手搖飲","睡過頭跳過早餐"],
+   food:["晚餐吃夠蛋白質和蔬菜，半夜比較不會餓","睡前 3 小時不再進食","真的餓了，選無糖豆漿或一顆蛋"],
+   life:["固定起床時間，假日差距不超過 1 小時","12 點前上床，先從提早 30 分鐘開始","早上曬 10 分鐘太陽，幫身體校正時鐘"],
+   core:"把時鐘調回來，代謝就會跟上。",menuTip:"晚餐已經排了足夠的蛋白質和菜，吃完之後就讓廚房打烊。"},
+  {code:"M",name:"代謝低速型",en:"Slow Burner",tag:"不是吃太多，是身體燃燒得太少。",
+   why:["久坐少動，每天實際消耗的熱量比想像中少","肌肉量不足，基礎代謝跟著往下掉","循環變慢，容易怕冷、下半身水腫"],
+   mines:["吃完就坐著或躺著","通勤全程都坐","只節食不運動","週末宅一整天"],
+   food:["每餐一掌心蛋白質，幫助保住肌肉","運動後 1 小時內補一份蛋白質","不要用少吃取代運動"],
+   life:["每坐 1 小時，起來動 3 分鐘","每天多走 2,000 步","每週 2–3 次肌力訓練：深蹲、臀橋都可以"],
+   core:"肌肉，是你最好的燃脂引擎。",menuTip:"午餐和晚餐後各散步 10 分鐘，讓這份菜單發揮最大效果。"},
+  {code:"G",name:"血糖起伏型",en:"Sugar Swing",tag:"能量忽高忽低，跟著血糖坐雲霄飛車。",
+   why:["精緻澱粉和含糖飲料讓血糖快速上升，又快速掉下來","血糖一掉，就頭暈、想睡、特別想吃甜","胰島素長期偏高時，脂肪比較容易囤積"],
+   mines:["全糖手搖飲","麵包當早餐","飯後一定要甜點","下午三點的餅乾"],
+   food:["吃飯順序：先菜、再肉、最後飯","精緻澱粉換成全穀、地瓜、南瓜","飲料每週降一級甜度，最後到無糖"],
+   life:["飯後散步 10 分鐘","下午固定安排一份點心，避免餓過頭","睡飽 7 小時，隔天比較不會想吃甜"],
+   core:"穩住血糖，嘴饞就會安靜下來。",menuTip:"每一餐都照「菜、肉、飯」的順序吃，下午點心選水果配堅果。"},
+  {code:"D",name:"節食耗損型",en:"Under-Fueled",tag:"吃得很少，身體卻開始省電。",
+   why:["長期吃太少，身體會降低消耗來保護自己","蛋白質不夠，肌肉流失、代謝跟著下降","一放鬆就復胖，越減越難瘦"],
+   mines:["一杯咖啡當早餐","只吃沙拉","極端斷食","天天量體重"],
+   food:["每餐都吃到一掌心蛋白質","熱量不要低於基礎代謝","三餐定時，不跳餐"],
+   life:["一週量一次體重就好","搭配肌力訓練，把肌肉練回來","把目標放在體脂和腰圍，不只看體重"],
+   core:"先吃夠，身體才願意燃燒。",menuTip:"今天的份量照表吃完，不要再自己減量，讓身體知道食物是夠的。"},
+  {code:"B",name:"穩定平衡型",en:"In Balance",tag:"你的代謝節奏很穩，接下來只差細節。",
+   why:["飲食、作息、壓力都沒有明顯的卡關點","接下來的重點是份量控制和持續","照著建議熱量吃，維持或調整體態都會很順"],
+   mines:["偶爾的聚餐大餐","忙起來就忘了喝水"],
+   food:["照菜單的份量吃","每週嘗試一種新的蔬菜或蛋白質"],life:["維持現在的運動習慣","每週量一次體重和腰圍"],
+   core:"穩定，就是最強的優勢。",menuTip:"你的節奏很好，今天照份量吃，好好享受食物。"},
+];
+const DIM = {B:"Body Signals · 身體訊號",F:"Eating Patterns · 飲食行為",M:"Energy & Metabolism · 能量與代謝",S:"Sleep & Stress · 作息與壓力"};
+const DEFAULT_QS = [
+  {dim:DIM.B,t:"脂肪最容易堆在哪裡？",s:"身體囤脂的位置，會透露一些線索。",o:[["沒有特別明顯的地方",""],["肚子和腰圍，四肢相對細","P2 G2"],["全身軟軟的，沒什麼肌肉線條","M3 D1"],["早晚體重差很多，容易水腫","N2 M1"]]},
+  {dim:DIM.B,t:"下午三、四點的你，通常是？",s:"下午的精神狀態，和血糖、睡眠都有關係。",o:[["精神還不錯",""],["很睏，特別想吃甜的","G3"],["靠咖啡或提神飲料撐著","N2 P1"],["頭暈手抖，一定要馬上吃東西","G2 D1"]]},
+  {dim:DIM.B,t:"關於體溫和手腳，哪個最像你？",s:"燃燒的效率，常常反映在體溫上。",o:[["正常，不特別怕冷怕熱",""],["手腳常冰冷，比別人怕冷","M2 D2"],["一緊張就容易冒汗、發熱","P3"],["晚上反而比較有精神、身體發熱","N3"]]},
+  {dim:DIM.F,t:"肚子餓的時候，你的反應是？",s:"飢餓的樣子，每個人都不一樣。",o:[["慢慢有感覺，可以等到正餐",""],["心慌手抖、脾氣變差，必須馬上吃","G3"],["常常不太餓，會忘記吃","D3"],["肚子不餓，但嘴巴就是想吃","E3"]]},
+  {dim:DIM.F,t:"壓力很大的那幾天，你的飲食會？",s:"壓力，會悄悄改變你想吃的東西。",o:[["跟平常差不多",""],["吃不下，胃緊緊的","P3"],["特別想吃炸物、甜點","E2 P1"],["邊忙邊吃，回神整包都吃完了","E2 G1"]]},
+  {dim:DIM.F,t:"你對甜食和澱粉的渴望？",s:"嘴饞，常常不只是因為肚子餓。",o:[["偶爾想吃，吃一點就滿足",""],["正餐吃飽了，還是要來點甜的","G3"],["心情不好時特別想吃","E3"],["越晚越想吃重口味或泡麵","N2 E1"]]},
+  {dim:DIM.F,t:"手搖飲、含糖飲料，一週喝幾杯？",s:"喝下去的糖，最容易被忽略。",o:[["幾乎不喝",""],["1 到 2 杯","G1"],["3 到 5 杯","G2"],["幾乎天天","G3"]]},
+  {dim:DIM.F,t:"每一餐都有一掌心的豆魚蛋肉嗎？",s:"蛋白質不夠，肌肉會悄悄流失。",o:[["每餐都有",""],["大部分有","D1"],["偶爾才有","D2 M1"],["很少，常常只吃澱粉","D2 G1"]]},
+  {dim:DIM.M,t:"吃完一頓正餐後，你通常？",s:"飯後的感覺，是身體給你的回饋。",o:[["精神飽滿",""],["很想睡，像被關機","G3"],["脹氣，消化很慢","P2 E1"],["很快又餓了","G2 D1"]]},
+  {dim:DIM.M,t:"誠實說，你過去的減重經驗？",s:"過去用過的方法，會在身體留下痕跡。",o:[["沒有刻意減過，或減得很順",""],["吃得很少，體重卻不動","D2 M2"],["壓力一大就變胖","P3"],["減了又復胖，來回好幾次","D2 E1"]]},
+  {dim:DIM.M,t:"一天坐著的時間？（工作、通勤、滑手機）",s:"身體的燃燒，大多發生在你沒注意的時候。",o:[["不到 6 小時",""],["6 到 8 小時","M1"],["8 到 10 小時","M2"],["10 小時以上","M3"]]},
+  {dim:DIM.M,t:"一週運動幾次？（30 分鐘以上、會喘）",s:"肌肉，是身上最會燃燒熱量的地方。",o:[["4 次以上",""],["2 到 3 次","M1"],["1 次","M2"],["幾乎沒有","M3"]]},
+  {dim:DIM.M,t:"你對咖啡因的依賴程度？",s:"提神，有時候是在透支。",o:[["不喝也沒差",""],["每天 1 杯，習慣而已","N1"],["沒喝就沒辦法工作","N2 P1"],["喝了會心悸、睡不好，但還是要喝","P2 N1"]]},
+  {dim:DIM.S,t:"你通常幾點睡？",s:"睡眠，是最被低估的代謝工具。",o:[["11 點前",""],["11 點到 12 點","N1"],["12 點到 1 點","N2"],["1 點以後","N3"]]},
+  {dim:DIM.S,t:"最近的睡眠品質？",s:"睡得好不好，隔天的食慾都知道。",o:[["一覺到天亮",""],["身體很累，但腦袋停不下來","P3"],["睡不夠，白天很難清醒","N3"],["半夜容易醒來","P1 N2"]]},
+  {dim:DIM.S,t:"你目前最大的壓力來源？",s:"壓力從哪裡來，決定了它怎麼影響你。",o:[["還好，沒有特別的壓力",""],["工作或課業","P3"],["感情、家人或人際關係","E3"],["對自己的身材不滿意，一直在減肥","D2 E1"]]},
+];
+const TYPE_COLORS = {P:"#E8658C",E:"#F2A7BD",N:"#9C8FD6",M:"#8FB3A6",G:"#E9C08A",D:"#B9A6AD",B:"#F4EDEF"};
+
+let TEXT={...DEFAULT_TEXT}, TYPES=DEFAULT_TYPES, QS=DEFAULT_QS;
+const parseScore = s => { const o={}; String(s||"").replace(/([A-Za-z])\s*(\d+)/g,(_,k,v)=>{ k=k.toUpperCase(); o[k]=(o[k]||0)+ +v; }); return o; };
+const MAIN = () => TYPES.filter(t=>t.code!=="B");
+const TYPE = c => TYPES.find(t=>t.code===c) || TYPES[0];
+const NO = c => { const i=MAIN().findIndex(t=>t.code===c); return i<0?"00":pad(i+1); };
+const GOALS = ["減脂","增肌","維持體態","穩定血糖","改善水腫","調整作息"];
+const ACTS = [["輕度工作","大部分時間坐著或站著，例如上班族、家管、學生",0],["中度工作","工作需要常走動或搬東西，或每週規律運動 3–5 次",1],["重度工作","大量體力勞動，例如搬運、農務、運動選手",2]];
+// 衛福部國健署：每公斤體重所需熱量（體位 × 活動量）。過重或肥胖、輕度工作為 20–25，取中間值 22.5
+const KCAL_PER_KG = {under:[35,40,45], normal:[30,35,40], over:[22.5,30,35]};
+
+/* ---------- 套用試算表內容 ---------- */
+function applyText(){
+  document.querySelectorAll("[data-t]").forEach(el=>{ const v=TEXT[el.dataset.t]; if(v!=null && v!=="") el.innerHTML=rich(v); });
+  document.querySelectorAll(".lead .acc").forEach(s=>{ const b=document.createElement("b"); b.textContent=s.textContent; s.replaceWith(b); });
+  $("creds").innerHTML=bars(TEXT["資歷"]).map(c=>`<span>${esc(c)}</span>`).join("");
+  document.querySelectorAll(".js-ig").forEach(a=>a.href=TEXT["IG網址"]||"#");
+  document.querySelectorAll(".js-ig-handle").forEach(s=>s.textContent=TEXT["IG帳號"]);
+  document.querySelectorAll(".js-line").forEach(a=>{ const s=a.querySelector(".js-soon");
+    if(TEXT["LINE網址"]){ a.href=TEXT["LINE網址"]; a.removeAttribute("aria-disabled"); if(s) s.hidden=true; }
+    else { a.removeAttribute("href"); a.setAttribute("aria-disabled","true"); if(s) s.hidden=false; } });
+  $("typeList").innerHTML=MAIN().map((t,i)=>`<div><span class="mono">No.${pad(i+1)}</span><span>${esc(t.name)}</span><span class="en">${esc(t.en)}</span></div>`).join("");
+}
+async function loadConfig(){
+  if(!SCRIPT_URL){ document.querySelector(".js-preview").hidden=false; return; }
+  try{
+    const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),6000);
+    const cfg=await (await fetch(SCRIPT_URL+"?action=config",{signal:ctrl.signal})).json(); clearTimeout(t);
+    if(cfg.text) TEXT={...DEFAULT_TEXT,...cfg.text};
+    if(Array.isArray(cfg.types) && cfg.types.length>=2) TYPES=cfg.types.map(x=>({...x,why:bars(x.why),mines:bars(x.mines),food:bars(x.food),life:bars(x.life)}));
+    if(Array.isArray(cfg.questions) && cfg.questions.length) QS=cfg.questions.filter(q=>q.t && q.o && q.o.length>=2);
+  }catch(e){ /* 連不上就用預設內容 */ }
+}
+applyText(); loadConfig().then(applyText);
+
+/* ---------- 問卷流程 ---------- */
+const A={sex:"",age:"",h:"",w:"",bf:"",waist:"",target:"",goals:[],act:null,q:[],diet:"",allergy:"",conds:[]};
+let SCREENS=[],cur=0,D=null;
+const VIEWS=["landing","quiz","analyzing","gate","result"];
+function show(v){ VIEWS.forEach(x=>$(x).hidden=x!==v); window.scrollTo({top:0}); }
+function begin(){ Object.assign(A,{sex:"",age:"",h:"",w:"",bf:"",waist:"",target:"",goals:[],act:null,diet:"",allergy:"",conds:[]}); SCREENS=["basic","act",...QS.map((_,i)=>"q"+i),"diet","cond"]; A.q=Array(QS.length).fill(null); cur=0; show("quiz"); render(); }
+document.querySelectorAll(".js-start").forEach(b=>b.addEventListener("click",begin));
+document.querySelectorAll(".js-sample").forEach(b=>b.addEventListener("click",showSample));
+/* ---------- 範例報告（數字為示範） ---------- */
+function showSample(){
+  Object.assign(A,{sex:"女",age:"29",h:"160",w:"62",bf:"31",waist:"82",target:"55",goals:["減脂","穩定血糖"],act:0,diet:"葷食",allergy:"",conds:[]});
+  A.q=QS.map(()=>0);
+  D=calc();
+  const codes=MAIN().map(t=>t.code), demo={G:72,M:54,P:46,N:41,E:30,D:18};
+  D.pct=Object.fromEntries(codes.map(k=>[k,demo[k]??20]));
+  D.order=[...codes].sort((a,b)=>D.pct[b]-D.pct[a]); D.main=D.order[0]; D.second=D.order[1];
+  D.name="範例"; D.menu=buildMenu(D);
+  renderResult(true); show("result");
+}
+$("home").addEventListener("click",e=>{ e.preventDefault(); show("landing"); });
+$("prev").addEventListener("click",()=>{ if(cur>0){ cur--; render(); } });
+
+const head=(label,dim,t,s,zh)=>`<div class="qno">${label}</div><div class="dim mono">${esc(dim)}</div><h2>${esc(t)}</h2>${s?`<p class="scen${zh?" zh":""}">${esc(s)}</p>`:""}`;
+const qlabel=i=>`<span class="n">Q.${pad(i+1)}</span><span class="mono">/ ${pad(QS.length)}</span>`;
+const seg=(name,items,sel,multi)=>`<div class="seg" data-name="${name}" data-multi="${multi?1:""}">${items.map(([v,l])=>`<button type="button" data-v="${esc(v)}" class="${(multi?sel.includes(v):sel===v)?"on":""}">${esc(l)}</button>`).join("")}</div>`;
+function render(){
+  const id=SCREENS[cur], pct=Math.round(cur/SCREENS.length*100);
+  $("pct").textContent=pct+"%"; $("bar").style.width=pct+"%"; $("prev").disabled=cur===0;
+  let h="";
+  if(id==="basic") h=`<div class="screen">${head('<span class="n">Profile</span>',"Step 01 · 基本資料","先認識你的身體","用來計算你每天消耗多少熱量",1)}
+    <div class="card">
+      <div class="field"><span class="label">性別</span>${seg("sex",[["女","女性"],["男","男性"]],A.sex)}</div>
+      <div class="g3">
+        <div class="field"><label class="label" for="age">年齡</label><div class="inp num"><input id="age" type="number" inputmode="numeric" placeholder="28" value="${esc(A.age)}"><em>歲</em></div></div>
+        <div class="field"><label class="label" for="h">身高</label><div class="inp num"><input id="h" type="number" inputmode="decimal" placeholder="160" value="${esc(A.h)}"><em>cm</em></div></div>
+        <div class="field"><label class="label" for="w">體重</label><div class="inp num"><input id="w" type="number" inputmode="decimal" step="0.1" placeholder="58" value="${esc(A.w)}"><em>kg</em></div></div>
+      </div>
+      <div class="g3">
+        <div class="field"><label class="label" for="bf">體脂率<small>選填</small></label><div class="inp num"><input id="bf" type="number" inputmode="decimal" step="0.1" placeholder="28" value="${esc(A.bf)}"><em>%</em></div></div>
+        <div class="field"><label class="label" for="waist">腰圍<small>選填</small></label><div class="inp num"><input id="waist" type="number" inputmode="decimal" placeholder="72" value="${esc(A.waist)}"><em>cm</em></div></div>
+        <div class="field"><label class="label" for="target">目標體重<small>選填</small></label><div class="inp num"><input id="target" type="number" inputmode="decimal" step="0.1" placeholder="53" value="${esc(A.target)}"><em>kg</em></div></div>
+      </div>
+      <p class="hint">有體脂機或 InBody 的數據就填上，熱量會算得更準。</p>
+      <div class="field"><span class="label">你的目標<small>可複選</small></span>${seg("goals",GOALS.map(g=>[g,g]),A.goals,true)}</div>
+      <p class="err" id="err" hidden></p>
+      <button type="button" class="btn btn-pink" id="nextBtn">開始檢測 →</button>
+    </div></div>`;
+  else if(id==="act") h=single('<span class="n">Activity</span>',"Step 02 · 活動量",{t:"平常一週的活動量？",s:"選最接近你平常的狀態，不是最認真的那一週。",o:ACTS.map(a=>[a[0],a[1]])},A.act,true);
+  else if(id==="diet") h=`<div class="screen">${head('<span class="n">Preference</span>',"Almost done · 飲食偏好","你的飲食型態？","菜單會依照你的選擇調整",1)}
+    <div class="card">${seg("diet",[["葷食","葷食"],["蛋奶素","蛋奶素"],["全素","全素"]],A.diet)}
+      <div class="field"><label class="label" for="allergy">過敏或不吃的食物<small>選填</small></label><div class="inp"><input id="allergy" type="text" placeholder="例如：海鮮、牛肉、香菜" value="${esc(A.allergy)}"></div></div>
+      <p class="err" id="err" hidden></p><button type="button" class="btn btn-pink" id="nextBtn">下一步 →</button></div></div>`;
+  else if(id==="cond"){ const opts=[...list(TEXT["健康狀況選項"]),"以上皆無"];
+    h=`<div class="screen">${head('<span class="n">Health</span>',"Final · 健康狀況","目前有以下狀況嗎？","我們會依照你的狀況，在報告裡加上提醒（可複選）。",1)}
+    <div class="opts multi">${opts.map(c=>`<button type="button" class="opt${A.conds.includes(c)?" on":""}" data-v="${esc(c)}"><span class="L">${A.conds.includes(c)?"✓":""}</span><span>${esc(c)}</span></button>`).join("")}</div>
+    <p class="err" id="err" hidden></p><button type="button" class="btn btn-pink" id="nextBtn">確認送出 →</button></div>`; }
+  else { const i=+id.slice(1); h=single(qlabel(i),QS[i].dim,QS[i],A.q[i]); }
+  $("screen").innerHTML=h; bind(id);
+}
+function single(label,dim,q,sel,act){
+  return `<div class="screen">${head(label,dim,q.t,q.s,act)}<div class="opts">${q.o.map((o,j)=>`<button type="button" class="opt${sel===j?" on":""}" data-j="${j}"><span class="L">${"ABCDE"[j]}</span><span>${esc(o[0])}${act&&o[1]?`<small>${esc(o[1])}</small>`:""}</span></button>`).join("")}</div></div>`;
+}
+const err=m=>{ const e=$("err"); e.textContent=m; e.hidden=!m; return !m; };
+function bind(id){
+  const el=$("screen");
+  el.querySelectorAll(".seg").forEach(s=>s.addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; const k=s.dataset.name,v=b.dataset.v;
+    if(s.dataset.multi){ const a=A[k]; a.includes(v)?a.splice(a.indexOf(v),1):a.push(v); b.classList.toggle("on"); }
+    else { A[k]=v; s.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b)); }
+  }));
+  if(id==="act"||/^q\d/.test(id)) el.querySelectorAll(".opts .opt").forEach(b=>b.addEventListener("click",()=>{
+    const j=+b.dataset.j; if(id==="act") A.act=j; else A.q[+id.slice(1)]=j;
+    el.querySelectorAll(".opt").forEach(x=>x.classList.toggle("on",x===b)); setTimeout(()=>{ cur++; render(); },260);
+  }));
+  if(id==="cond") el.querySelector(".multi").addEventListener("click",e=>{
+    const b=e.target.closest(".opt"); if(!b) return; const v=b.dataset.v,a=A.conds;
+    if(a.includes(v)) a.splice(a.indexOf(v),1); else { if(v==="以上皆無") a.length=0; else if(a.includes("以上皆無")) a.splice(a.indexOf("以上皆無"),1); a.push(v); }
+    el.querySelectorAll(".multi .opt").forEach(x=>{ const on=a.includes(x.dataset.v); x.classList.toggle("on",on); x.querySelector(".L").textContent=on?"✓":""; });
+  });
+  const nb=$("nextBtn"); if(!nb) return;
+  nb.addEventListener("click",()=>{
+    if(id==="basic"){
+      ["age","h","w","bf","waist","target"].forEach(k=>A[k]=$(k).value.trim());
+      if(!A.sex) return err("請選擇性別。");
+      if(!(+A.age>=18&&+A.age<=90)) return err("年齡請填 18–90 歲，這份計算是為成人設計的。");
+      if(!(+A.h>=120&&+A.h<=220)) return err("身高請填 120–220 公分。");
+      if(!(+A.w>=30&&+A.w<=200)) return err("體重請填 30–200 公斤。");
+      if(A.bf && !(+A.bf>=5&&+A.bf<=60)) return err("體脂率請填 5–60%，不確定可以留空。");
+      if(!A.goals.length) return err("請至少選一個目標。");
+    }
+    if(id==="diet"){ A.allergy=$("allergy").value.trim(); if(!A.diet) return err("請選擇飲食型態。"); }
+    if(id==="cond"){ if(!A.conds.length) return err("請至少選一個，沒有的話選「以上皆無」。"); analyze(); return; }
+    cur++; render();
+  });
+}
+function analyze(){
+  $("pct").textContent="100%"; $("bar").style.width="100%"; show("analyzing");
+  const msgs=["比對 6 種代謝卡關型態","計算你的每日熱量","排出你的第一天菜單"]; let i=0;
+  const t=setInterval(()=>{ i++; if(i<msgs.length) $("anaText").textContent=msgs[i]; },700);
+  setTimeout(()=>{ clearInterval(t); D=calc(); $("gateType").textContent=`No.${NO(D.main)}`; show("gate"); },2200);
+}
+
+/* ---------- 計算 ---------- */
+function calc(){
+  const age=+A.age,h=+A.h,w=+A.w,bf=+A.bf||0,waist=+A.waist||0,targetW=+A.target||0,sex=A.sex,act=ACTS[A.act];
+  const cut=A.goals.includes("減脂"), gain=A.goals.includes("增肌");
+  const mode=cut&&gain?"recomp":cut?"cut":gain?"bulk":"keep";
+  const conds=A.conds.filter(c=>c!=="以上皆無"), pregnant=conds.some(c=>/懷孕|哺乳/.test(c));
+  const bmi=w/((h/100)**2);
+  const bmr=bf?370+21.6*w*(1-bf/100):10*w+6.25*h-5*age+(sex==="男"?5:-161);  // 基礎代謝僅供參考
+  const ws=bmi<18.5?"under":bmi<24?"normal":"over", lv=act[2];
+  const tdee=w*KCAL_PER_KG[ws][lv];                       // 國健署：目前體重 × 每公斤所需熱量
+  const floor=sex==="男"?1500:1200;                       // 衛福部建議減重時每天不低於 1,200 大卡；男性保守取 1,500
+  let kcal, kcalNote;
+  if(pregnant){ kcal=tdee; kcalNote="孕期／哺乳期不建議刻意減少熱量"; }
+  else if(mode==="cut"||mode==="recomp"){
+    if(ws==="over"){ kcal=tdee; kcalNote="依國健署的體位與活動量建議計算"; }
+    else if(ws==="normal"){ const cutK=mode==="cut"?500:300; kcal=tdee-cutK; kcalNote=`維持熱量減 ${cutK} 大卡，一週約瘦 ${mode==="cut"?"0.5":"0.3"} 公斤`; }
+    else { kcal=tdee; kcalNote="BMI 偏低，不建議再減少熱量"; }
+  }
+  else if(mode==="bulk"){ kcal=tdee+200; kcalNote="維持熱量多 200 大卡，記得搭配重訓"; }
+  else { kcal=ws==="over"?w*KCAL_PER_KG.normal[lv]:tdee; kcalNote="依國健署體位與活動量標準，維持目前體重"; }
+  if(kcal<floor){ kcal=floor; kcalNote=`依國健署標準計算後低於每日最低建議，已調整為 ${floor.toLocaleString()} 大卡`; }
+  kcal=Math.round(kcal/50)*50;
+  const proteinG=w*{cut:1.5,recomp:1.8,bulk:1.8,keep:1.3}[mode];
+  const raw=Object.fromEntries(MAIN().map(t=>[t.code,0])), max={...raw};
+  QS.forEach((q,i)=>{ const sc=q.o.map(o=>parseScore(o[1])); Object.keys(max).forEach(k=>max[k]+=Math.max(0,...sc.map(s=>s[k]||0)));
+    Object.entries(sc[A.q[i]]||{}).forEach(([k,v])=>{ if(k in raw) raw[k]+=v; }); });
+  const pct=Object.fromEntries(Object.keys(raw).map(k=>[k,max[k]?Math.round(raw[k]/max[k]*100):0]));
+  const order=Object.keys(pct).sort((a,b)=>pct[b]-pct[a]);
+  const main=pct[order[0]]<25?"B":order[0], second=main!=="B"&&order[1]&&pct[order[1]]>=35?order[1]:null;
+  return {age,h,w,bf,waist,targetW,sex,act,mode,conds,pregnant,bmi,bmr,tdee,kcal,kcalNote,ws,proteinG,water:Math.max(2000,Math.round(w*30/50)*50),pct,order,main,second,
+    waistRisk:waist?waist>=(sex==="男"?90:80):null,bfRisk:bf?bf>=(sex==="男"?25:30):null,no:String(Date.now()).slice(-6),date:new Date().toLocaleDateString("zh-TW")};
+}
+
+/* ---------- 低醣菜單：每餐 2–3 份醣（1 份＝15 g 碳水；全穀、水果、乳品都算） ---------- */
+const bowl=n=>({1:"1/4",2:"半",3:"3/4",4:"1",5:"1 又 1/4",6:"1.5"})[n]||String(n/4);
+const palm=n=>{const w=Math.floor(n/3),r=n%3,f=r===1?"1/3":r===2?"2/3":"";return w&&f?`${w} 又 ${f}`:w?`${w}`:f;};
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+function buildMenu(d){
+  const vegan=A.diet==="全素", ovo=A.diet==="蛋奶素";
+  const [cB,cL,cD]=d.kcal<1500?[2,2,2]:d.kcal<2000?[2,3,2]:[3,3,3];
+  const milk=vegan?0:1, gB=cB-milk, gL=cL, gD=cD, fruit=1, grains=gB+gL+gD;
+  const veg=d.kcal<1800?5:6, vB=1, vL=Math.ceil((veg-1)/2), vD=veg-1-vL;
+  let P=clamp(Math.round((d.proteinG-grains*2-milk*8-veg)/7),5,12);
+  const fixed=grains*70+fruit*60+milk*150+veg*25;
+  while(P>5 && fixed+P*75+45>d.kcal+60) P--;
+  const pL=Math.ceil((P-2)/2), pD=P-2-pL, base=fixed+P*75;
+  const F=clamp(Math.round((d.kcal-base)/45),1,9), oil=F-1, oL=Math.ceil(oil/2), oD=oil-oL;
+  const total=base+F*45, carbG=grains*15+fruit*15+milk*12+veg*5, protG=grains*2+milk*8+P*7+veg, fatG=milk*8+P*5+F*5;
+  const it=(g,n,a)=>({g,n,a});
+  return {total,carbG,protG,fatG,carbPortions:grains+fruit+milk,
+   portions:[["grain","全穀雜糧",`${grains} 份`],["fruit","水果",`${fruit} 份`],["dairy",vegan?"高鈣豆漿":"乳品",`${milk} 杯`],["protein","豆魚蛋肉",`${P} 份`],["veg","蔬菜",`${veg} 份`],["fat","油脂堅果",`${F} 份`]],
+   meals:[
+    {n:"早餐",en:"Breakfast",t:"07:30",c:cB,items:[...(gB?[it("grain","全麥吐司（薄片）",`${gB} 片`)]:[]),vegan?it("protein","無糖豆漿","380 ml（2 份）"):it("protein","水煮蛋或荷包蛋","2 顆"),...(milk?[it("dairy","無糖鮮奶","240 ml")]:[]),it("veg","生菜或小番茄",`${vB} 份`)],
+     out:vegan?"超商：無糖豆漿＋小地瓜半條＋一包毛豆":"超商：茶葉蛋 2 顆＋無糖鮮奶＋小地瓜半條，不吃麵包"},
+    {n:"午餐",en:"Lunch",t:"12:00",c:cL,items:[it("grain","糙米飯或五穀飯",`${bowl(gL)} 碗`),vegan||ovo?it("protein","板豆腐（滷或煎）",`約 ${pL*80} g`):it("protein","去皮雞腿或雞胸肉",`約 ${pL*35} g（${palm(pL)} 個掌心）`),it("veg","燙青菜或炒時蔬",`${vL} 份`),...(oL?[it("fat","烹調用油或酪梨",`約 ${oL} 份`)]:[])],
+     out:`自助餐：飯只打 ${bowl(gL)} 碗，1 樣不炸的主菜＋3 樣青菜，菜湯不淋飯`},
+    {n:"下午點心",en:"Snack",t:"15:30",c:fruit,items:[it("fruit","芭樂或奇異果","1 份（約一個拳頭）"),it("fat","原味堅果","1 份（杏仁約 5 顆）")],out:"超商：芭樂盒或半根香蕉＋小包無調味堅果"},
+    {n:"晚餐",en:"Dinner",t:"18:30",c:cD,items:[it("grain","地瓜或南瓜",`約 ${gD*55} g`),vegan?it("protein","毛豆仁或豆干",`約 ${pD*50} g`):ovo?it("protein","蒸蛋或毛豆仁",`蛋 ${pD} 顆或毛豆 ${pD*50} g`):it("protein","鮭魚、鯖魚或鯛魚",`約 ${pD*35} g（${palm(pD)} 個掌心）`),it("veg","深綠色蔬菜＋菇類",`${vD} 份`),...(oD?[it("fat","烹調用油",`約 ${oD} 份`)]:[])],
+     out:"小火鍋：主食只吃半碗飯或一份冬粉，多菜多肉，不加丸餃和泡麵"},
+  ]};
+}
+function notes(d){
+  const n=[],has=r=>d.conds.some(c=>r.test(c));
+  if(d.pregnant) n.push(["懷孕或哺乳中","這段期間熱量和營養需求不同，熱量沒有扣減，菜單僅供參考，請先和醫師或營養師討論。"]);
+  if(has(/血糖|胰島素/)) n.push(["血糖偏高或胰島素阻抗","每餐先吃菜和蛋白質，最後才吃澱粉。正在用降血糖藥的話，調整飲食前請先問醫師，避免低血糖。"]);
+  if(has(/多囊|PCOS/)) n.push(["多囊性卵巢","減少精緻澱粉、多吃高纖食物、蛋白質吃足通常有幫助，但請配合醫師的治療與追蹤。"]);
+  if(has(/甲狀腺/)) n.push(["甲狀腺功能低下","實際代謝可能比估算的低，熱量請以醫師評估為準，並定期追蹤。"]);
+  if(has(/血壓/)) n.push(["血壓偏高","外食湯底不喝完，少吃醃漬和加工食品。"]);
+  if(has(/血脂/)) n.push(["血脂偏高","蛋白質優先選魚、豆腐、去皮雞肉，少吃炸物和動物皮。"]);
+  if(has(/便秘|腸胃/)) n.push(["腸胃","蔬菜一定要吃足、水要喝夠，主食選全穀和地瓜。"]);
+  if(has(/經期/)) n.push(["經期不規則","不要極端節食，熱量不要低於建議值；持續不規則請就醫檢查。"]);
+  if(has(/失眠/)) n.push(["長期失眠","下午 2 點後避開咖啡因，晚餐不要太晚、太油。"]);
+  if(has(/腎|慢性/)) n.push(["腎臟或慢性病","這份菜單蛋白質比較高，腎臟功能不好的人請先和醫師確認份量。"]);
+  if(A.allergy) n.push(["過敏或不吃的食物",`你填了「${esc(A.allergy)}」，菜單裡如果有，請換成同一類的其他食物。`]);
+  if(d.waistRisk) n.push(["腰圍",`腰圍比建議值（${d.sex==="男"?"90":"80"} 公分）多一點，減脂時可以多留意腹部，蛋白質和運動要顧好。`]);
+  return n;
+}
+
+/* ---------- 解鎖送出 ---------- */
+$("gateForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const ge=$("gateErr"),fail=m=>{ ge.textContent=m; ge.hidden=false; }; ge.hidden=true;
+  const name=$("name").value.trim(), ig=$("c-ig").value.trim().replace(/^@+/,""), line=$("c-line").value.trim(), em=$("c-email").value.trim();
+  if(!name) return fail("請告訴我怎麼稱呼你。");
+  if(!ig) return fail("請填寫你的 Instagram 帳號。");
+  if(!/^[A-Za-z0-9._]{1,30}$/.test(ig)) return fail("IG 帳號只能有英文、數字、底線和句點，再檢查一下。");
+  if(em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return fail("Email 格式好像不對。");
+  if(!$("agree").checked) return fail("請勾選同意資料蒐集，才能解鎖報告。");
+  const b=$("unlockBtn"); b.disabled=true; b.textContent="解鎖中…";
+  D.name=name; D.menu=buildMenu(D); extras(D);
+  await send(payload({name,ig:"@"+ig,line,em}));
+  b.disabled=false; b.textContent="解鎖我的代謝報告";
+  renderResult(); show("result");
+});
+function payload(c){
+  const t=TYPE(D.main), p={"稱呼":c.name,"Instagram":c.ig,"LINE":c.line,"Email":c.em,"願意收訊息":$("optin").checked?"是":"否",
+    "主要型態":t.name,"次要型態":D.second?TYPE(D.second).name:"",
+    "性別":A.sex,"年齡":D.age,"身高":D.h,"體重":D.w,"體脂率":D.bf||"","腰圍":D.waist||"","目標體重":D.targetW||"","目標":A.goals.join("、"),"活動量":D.act[0]};
+  QS.forEach((q,i)=>p["題目｜"+q.t]=q.o[A.q[i]][0]);
+  Object.assign(p,{"飲食型態":A.diet,"健康狀況":D.conds.join("、")||"無","過敏或不吃":A.allergy});
+  MAIN().forEach(x=>p["指數｜"+x.name]=D.pct[x.code]);
+  Object.assign(p,{"BMI":+D.bmi.toFixed(1),"基礎代謝":Math.round(D.bmr),"維持熱量":Math.round(D.tdee),"理想體重":D.ideal?D.ideal.join("–")+" kg":"","建議熱量":Math.round(D.kcal),"蛋白質g":Math.round(D.proteinG),
+    "全天醣類份數":D.menu.carbPortions,"營養素分配":`碳水 ${D.macro.c} g／蛋白質 ${D.macro.p} g／脂肪 ${D.macro.f} g`,"減脂節奏":D.pace.join("，"),"報告編號":D.no,"來源連結":location.search.replace(/^\?/,"").slice(0,200),"同意蒐集":"是"});
+  return p;
+}
+async function send(data){
+  if(!SCRIPT_URL) return "preview";
+  try{ const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),8000);
+    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"submit",data}),signal:ctrl.signal});
+    clearTimeout(t); return "ok"; }catch(e){ return "fail"; }
+}
+
+/* ---------- 報告 ---------- */
+const r0=n=>Math.round(n).toLocaleString("zh-TW");
+const bmiTag=b=>b<18.5?["可以再多吃一點，把身體養好","var(--pink)"]:b<24?["在健康範圍內","var(--good)"]:b<27?["比健康範圍多一點點","var(--pink)"]:["還有一些調整空間","var(--pink)"];
+const MODE={cut:["減脂"],recomp:["減脂增肌"],bulk:["增肌"],keep:["維持"]};
+function radar(cats,main){
+  const n=cats.length,R=96,pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return[r*Math.cos(a),r*Math.sin(a)];};
+  const poly=r=>cats.map((_,i)=>pt(i,r).map(v=>v.toFixed(1)).join(",")).join(" ");
+  let s=`<svg viewBox="-200 -150 400 300" role="img" aria-label="代謝指紋六角圖">`;
+  [25,50,75,100].forEach(l=>s+=`<polygon points="${poly(l)}" fill="${l===100?"rgba(255,255,255,.02)":"none"}" stroke="var(--line)" stroke-width="1"/>`);
+  cats.forEach((_,i)=>{const[x,y]=pt(i,R);s+=`<line x1="0" y1="0" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)"/>`;});
+  s+=`<polygon points="${cats.map(([,p],i)=>pt(i,Math.max(p,4)).map(v=>v.toFixed(1)).join(",")).join(" ")}" fill="var(--rose)" fill-opacity=".22" stroke="var(--pink)" stroke-width="1.6" stroke-linejoin="round"/>`;
+  cats.forEach(([k,p],i)=>{const[x,y]=pt(i,Math.max(p,4));s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${k===main?5:3.5}" fill="${k===main?"var(--pink)":"var(--bg)"}" stroke="var(--pink)" stroke-width="1.6"/>`;});
+  cats.forEach(([k,p],i)=>{let[x,y]=pt(i,R+16);const an=x>5?"start":x<-5?"end":"middle";if(Math.abs(x)<5)y+=y<0?-20:6;
+    const nm=TYPE(k).name.replace(/型$/,""), on=k===main;
+    s+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${an}" class="rl${on?" on":""}">${esc(nm)}</text><text x="${x.toFixed(1)}" y="${(y+16).toFixed(1)}" text-anchor="${an}" class="rp${on?" on":""}">${p}%</text>`;});
+  return s+"</svg>";
+}
+function extras(d){
+  const h2=(d.h/100)**2;
+  d.ideal=[Math.round(18.5*h2),Math.round(24*h2)];
+  const p=Math.round(d.proteinG), c=Math.round(d.menu.carbG), f=Math.max(30,Math.round((d.kcal-p*4-c*4)/9));
+  d.macro={c,p,f};
+  if(/cut|recomp/.test(d.mode) && !d.pregnant && d.ws!=="under"){
+    const goal=d.targetW&&d.targetW<d.w?d.targetW:(d.w>d.ideal[1]?d.ideal[1]:null), wk=d.mode==="cut"?0.4:0.3;
+    d.pace=goal?[`每週 −${wk} kg`,`約 ${Math.ceil((d.w-goal)/wk)} 週`,`到 ${goal} kg`]:[`每週 −${wk} kg`,"以體脂和腰圍為目標","不追求體重數字"];
+  } else if(d.mode==="bulk") d.pace=["每週 +0.2 kg","搭配每週 2–3 次重訓","每月量一次體脂"];
+  else d.pace=["維持目前體重","每週量一次體重","每月量一次腰圍"];
+}
+let lastText="";
+function renderResult(sample){
+  const d=D,t=TYPE(d.main),m=d.menu,ns=notes(d),[bT,bC]=bmiTag(d.bmi);
+  extras(d);
+  const sum=Object.values(d.pct).reduce((a,b)=>a+b,0)||1;
+  const mName=d.pregnant?"建議":MODE[d.mode][0], mTxt=d.kcalNote;
+  const M=html=>sample?`<div class="mosaic"><div class="mz" aria-hidden="true">${html}</div><span class="mz-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>完成檢測後解鎖</span></div>`:html;
+  const toT=d.targetW&&d.targetW<d.w&&/cut|recomp/.test(d.mode)?`離目標還有 ${(d.w-d.targetW).toFixed(1)} kg，一週 0.3–0.5 kg 最不容易復胖，大約 ${Math.ceil((d.w-d.targetW)/0.5)}–${Math.ceil((d.w-d.targetW)/0.3)} 週。`:"";
+  const mk=m.protG*4+m.fatG*9+m.carbG*4;
+  lastText=`【代謝卡關檢測】${d.name} 的結果\nNo.${NO(d.main)} ${t.name} ${t.en}${d.second?`（混合 ${TYPE(d.second).name}）`:""}\n${t.tag}\n每日建議熱量：${r0(d.kcal)} 大卡\n蛋白質：${r0(d.proteinG)} g／白開水：${r0(d.water)} ml`;
+  const sec=(n,zh,en)=>`<div class="bh"><h2>${zh}</h2><span class="mono">${n} · ${en}</span></div>`;
+  $("result").innerHTML=`<div class="col">
+    ${sample?`<div class="sample-bar"><div><span class="mono">Sample Report</span><p>這是範例報告，數字只是示範。做完檢測，你會拿到一份依你的身體數據和作答產生的報告。</p></div><button type="button" class="btn btn-pink js-start">開始我的免費檢測 →</button></div>`:""}
+    <div class="type-hero">
+      <div class="row mono"><span>${esc(d.name)} · Metabolic Type</span><span>Report No.${d.no}</span></div>
+      <span class="no">No.${NO(d.main)}</span>
+      <h1>${esc(t.name)}</h1>
+      <span class="en nm">${esc(t.en)}</span>
+      <p class="tg">${esc(t.tag)}</p>
+      ${d.second?`<span class="mix">混合 <b>No.${NO(d.second)} ${esc(TYPE(d.second).name)}</b> 傾向</span>`:""}
+    </div>
+    <article class="block">${sec("01","你的代謝指紋","Fingerprint")}
+      <div class="hex">${radar(MAIN().map(x=>[x.code,d.pct[x.code]]),d.main)}</div>
+      <div class="fp-list">${d.order.map(k=>`<div class="fp${k===d.main?" main":""}"><span class="dot" style="background:${TYPE_COLORS[k]||"#888"}"></span><span>No.${NO(k)} ${esc(TYPE(k).name)}</span><span class="p">${d.pct[k]}%</span></div>`).join("")}</div>
+      <p class="sub">百分比代表你在每一型的傾向強度，越高代表這個卡關點越明顯。</p>
+    </article>
+    <article class="block">${sec("02","為什麼你會卡關","Why you're stuck")}
+      <ol class="why">${t.why.map((w,i)=>{ const li=`<li><i>${i+1}</i><span>${esc(w)}</span></li>`; return i===0||!sample?li:`<li class="mz-li"><i>${i+1}</i><span class="mzt">${esc(w)}</span></li>`; }).join("")}</ol>
+      ${M(`<div><p class="sub" style="margin-bottom:8px">這一型最常踩的地雷</p><div class="mines">${t.mines.map(x=>`<span class="mine">${esc(x)}</span>`).join("")}</div></div>`)}
+    </article>
+    <article class="block">${sec("03",`${esc(t.name)}的調整方向`,"Protocol")}
+      ${M(`<div class="fix"><div><h3>飲食<span class="mono">Nutrition</span></h3><ul>${t.food.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div><h3>生活<span class="mono">Lifestyle</span></h3><ul>${t.life.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>`)}
+      <p class="core">${esc(t.core)}</p>
+    </article>
+    <article class="block">${sec("04","你每天該吃多少","Your numbers")}
+      <div class="stats">
+        <div class="stat hl"><span class="k">${mName}建議熱量 · 目標：${esc(A.goals.join("、"))}</span><span class="v">${r0(d.kcal)}<small>大卡／天</small></span><span class="s">${mTxt}</span>
+          <div class="minor"><span>基礎代謝 <b>${r0(d.bmr)}</b> 大卡（參考）</span></div></div>
+        <div class="stat"><span class="k">BMI</span><span class="v">${d.bmi.toFixed(1)}</span><span class="s" style="color:${bC}">${bT}</span></div>
+        <div class="stat"><span class="k">體脂率</span><span class="v">${d.bf||"—"}${d.bf?"<small>%</small>":""}</span><span class="s"${d.bfRisk?' style="color:var(--pink)"':""}>${d.bf?`建議 ${d.sex==="男"?25:30}% 以內`:"有體脂機可以量量看"}</span></div>
+        <div class="stat"><span class="k">理想體重</span><span class="v">${d.ideal[0]}–${d.ideal[1]}<small>kg</small></span><span class="s">健康 BMI 的範圍</span></div>
+        <div class="stat"><span class="k">腰圍</span><span class="v">${d.waist||"—"}${d.waist?"<small>cm</small>":""}</span><span class="s"${d.waistRisk?' style="color:var(--pink)"':""}>${d.waist?`建議 ${d.sex==="男"?90:80} cm 以內`:"量量看肚臍上方一圈"}</span></div>
+        <div class="stat"><span class="k">蛋白質</span><span class="v">${r0(d.proteinG)}<small>g</small></span><span class="s">每公斤體重 ${({cut:1.5,recomp:1.8,bulk:1.8,keep:1.3})[d.mode]} g</span></div>
+        <div class="stat"><span class="k">白開水</span><span class="v">${r0(d.water)}<small>ml</small></span><span class="s">至少 2,000 ml</span></div>
+        <div class="stat lkbig">
+          <div class="lkin${sample?" blur":""}">
+            <div><span class="k">三大營養素分配</span><div class="adv">碳水 ${d.macro.c} g<br>蛋白質 ${d.macro.p} g<br>脂肪 ${d.macro.f} g</div></div>
+            <div><span class="k">減脂節奏</span><div class="adv">${d.pace.map(esc).join("<br>")}</div></div>
+          </div>
+          ${sample?`<span class="tagbig"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>完成檢測後解鎖</span>`:""}
+        </div>
+      </div>
+    </article>
+    <article class="block">${sec("05","你的第一天菜單","Day one menu")}
+      <p class="sub">依你的建議熱量，照衛福部食物代換表排好份量，今天全天約 ${r0(m.total)} 大卡。</p>
+      <div class="portions">${m.portions.map(([g,n,a])=>`<span><i class="dot" style="background:var(--g-${g})"></i>${n} <b>${a}</b></span>`).join("")}</div>
+      <div class="meals">${m.meals.map((x,mi)=>`<div class="meal${sample&&mi>0?" mz-meal":""}"><div class="meal-h"><h3>${x.n} <span class="en">${x.en}</span></h3></div>
+        <ul class="items">${x.items.map(i=>`<li><i class="dot" style="background:var(--g-${i.g})"></i><span>${i.n}</span><span class="amt">${i.a}</span></li>`).join("")}</ul>
+        <p class="eatout"><b>外食版　</b>${x.out}</p></div>`).join("")}</div>
+      <div class="macro-bar" aria-hidden="true"><span style="width:${m.protG*4/mk*100}%;background:var(--g-protein)"></span><span style="width:${m.fatG*9/mk*100}%;background:var(--g-fat)"></span><span style="width:${m.carbG*4/mk*100}%;background:var(--g-grain)"></span></div>
+      <div class="legend"><span><i class="dot" style="background:var(--g-protein)"></i>蛋白質 ${r0(m.protG)} g</span><span><i class="dot" style="background:var(--g-fat)"></i>脂肪 ${r0(m.fatG)} g</span><span><i class="dot" style="background:var(--g-grain)"></i>碳水化合物 ${r0(m.carbG)} g</span></div>
+      <p class="typetip"><b>給${esc(t.name)}的你　</b>${esc(t.menuTip)}</p>
+      ${ns.length?`<ul class="notes">${ns.map(([a,b])=>`<li><b>${a}：</b>${b}</li>`).join("")}</ul>`:""}
+    </article>
+    <section class="cta">
+      <span class="mono">Let's talk · ${esc(TEXT["IG帳號"])}</span>
+      <h2>${esc(TEXT["結果CTA標題"])}</h2>
+      <p>${esc(TEXT["結果CTA說明"])}</p>
+      <div class="row">
+        <a class="btn btn-pink" href="${esc(TEXT["IG網址"])}" target="_blank" rel="noopener">IG 私訊，聊聊我的狀況</a>
+        ${TEXT["LINE網址"]?`<a class="btn btn-line" href="${esc(TEXT["LINE網址"])}" target="_blank" rel="noopener">加入 LINE</a>`:`<span class="btn btn-line" aria-disabled="true">LINE 即將開放</span>`}
+      </div>
+      ${sample?`<div class="row"><button type="button" class="btn btn-line js-start">開始我的免費檢測 →</button></div>`:`<div class="row"><button type="button" class="btn btn-line" id="copy">複製結果，私訊時貼給我</button><button type="button" class="btn btn-line" id="again">重新檢測</button></div>`}
+    </section>
+    <p class="disclaimer">${esc(TEXT["免責聲明"])} 每日熱量依衛福部國健署「體位 × 活動量」建議計算，基礎代謝僅供參考，份量參考衛福部食物代換表。</p>
+  </div>`;
+  $("result").querySelectorAll(".js-start").forEach(b=>b.addEventListener("click",begin));
+  if(sample) return;
+  $("copy").addEventListener("click",async e=>{ const b=e.currentTarget; try{ await navigator.clipboard.writeText(lastText); b.textContent="已複製，貼到限動或私訊吧"; }catch{ b.textContent="無法複製，請截圖"; } setTimeout(()=>b.textContent="複製結果，私訊時貼給我",2500); });
+  $("again").addEventListener("click",begin);
+}
+</script>
+
+</body>
+</html>
