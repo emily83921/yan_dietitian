@@ -10,7 +10,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=DM+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: 白底粉色、活潑年輕。首頁＝大標＋上鎖報告卡；一題一頁以 Q.01 推進；結果頁是一份編號報告。只用一種淺色配色。 */
 :root{
@@ -399,15 +399,47 @@ body{background:radial-gradient(60% 40% at 100% 0%,rgba(255,179,138,.22),transpa
 .optin b{color:var(--ink);font-weight:500}
 @media (min-width:900px){.report-card{align-self:start;position:sticky;top:110px;margin-top:40px}}
 /* 首頁大標：襯線粗體＋手繪感底線 */
-.hero h1{font-family:"Noto Serif TC","Songti TC",serif;font-weight:900}
+.hero h1{font-family:"Noto Sans TC","Noto Sans CJK TC",sans-serif;font-weight:900;letter-spacing:.02em;line-height:1.18}
 .hero h1 .acc{color:var(--rose);background:linear-gradient(transparent 68%,rgba(255,179,138,.55) 68%,rgba(255,179,138,.55) 92%,transparent 92%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+/* Designed by 卡片 */
+.by2{display:grid;grid-template-columns:132px 1fr;gap:18px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:0 14px 40px rgba(255,92,141,.12);max-width:520px;position:relative;overflow:hidden}
+.by2::after{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,179,138,.35),transparent 70%);pointer-events:none}
+.by2-photo{width:132px;height:164px;object-fit:cover;object-position:50% 30%;border-radius:18px;background:var(--panel2)}
+.by2-t{display:flex;flex-direction:column;gap:4px;min-width:0;position:relative;z-index:1}
+.by2-t .mono{color:var(--pink);font-size:10.5px}
+.by2-t>b{font-size:20px;font-weight:900}
+.brandline{font-family:var(--f-en);font-style:italic;color:var(--rose);font-size:14px;margin-top:-2px}
+.slogan{font-size:11.5px;color:var(--faint);line-height:1.6;margin:2px 0 6px;display:flex;flex-direction:column}
+.slogan em{font-style:normal;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips span{font-size:11px;padding:3px 9px;border-radius:99px;background:var(--pink-tint);color:var(--ink)}
+.by2 .sig{position:absolute;right:0;bottom:-6px;width:58px;opacity:.85}
+@media (max-width:520px){.by2{grid-template-columns:104px 1fr;gap:14px}.by2-photo{width:104px;height:140px}}
+/* 結果頁 */
+.where{display:inline-flex;align-items:center;gap:12px;margin-top:14px;background:#fff;border-radius:16px;padding:10px 16px;box-shadow:0 8px 24px rgba(255,92,141,.12)}
+.where .ic{width:40px;height:40px;border-radius:50%;background:var(--pink-tint);display:grid;place-items:center;font-size:20px}
+.where small{display:block;font-size:11px;color:var(--faint)}
+.where b{color:var(--rose);font-size:15px;margin-right:8px}
+.where em{font-style:normal;font-size:12.5px;color:var(--muted)}
+.swaps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sw{background:var(--panel2);border-radius:16px;padding:12px 14px;font-size:14px}
+.sw s{display:block;color:var(--faint);font-size:13px}
+.sw b{display:block;font-weight:500;margin-top:2px}
+.sw b::before{content:"→ ";color:var(--rose)}
+.from-yan{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px}
+.from-yan>img{width:72px;height:72px;border-radius:50%;object-fit:cover}
+.from-yan .mono{color:var(--pink);font-size:11px}
+.from-yan p{font-size:14.5px;margin:6px 0 0;line-height:1.85}
+.from-yan .sl{font-size:12.5px;color:var(--muted)}
+.from-yan .sig{width:76px;margin-top:6px}
+@media (max-width:520px){.swaps{grid-template-columns:1fr}.from-yan{grid-template-columns:52px 1fr}.from-yan>img{width:52px;height:52px}}
 </style>
 
 </head>
 <body>
 <header class="nav g">
   <div class="wrap">
-    <a class="brand" href="#" id="home"><b data-t="品牌名稱">營養師彥彥</b><span class="en" data-t="品牌英文">Metabolic Block Assessment</span></a>
+    <a class="brand" href="#" id="home"><b data-t="品牌名稱">營養師彥彥</b><span class="en" data-t="品牌英文">Brighter Me 輕盈閃耀</span></a>
     <div class="social">
       <a class="sbtn js-ig" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor"/></svg><span class="lbl">Instagram</span></a>
       <a class="sbtn js-line" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1 0-2-.1-2.9-.4L5 20.5l1.2-3.6C4.2 15.6 3 13.6 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5Z"/></svg><span class="lbl">LINE</span><small class="js-soon">即將開放</small></a>
@@ -422,16 +454,26 @@ body{background:radial-gradient(60% 40% at 100% 0%,rgba(255,179,138,.22),transpa
         <div class="hero-copy">
           <span class="tag mono"><i></i><span data-t="首頁徽章">60 秒 · 6 型代謝卡關檢測</span></span>
           <p class="pre" data-t="首頁前言">少吃、多動，體重還是不動？</p>
-          <h1 data-t="首頁標題">你的身體<br><span class="acc">卡在哪一關</span>？</h1>
+          <h1 data-t="首頁標題">也許，是你的代謝<br><span class="acc">卡關了</span></h1>
           <p class="en big" data-t="首頁英文">Find your block. Then fix it.</p>
           <p class="lead" data-t="首頁說明"></p>
           <div class="cta-block">
-            <button class="btn btn-pink btn-xl js-start" type="button"><span data-t="開始按鈕">開始檢測，找出我的卡關點</span><span class="arr" aria-hidden="true">→</span></button>
-            <p class="facts"><b class="free">100% 完全免費</b><span>約 60 秒</span><span id="qCount">10 題</span><span>報告寄到信箱</span></p>
+            <button class="btn btn-pink btn-xl js-start" type="button"><span data-t="開始按鈕">免費檢測，找出我的卡關點</span><span class="arr" aria-hidden="true">→</span></button>
+            <p class="facts"><b class="free">完全免費</b><span>約 60 秒</span><span hidden id="qCount"></span><span>報告寄到信箱</span></p>
             <p class="done-count" id="doneCount" hidden></p>
           </div>
           <div class="dist" id="dist" hidden></div>
-          <div class="by"><span class="mono">Designed by</span><b data-t="品牌名稱">營養師彥彥</b><div class="creds" id="creds"></div></div>
+          <div class="by2">
+            <img class="by2-photo" src="yan-portrait.jpg" alt="營養師彥彥" loading="lazy">
+            <div class="by2-t">
+              <span class="mono">Designed by</span>
+              <b data-t="品牌名稱">營養師彥彥</b>
+              <span class="brandline" data-t="品牌英文">Brighter Me 輕盈閃耀</span>
+              <span class="slogan"><span data-t="Slogan英文">Lighter every day, brighter every way</span><em data-t="Slogan中文">每天輕盈一點，遇見更閃耀的自己</em></span>
+              <div class="chips" id="creds"></div>
+              <img class="sig" src="sig.png" alt="彥彥 手寫簽名">
+            </div>
+          </div>
           <div class="typelist" id="typeList"></div>
         </div>
         <button type="button" class="report-card js-start" aria-label="開始檢測">
@@ -532,12 +574,14 @@ const pad = n => String(n).padStart(2,"0");
 
 /* ---------- 預設內容（試算表連不上時使用） ---------- */
 const DEFAULT_TEXT = {
-  "品牌名稱":"營養師彥彥","品牌英文":"Metabolic Block Assessment",
+  "品牌名稱":"營養師彥彥","品牌英文":"Brighter Me 輕盈閃耀",
+  "Slogan英文":"Lighter every day, brighter every way","Slogan中文":"每天輕盈一點，遇見更閃耀的自己",
+  "品牌故事":"不論你是正在執行減脂計畫、培養運動習慣，還是純粹想在日常生活中建立起一個精緻、有儀式感的小習慣，每一步微小的累積，都會讓你在不知不覺中散發出迷人的光芒 🌟",
   "首頁徽章":"60 秒 · 6 型代謝卡關檢測","首頁前言":"少吃、多動，體重還是不動？",
-  "首頁標題":"你的身體\n**卡在哪一關**？","首頁英文":"Find your block. Then fix it.",
-  "首頁說明":"同樣少吃多動，有人瘦、有人卡關，差別在於**你了不瞭解自己**。60 秒找出你的代謝卡關類型，拿到專屬於你的分析報告——每日熱量建議、早餐怎麼吃，完整報告直接寄到你的信箱。",
-  "開始按鈕":"開始檢測，找出我的卡關點",
-  "資歷":"臺北醫學大學｜肥胖研究學會 體重管理營養師｜CTSSN 運動營養專業認證｜體適能健身 C 級指導員",
+  "首頁標題":"也許，是你的代謝\n**卡關了**","首頁英文":"Find your block. Then fix it.",
+  "首頁說明":"同樣少吃多動，有人慢慢瘦下來，有人卻一直卡住——這往往不是你不夠努力，只是**還沒找到身體真正卡住的地方**。花 60 秒認識自己的代謝類型，拿到專屬於你的分析報告：每日熱量建議、早餐怎麼吃，完整報告會寄到你的信箱。",
+  "開始按鈕":"免費檢測，找出我的卡關點",
+  "資歷":"臺北醫學大學 Taipei Medical University｜肥胖研究學會 體重管理營養師｜CTSSN 運動營養專業認證｜體適能健身 C 級指導員",
   "IG網址":"https://www.instagram.com/yan_dietitian/","IG帳號":"@yan_dietitian","LINE網址":"",
   "健康狀況選項":"血壓偏高,血糖偏高或胰島素阻抗,多囊性卵巢（PCOS）,甲狀腺功能低下,血脂偏高,便秘或腸胃不適,經期不規則,長期失眠,懷孕或哺乳中,腎臟或其他慢性病",
   "解鎖標題":"你的完整代謝報告已經生成",
@@ -546,8 +590,8 @@ const DEFAULT_TEXT = {
   "結果CTA標題":"這一次，你真的下定決心要瘦了嗎？","結果CTA說明":"知道自己是哪一型，只是第一步。如果你已經準備好，這次想用對方法、好好瘦一次，私訊我「代謝」兩個字，我會依照你的型態和生活習慣，陪你找出最適合你的瘦法。",
   "分布顯示門檻":"30",
   "免責聲明":"本檢測依你的作答整理出「傾向」，僅供生活參考，不是醫療診斷。懷孕、哺乳、正在用藥或有慢性病者，請先諮詢醫師或營養師。",
-  "信件寄件人":"營養師彥彥","信件主旨":"你的代謝報告好了——你是「{型態}」",
-  "信件開頭":"Hello！我是營養師彥彥。\n你剛做完的代謝卡關檢測，我看過你的結果了。先說一件我想讓你放心的事：你會一直卡住，很多時候真的不是你不夠自律。",
+  "信件寄件人":"營養師彥彥｜Brighter Me","信件主旨":"你的代謝報告好了——你是「{型態}」",
+  "信件開頭":"先跟你說一件事：**你會卡住，不是因為你不夠努力。**\n每個人的身體都有自己的節奏，只要找到卡住的那個地方，瘦下來會比你想像的輕鬆。",
   "信件結尾":"知道自己是哪一型，只是第一步。如果你已經下定決心，這次想用對方法好好瘦一次，到 IG 私訊我「代謝」兩個字，我會依照你的型態和生活習慣，陪你找出最適合你的瘦法。","信件按鈕":"我決定了，私訊彥彥",
 };
 const DEFAULT_TYPES = [
@@ -556,42 +600,42 @@ const DEFAULT_TYPES = [
    mines:["靠咖啡硬撐","忙到忘記吃，晚上補償性大吃","睡不夠還做高強度運動","把甜食當紓壓"],
    food:["三餐定時，不讓血糖大起大落","每餐都有蛋白質和深綠色蔬菜","咖啡一天 1–2 杯，下午 2 點後不喝"],
    life:["每天留 10 分鐘放鬆：散步、伸展或深呼吸","運動以中低強度和肌力訓練為主","睡前 1 小時離開工作訊息"],
-   core:"先讓身體鬆下來，脂肪才願意離開。",bkWhy:"早餐有蛋白質和高纖澱粉，血糖穩、飽足感久，身體不用靠壓力荷爾蒙硬撐，下午比較不會累到想亂吃。",menuTip:"咖啡放在早餐後再喝，不要空腹靠咖啡撐到中午。"},
+   core:"先讓身體鬆下來，脂肪才願意離開。",bkWhy:"早餐有蛋白質和高纖澱粉，血糖穩、飽足感久，身體不用靠壓力荷爾蒙硬撐，下午比較不會累到想亂吃。",menuTip:"咖啡放在早餐後再喝，不要空腹靠咖啡撐到中午。",area:"腹部 × 壓力",areaIcon:"⚡",areaLine:"身體一直在備戰，脂肪守在肚子",swaps:"靠咖啡硬撐→早餐先吃，再喝咖啡｜忙到忘記吃、晚上大吃→下午先備一份點心｜睡不夠還硬做高強度→改成散步或伸展｜壓力大就吃甜食→想吃甜就配無糖茶，慢慢吃一小份"},
   {code:"E",name:"情緒飢餓型",en:"Emotional Hunger",tag:"你餓的不是胃，而是心情。",
    why:["疲累或低落時，大腦會想用食物快速得到安慰","邊滑手機邊吃，飽足訊號被忽略，不知不覺吃多","吃完自責，壓力更大，又想再吃"],
    mines:["追劇配零食","心情差就叫外送","用甜點獎勵自己","整包吃完才回神"],
    food:["想吃時先喝一杯水，等 3 分鐘再決定","零食換成無糖優格、毛豆或堅果，先分裝好","每吃一口放下筷子，一餐吃 20 分鐘"],
    life:["列 5 件不靠食物的紓壓方法","吃東西時不看手機","記下想吃東西的時間和心情，找出觸發點"],
-   core:"照顧好情緒，食物就不用負責安慰你。",bkWhy:"蛋白質＋原型澱粉的組合消化慢、飽足感久，上午情緒比較穩，不容易想用零食找安慰。",menuTip:"坐下來吃，放下手機，吃 15 分鐘以上。"},
+   core:"照顧好情緒，食物就不用負責安慰你。",bkWhy:"蛋白質＋原型澱粉的組合消化慢、飽足感久，上午情緒比較穩，不容易想用零食找安慰。",menuTip:"坐下來吃，放下手機，吃 15 分鐘以上。",area:"大腦 × 情緒",areaIcon:"🧠",areaLine:"餓的不是胃，是心情",swaps:"追劇配洋芋片→毛豆、無糖優格，先分裝一小碗｜心情差就叫外送→先喝一杯水，等 3 分鐘再決定｜用甜點獎勵自己→甜點照吃，放在飯後、分一半｜整包吃完才回神→放下手機，一口一口慢慢吃"},
   {code:"N",name:"作息失衡型",en:"Off-Rhythm",tag:"身體的時鐘，跟你的生活對不上。",
    why:["睡不夠時飢餓感上升、飽足感下降，隔天特別想吃","晚睡讓進食時間一路往後延，宵夜變成常態","白天沒精神，只好靠糖和咖啡撐住"],
    mines:["熬夜追劇","深夜泡麵、鹹酥雞","睡前一杯手搖飲","睡過頭跳過早餐"],
    food:["晚餐吃夠蛋白質和蔬菜，半夜比較不會餓","睡前 3 小時不再進食","真的餓了，選無糖豆漿或一顆蛋"],
    life:["固定起床時間，假日差距不超過 1 小時","12 點前上床，先從提早 30 分鐘開始","早上曬 10 分鐘太陽，幫身體校正時鐘"],
-   core:"把時鐘調回來，代謝就會跟上。",bkWhy:"固定時間吃一份有蛋白質的早餐，是幫身體校正時鐘的訊號，也能減少晚上的飢餓感和宵夜。",menuTip:"就算前一晚晚睡，也在差不多的時間吃。"},
+   core:"把時鐘調回來，代謝就會跟上。",bkWhy:"固定時間吃一份有蛋白質的早餐，是幫身體校正時鐘的訊號，也能減少晚上的飢餓感和宵夜。",menuTip:"就算前一晚晚睡，也在差不多的時間吃。",area:"生理時鐘",areaIcon:"🌙",areaLine:"身體的時間，跟生活對不上",swaps:"熬夜追劇→提早 30 分鐘關螢幕｜深夜泡麵、鹹酥雞→晚餐蛋白質吃夠，餓了喝溫豆漿｜睡前一杯手搖飲→換成溫熱的無糖豆漿或鮮奶｜睡過頭跳過早餐→超商茶葉蛋＋地瓜帶著走"},
   {code:"M",name:"代謝低速型",en:"Slow Burner",tag:"不是吃太多，是身體燃燒得太少。",
    why:["久坐少動，每天實際消耗的熱量比想像中少","肌肉量不足，基礎代謝跟著往下掉","循環變慢，容易怕冷、下半身水腫"],
    mines:["吃完就坐著或躺著","通勤全程都坐","只節食不運動","週末宅一整天"],
    food:["每餐一掌心蛋白質，幫助保住肌肉","運動後 1 小時內補一份蛋白質","不要用少吃取代運動"],
    life:["每坐 1 小時，起來動 3 分鐘","每天多走 2,000 步","每週 2–3 次肌力訓練：深蹲、臀橋都可以"],
-   core:"肌肉，是你最好的燃脂引擎。",bkWhy:"早餐的蛋白質幫你保住肌肉，肌肉越多，你平常沒在動的時候燃燒的熱量也越多。",menuTip:"吃完可以提早一站下車，走 10 分鐘再進辦公室。"},
+   core:"肌肉，是你最好的燃脂引擎。",bkWhy:"早餐的蛋白質幫你保住肌肉，肌肉越多，你平常沒在動的時候燃燒的熱量也越多。",menuTip:"吃完可以提早一站下車，走 10 分鐘再進辦公室。",area:"肌肉 × 循環",areaIcon:"🔋",areaLine:"不是吃太多，是燃燒得太少",swaps:"吃完就坐著或躺著→飯後走 10 分鐘｜通勤全程都坐著→提早一站下車走路｜只節食不運動→吃夠，每週加兩次肌力訓練｜週末宅一整天→約朋友散步或逛街"},
   {code:"G",name:"血糖起伏型",en:"Sugar Swing",tag:"能量忽高忽低，跟著血糖坐雲霄飛車。",
    why:["精緻澱粉和含糖飲料讓血糖快速上升，又快速掉下來","血糖一掉，就頭暈、想睡、特別想吃甜","胰島素長期偏高時，脂肪比較容易囤積"],
    mines:["全糖手搖飲","麵包當早餐","飯後一定要甜點","下午三點的餅乾"],
    food:["吃飯順序：先菜、再肉、最後飯","精緻澱粉換成全穀、地瓜、南瓜","飲料每週降一級甜度，最後到無糖"],
    life:["飯後散步 10 分鐘","下午固定安排一份點心，避免餓過頭","睡飽 7 小時，隔天比較不會想吃甜"],
-   core:"穩住血糖，嘴饞就會安靜下來。",bkWhy:"原型澱粉消化慢，搭配蛋白質和蔬菜一起吃，血糖上升比較平緩，不會一早就坐雲霄飛車，下午也比較不會想吃甜。",menuTip:"吃的順序：蔬菜和蛋白質先吃，澱粉留到最後。"},
+   core:"穩住血糖，嘴饞就會安靜下來。",bkWhy:"原型澱粉消化慢，搭配蛋白質和蔬菜一起吃，血糖上升比較平緩，不會一早就坐雲霄飛車，下午也比較不會想吃甜。",menuTip:"吃的順序：蔬菜和蛋白質先吃，澱粉留到最後。",area:"血糖",areaIcon:"🎢",areaLine:"能量忽高忽低，跟著血糖坐雲霄飛車",swaps:"全糖手搖飲→每週降一級甜度｜麵包當早餐→地瓜或燕麥＋蛋｜飯後一定要甜點→甜點照吃，先吃完正餐、分一半｜下午三點的餅乾→一小把堅果或無糖優格"},
   {code:"D",name:"節食耗損型",en:"Under-Fueled",tag:"吃得很少，身體卻開始省電。",
    why:["長期吃太少，身體會降低消耗來保護自己","蛋白質不夠，肌肉流失、代謝跟著下降","一放鬆就復胖，越減越難瘦"],
    mines:["一杯咖啡當早餐","只吃沙拉","極端斷食","天天量體重"],
    food:["每餐都吃到一掌心蛋白質","熱量不要低於基礎代謝","三餐定時，不跳餐"],
    life:["一週量一次體重就好","搭配肌力訓練，把肌肉練回來","把目標放在體脂和腰圍，不只看體重"],
-   core:"先吃夠，身體才願意燃燒。",bkWhy:"份量足、醣類和蛋白質都有，讓身體知道食物是夠的，它才願意把代謝開回來。",menuTip:"請照份量吃完，不要自己再減。"},
+   core:"先吃夠，身體才願意燃燒。",bkWhy:"份量足、醣類和蛋白質都有，讓身體知道食物是夠的，它才願意把代謝開回來。",menuTip:"請照份量吃完，不要自己再減。",area:"整體代謝",areaIcon:"🪫",areaLine:"吃得太少，身體開始省電",swaps:"一杯咖啡當早餐→咖啡配蛋和地瓜｜只吃沙拉→沙拉加一掌心蛋白質和一份澱粉｜極端斷食→三餐定時，份量吃夠｜天天量體重→一週量一次，多看腰圍"},
   {code:"B",name:"穩定平衡型",en:"In Balance",tag:"你的代謝節奏很穩，接下來只差細節。",
    why:["飲食、作息、壓力都沒有明顯的卡關點","接下來的重點是份量控制和持續","照著建議熱量吃，維持或調整體態都會很順"],
    mines:["偶爾的聚餐大餐","忙起來就忘了喝水"],
    food:["照建議熱量吃","每週嘗試一種新的蔬菜或蛋白質"],life:["維持現在的運動習慣","每週量一次體重和腰圍"],
-   core:"穩定，就是最強的優勢。",bkWhy:"份量剛好、營養均衡，延續你目前穩定的節奏就好。",menuTip:"好好享受食物，偶爾換換不同的蛋白質來源。"},
+   core:"穩定，就是最強的優勢。",bkWhy:"份量剛好、營養均衡，延續你目前穩定的節奏就好。",menuTip:"好好享受食物，偶爾換換不同的蛋白質來源。",area:"目前很穩定",areaIcon:"✨",areaLine:"節奏很好，只差一點細節",swaps:"聚餐大吃→先吃菜和肉，飯減半｜忙起來忘了喝水→水瓶放在看得到的地方"},
 ];
 const DIM = {B:"Body Signals · 身體訊號",F:"Eating Patterns · 飲食行為",M:"Energy & Metabolism · 能量與代謝",S:"Sleep & Stress · 作息與壓力"};
 const DEFAULT_QS = [
@@ -926,6 +970,7 @@ function radar(cats,main){
   return s+"</svg>";
 }
 let lastText="";
+const swaps=t=>bars(t.swaps).map(x=>x.split(/→|->/).map(y=>y.trim())).filter(x=>x.length===2&&x[0]&&x[1]);
 function renderResult(sample,mailed){
   const d=D,t=TYPE(d.main),bk=d.bk,ns=notes(d);
   const lock='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
@@ -950,12 +995,13 @@ function renderResult(sample,mailed){
     ${sample?`<div class="sample-bar"><div><span class="mono">Sample Report</span><p>這是範例報告，數字只是示範。做完檢測，你會拿到一份依你的作答產生的報告，並寄到你的信箱。</p></div><button type="button" class="btn btn-pink js-start">開始我的免費檢測 →</button></div>`:""}
     ${mailed?`<div class="mailed"><span class="mono">Step 02 · 解決問題</span><p>報告已經寄到 <b>${esc(d.email)}</b>，附 PDF。幾分鐘內沒收到的話，看一下垃圾郵件或「促銷內容」分類。</p></div>`:""}
     <div class="type-hero">
-      <div class="row mono"><span>Your Metabolic Type</span><span>Report No.${d.no}</span></div>
+      <div class="row mono"><span>Your Metabolic Type</span></div>
       <span class="no">No.${NO(d.main)}</span>
       <h1>${esc(t.name)}</h1>
       <span class="en nm">${esc(t.en)}</span>
       <p class="tg">${esc(t.tag)}</p>
       ${d.second?`<span class="mix">混合 <b>No.${NO(d.second)} ${esc(TYPE(d.second).name)}</b> 傾向</span>`:""}
+      ${t.area?`<div class="where"><span class="ic">${esc(t.areaIcon||"")}</span><span><small>卡關的位置</small><b>${esc(t.area)}</b><em>${esc(t.areaLine||"")}</em></span></div>`:""}
     </div>
     <article class="block">${sec("01","你的代謝指紋","Fingerprint")}
       <div class="hex">${radar(MAIN().map(x=>[x.code,d.pct[x.code]]),d.main)}</div>
@@ -964,7 +1010,7 @@ function renderResult(sample,mailed){
     </article>
     <article class="block">${sec("02","為什麼你會卡關","Why you're stuck")}
       <ol class="why">${t.why.map((w,i)=>i===0||!sample?`<li><i>${i+1}</i><span>${esc(w)}</span></li>`:`<li><i>${i+1}</i><span class="mzt">${esc(w)}</span></li>`).join("")}</ol>
-      ${M(`<div><p class="sub" style="margin-bottom:8px">這一型最常踩的地雷</p><div class="mines">${t.mines.map(x=>`<span class="mine">${esc(x)}</span>`).join("")}</div></div>`)}
+      ${M(`<div><p class="sub" style="margin-bottom:8px">不用忌口，換個吃法就好</p><div class="swaps">${swaps(t).map(([o,n])=>`<div class="sw"><s>${esc(o)}</s><b>${esc(n)}</b></div>`).join("")}</div></div>`)}
     </article>
     <article class="block">${sec("03",`${esc(t.name)}的調整方向`,"Protocol")}
       ${M(`<div class="fix"><div><h3>飲食<span class="mono">Nutrition</span></h3><ul>${t.food.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div><h3>生活<span class="mono">Lifestyle</span></h3><ul>${t.life.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>`)}
@@ -987,6 +1033,7 @@ function renderResult(sample,mailed){
       </div>
       ${sample?`<div class="row"><button type="button" class="btn btn-line js-start">開始我的免費檢測 →</button></div>`:`<div class="row"><button type="button" class="btn btn-line" id="copy">複製結果，私訊時貼給我</button></div>`}
     </section>
+    <section class="from-yan"><img src="yan-face.jpg" alt=""><div><span class="mono">From 彥彥</span><p>${esc(TEXT["品牌故事"])}</p><p class="sl">${esc(TEXT["Slogan英文"])}<br>${esc(TEXT["Slogan中文"])}</p><img class="sig" src="sig.png" alt="彥彥 手寫簽名"></div></section>
     <p class="disclaimer">${esc(TEXT["免責聲明"])} 每日熱量依衛福部國健署「體位 × 活動量」建議計算，基礎代謝僅供參考，份量參考衛福部食物代換表。</p>
   </div>`;
   $("result").querySelectorAll(".js-start").forEach(b=>b.addEventListener("click",begin));

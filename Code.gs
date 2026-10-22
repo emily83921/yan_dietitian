@@ -16,7 +16,7 @@ const ADMIN_KEY = '請改成你的後台密碼';   // ← 改這裡，至少 8 �
 
 const SHEET_DATA = '填答資料', SHEET_Q = '題目', SHEET_TYPE = '型態', SHEET_TEXT = '網站文案';
 const Q_HEADERS = ['啟用', '維度', '題目', '情境小語', '選項A', 'A加分', '選項B', 'B加分', '選項C', 'C加分', '選項D', 'D加分'];
-const T_HEADERS = ['代號', '名稱', '英文名稱', '一句話', '卡關原因', '常踩地雷', '飲食調整', '生活調整', '核心句', '菜單提醒', '早餐原因'];
+const T_HEADERS = ['代號', '名稱', '英文名稱', '一句話', '卡關原因', '常踩地雷', '飲食調整', '生活調整', '核心句', '菜單提醒', '早餐原因', '卡關位置', '卡關圖示', '卡關一句', '換個吃法'];
 const BASE_HEADERS = ['編號', '填寫時間', '狀態', '報告寄送', '備註'];
 const SHEET_ID = '1LWcy7e5Oe6kcSZPDLhZhbvUQyp8_ghPetr155U3HY4g';   // 你的 Google 試算表 ID（網址 /d/ 後面那串）
 function SS() { return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet(); }
@@ -24,14 +24,17 @@ const SITE_URL = 'https://emily83921.github.io/yan_dietitian/';   // 信件裡�
 
 const DEFAULT_TEXT = {
   "品牌名稱": "營養師彥彥",
-  "品牌英文": "Metabolic Block Assessment",
+  "品牌英文": "Brighter Me 輕盈閃耀",
+  "Slogan英文": "Lighter every day, brighter every way",
+  "Slogan中文": "每天輕盈一點，遇見更閃耀的自己",
+  "品牌故事": "不論你是正在執行減脂計畫、培養運動習慣，還是純粹想在日常生活中建立起一個精緻、有儀式感的小習慣，每一步微小的累積，都會讓你在不知不覺中散發出迷人的光芒 🌟",
   "首頁徽章": "60 秒 · 6 型代謝卡關檢測",
   "首頁前言": "少吃、多動，體重還是不動？",
-  "首頁標題": "你的身體\n**卡在哪一關**？",
+  "首頁標題": "也許，是你的代謝\n**卡關了**",
   "首頁英文": "Find your block. Then fix it.",
-  "首頁說明": "同樣少吃多動，有人瘦、有人卡關，差別在於**你了不瞭解自己**。60 秒找出你的代謝卡關類型，拿到專屬於你的分析報告——每日熱量建議、早餐怎麼吃，完整報告直接寄到你的信箱。",
-  "開始按鈕": "開始檢測，找出我的卡關點",
-  "資歷": "臺北醫學大學｜肥胖研究學會 體重管理營養師｜CTSSN 運動營養專業認證｜體適能健身 C 級指導員",
+  "首頁說明": "同樣少吃多動，有人慢慢瘦下來，有人卻一直卡住——這往往不是你不夠努力，只是**還沒找到身體真正卡住的地方**。花 60 秒認識自己的代謝類型，拿到專屬於你的分析報告：每日熱量建議、早餐怎麼吃，完整報告會寄到你的信箱。",
+  "開始按鈕": "免費檢測，找出我的卡關點",
+  "資歷": "臺北醫學大學 Taipei Medical University｜肥胖研究學會 體重管理營養師｜CTSSN 運動營養專業認證｜體適能健身 C 級指導員",
   "IG網址": "https://www.instagram.com/yan_dietitian/",
   "IG帳號": "@yan_dietitian",
   "LINE網址": "",
@@ -43,9 +46,9 @@ const DEFAULT_TEXT = {
   "結果CTA說明": "知道自己是哪一型，只是第一步。如果你已經準備好，這次想用對方法、好好瘦一次，私訊我「代謝」兩個字，我會依照你的型態和生活習慣，陪你找出最適合你的瘦法。",
   "分布顯示門檻": "30",
   "免責聲明": "本檢測依你的作答整理出「傾向」，僅供生活參考，不是醫療診斷。懷孕、哺乳、正在用藥或有慢性病者，請先諮詢醫師或營養師。",
-  "信件寄件人": "營養師彥彥",
+  "信件寄件人": "營養師彥彥｜Brighter Me",
   "信件主旨": "你的代謝報告好了——你是「{型態}」",
-  "信件開頭": "Hello！我是營養師彥彥。\n你剛做完的代謝卡關檢測，我看過你的結果了。先說一件我想讓你放心的事：你會一直卡住，很多時候真的不是你不夠自律。",
+  "信件開頭": "先跟你說一件事：**你會卡住，不是因為你不夠努力。**\n每個人的身體都有自己的節奏，只要找到卡住的那個地方，瘦下來會比你想像的輕鬆。",
   "信件結尾": "知道自己是哪一型，只是第一步。如果你已經下定決心，這次想用對方法好好瘦一次，到 IG 私訊我「代謝」兩個字，我會依照你的型態和生活習慣，陪你找出最適合你的瘦法。",
   "信件按鈕": "我決定了，私訊彥彥"
 };
@@ -78,7 +81,11 @@ const DEFAULT_TYPES = [
   ],
   "core": "先讓身體鬆下來，脂肪才願意離開。",
   "bkWhy": "早餐有蛋白質和高纖澱粉，血糖穩、飽足感久，身體不用靠壓力荷爾蒙硬撐，下午比較不會累到想亂吃。",
-  "menuTip": "咖啡放在早餐後再喝，不要空腹靠咖啡撐到中午。"
+  "menuTip": "咖啡放在早餐後再喝，不要空腹靠咖啡撐到中午。",
+  "area": "腹部 × 壓力",
+  "areaIcon": "⚡",
+  "areaLine": "身體一直在備戰，脂肪守在肚子",
+  "swaps": "靠咖啡硬撐→早餐先吃，再喝咖啡｜忙到忘記吃、晚上大吃→下午先備一份點心｜睡不夠還硬做高強度→改成散步或伸展｜壓力大就吃甜食→想吃甜就配無糖茶，慢慢吃一小份"
  },
  {
   "code": "E",
@@ -108,7 +115,11 @@ const DEFAULT_TYPES = [
   ],
   "core": "照顧好情緒，食物就不用負責安慰你。",
   "bkWhy": "蛋白質＋原型澱粉的組合消化慢、飽足感久，上午情緒比較穩，不容易想用零食找安慰。",
-  "menuTip": "坐下來吃，放下手機，吃 15 分鐘以上。"
+  "menuTip": "坐下來吃，放下手機，吃 15 分鐘以上。",
+  "area": "大腦 × 情緒",
+  "areaIcon": "🧠",
+  "areaLine": "餓的不是胃，是心情",
+  "swaps": "追劇配洋芋片→毛豆、無糖優格，先分裝一小碗｜心情差就叫外送→先喝一杯水，等 3 分鐘再決定｜用甜點獎勵自己→甜點照吃，放在飯後、分一半｜整包吃完才回神→放下手機，一口一口慢慢吃"
  },
  {
   "code": "N",
@@ -138,7 +149,11 @@ const DEFAULT_TYPES = [
   ],
   "core": "把時鐘調回來，代謝就會跟上。",
   "bkWhy": "固定時間吃一份有蛋白質的早餐，是幫身體校正時鐘的訊號，也能減少晚上的飢餓感和宵夜。",
-  "menuTip": "就算前一晚晚睡，也在差不多的時間吃。"
+  "menuTip": "就算前一晚晚睡，也在差不多的時間吃。",
+  "area": "生理時鐘",
+  "areaIcon": "🌙",
+  "areaLine": "身體的時間，跟生活對不上",
+  "swaps": "熬夜追劇→提早 30 分鐘關螢幕｜深夜泡麵、鹹酥雞→晚餐蛋白質吃夠，餓了喝溫豆漿｜睡前一杯手搖飲→換成溫熱的無糖豆漿或鮮奶｜睡過頭跳過早餐→超商茶葉蛋＋地瓜帶著走"
  },
  {
   "code": "M",
@@ -168,7 +183,11 @@ const DEFAULT_TYPES = [
   ],
   "core": "肌肉，是你最好的燃脂引擎。",
   "bkWhy": "早餐的蛋白質幫你保住肌肉，肌肉越多，你平常沒在動的時候燃燒的熱量也越多。",
-  "menuTip": "吃完可以提早一站下車，走 10 分鐘再進辦公室。"
+  "menuTip": "吃完可以提早一站下車，走 10 分鐘再進辦公室。",
+  "area": "肌肉 × 循環",
+  "areaIcon": "🔋",
+  "areaLine": "不是吃太多，是燃燒得太少",
+  "swaps": "吃完就坐著或躺著→飯後走 10 分鐘｜通勤全程都坐著→提早一站下車走路｜只節食不運動→吃夠，每週加兩次肌力訓練｜週末宅一整天→約朋友散步或逛街"
  },
  {
   "code": "G",
@@ -198,7 +217,11 @@ const DEFAULT_TYPES = [
   ],
   "core": "穩住血糖，嘴饞就會安靜下來。",
   "bkWhy": "原型澱粉消化慢，搭配蛋白質和蔬菜一起吃，血糖上升比較平緩，不會一早就坐雲霄飛車，下午也比較不會想吃甜。",
-  "menuTip": "吃的順序：蔬菜和蛋白質先吃，澱粉留到最後。"
+  "menuTip": "吃的順序：蔬菜和蛋白質先吃，澱粉留到最後。",
+  "area": "血糖",
+  "areaIcon": "🎢",
+  "areaLine": "能量忽高忽低，跟著血糖坐雲霄飛車",
+  "swaps": "全糖手搖飲→每週降一級甜度｜麵包當早餐→地瓜或燕麥＋蛋｜飯後一定要甜點→甜點照吃，先吃完正餐、分一半｜下午三點的餅乾→一小把堅果或無糖優格"
  },
  {
   "code": "D",
@@ -228,7 +251,11 @@ const DEFAULT_TYPES = [
   ],
   "core": "先吃夠，身體才願意燃燒。",
   "bkWhy": "份量足、醣類和蛋白質都有，讓身體知道食物是夠的，它才願意把代謝開回來。",
-  "menuTip": "請照份量吃完，不要自己再減。"
+  "menuTip": "請照份量吃完，不要自己再減。",
+  "area": "整體代謝",
+  "areaIcon": "🪫",
+  "areaLine": "吃得太少，身體開始省電",
+  "swaps": "一杯咖啡當早餐→咖啡配蛋和地瓜｜只吃沙拉→沙拉加一掌心蛋白質和一份澱粉｜極端斷食→三餐定時，份量吃夠｜天天量體重→一週量一次，多看腰圍"
  },
  {
   "code": "B",
@@ -254,7 +281,11 @@ const DEFAULT_TYPES = [
   ],
   "core": "穩定，就是最強的優勢。",
   "bkWhy": "份量剛好、營養均衡，延續你目前穩定的節奏就好。",
-  "menuTip": "好好享受食物，偶爾換換不同的蛋白質來源。"
+  "menuTip": "好好享受食物，偶爾換換不同的蛋白質來源。",
+  "area": "目前很穩定",
+  "areaIcon": "✨",
+  "areaLine": "節奏很好，只差一點細節",
+  "swaps": "聚餐大吃→先吃菜和肉，飯減半｜忙起來忘了喝水→水瓶放在看得到的地方"
  }
 ];
 const DEFAULT_QS = [{"dim": "Body Signals · 身體訊號", "t": "脂肪最容易堆在哪裡？", "s": "身體囤脂的位置，會透露一些線索。", "o": [["沒有特別明顯的地方", ""], ["肚子和腰圍，四肢相對細", "P2 G2"], ["全身軟軟的，沒什麼肌肉線條", "M3 D1"], ["早晚體重差很多，容易水腫", "N2 M1"]]}, {"dim": "Body Signals · 身體訊號", "t": "下午三、四點的你，通常是？", "s": "下午的精神狀態，和血糖、睡眠都有關係。", "o": [["精神還不錯", ""], ["很睏，特別想吃甜的", "G3"], ["靠咖啡或提神飲料撐著", "N2 P1"], ["頭暈手抖，一定要馬上吃東西", "G2 D1"]]}, {"dim": "Eating Patterns · 飲食行為", "t": "肚子餓的時候，你的反應是？", "s": "飢餓的樣子，每個人都不一樣。", "o": [["慢慢有感覺，可以等到正餐", ""], ["心慌手抖、脾氣變差，必須馬上吃", "G3"], ["常常不太餓，會忘記吃", "D3"], ["肚子不餓，但嘴巴就是想吃", "E3"]]}, {"dim": "Eating Patterns · 飲食行為", "t": "壓力很大的那幾天，你的飲食會？", "s": "壓力，會悄悄改變你想吃的東西。", "o": [["跟平常差不多", ""], ["吃不下，胃緊緊的", "P3"], ["特別想吃炸物、甜點", "E2 P1"], ["邊忙邊吃，回神整包都吃完了", "E2 G1"]]}, {"dim": "Eating Patterns · 飲食行為", "t": "你對甜食和澱粉的渴望？", "s": "嘴饞，常常不只是因為肚子餓。", "o": [["偶爾想吃，吃一點就滿足", ""], ["正餐吃飽了，還是要來點甜的", "G3"], ["心情不好時特別想吃", "E3"], ["越晚越想吃重口味或泡麵", "N2 E1"]]}, {"dim": "Eating Patterns · 飲食行為", "t": "每一餐都有一掌心的豆魚蛋肉嗎？", "s": "蛋白質不夠，肌肉會悄悄流失。", "o": [["每餐都有", ""], ["大部分有", "D1"], ["偶爾才有", "D2 M1"], ["很少，常常只吃澱粉", "D2 G1"]]}, {"dim": "Energy & Metabolism · 能量與代謝", "t": "誠實說，你過去的減重經驗？", "s": "過去用過的方法，會在身體留下痕跡。", "o": [["沒有刻意減過，或減得很順", ""], ["吃得很少，體重卻不動", "D2 M2"], ["壓力一大就變胖", "P3"], ["減了又復胖，來回好幾次", "D2 E1"]]}, {"dim": "Energy & Metabolism · 能量與代謝", "t": "你平常的活動狀態？", "s": "身體的燃燒，大多發生在你沒注意的時候。", "o": [["每週運動 3 次以上", ""], ["偶爾運動，但一天坐很久", "M2"], ["幾乎不運動，通勤也都坐著", "M3"], ["只靠少吃來控制，不太運動", "D1 M2"]]}, {"dim": "Sleep & Stress · 作息與壓力", "t": "最近的睡眠狀況？", "s": "睡得好不好，隔天的食慾都知道。", "o": [["11 點前睡，一覺到天亮", ""], ["身體很累，但腦袋停不下來", "P3"], ["常常超過 12 點睡，睡不夠", "N3"], ["半夜容易醒，起床還是很累", "N2 P1"]]}, {"dim": "Sleep & Stress · 作息與壓力", "t": "你目前最大的壓力來源？", "s": "壓力從哪裡來，決定了它怎麼影響你。", "o": [["還好，沒有特別的壓力", ""], ["工作或課業", "P3"], ["感情、家人或人際關係", "E3"], ["對自己的身材不滿意，一直在減肥", "D2 E1"]]}];
@@ -280,10 +311,10 @@ function setup() {
 
   if (!ss.getSheetByName(SHEET_TYPE)) {
     const t = ss.insertSheet(SHEET_TYPE);
-    const rows = [T_HEADERS].concat(DEFAULT_TYPES.map(x => [x.code, x.name, x.en, x.tag, x.why.join('｜'), x.mines.join('｜'), x.food.join('｜'), x.life.join('｜'), x.core, x.menuTip, x.bkWhy]));
+    const rows = [T_HEADERS].concat(DEFAULT_TYPES.map(x => [x.code, x.name, x.en, x.tag, x.why.join('｜'), x.mines.join('｜'), x.food.join('｜'), x.life.join('｜'), x.core, x.menuTip, x.bkWhy, x.area, x.areaIcon, x.areaLine, x.swaps]));
     t.getRange(1, 1, rows.length, T_HEADERS.length).setValues(rows);
     styleHeader(t, T_HEADERS.length); t.setFrozenColumns(2);
-    for (let c = 4; c <= 11; c++) t.setColumnWidth(c, 280);
+    for (let c = 4; c <= 15; c++) t.setColumnWidth(c, 280);
     t.getRange(2, 1, rows.length, T_HEADERS.length).setWrap(true).setVerticalAlignment('top');
     t.getRange(1, 1).setNote('代號不要改：P 高壓、E 情緒、N 作息、M 代謝、G 血糖、D 節食、B 平衡（分數都不明顯時）。網站上 No.01–06 依這裡的排列順序編號。多個項目用「｜」隔開。');
   }
@@ -324,6 +355,7 @@ function hintFor(k) {
     '信件主旨': '{型態} 會自動換成填答者的型態名稱',
     '信件開頭': '換行按 Alt+Enter（Mac：⌘+Enter）',
     '信件寄件人': '收件人看到的寄件者名稱',
+    '品牌故事': '會出現在報告最下方和信件簽名旁',
     '分布顯示門檻': '填答人數到這個數字，首頁才會顯示「型態分布」和完成人數',
   })[k] || '';
 }
@@ -344,7 +376,7 @@ function getConfig() {
 
   const types = read(SHEET_TYPE, T_HEADERS.length).filter(r => r[0] && r[1]).map(r => ({
     code: r[0].trim().toUpperCase(), name: r[1], en: r[2], tag: r[3],
-    why: r[4], mines: r[5], food: r[6], life: r[7], core: r[8], menuTip: r[9], bkWhy: r[10] || ''
+    why: r[4], mines: r[5], food: r[6], life: r[7], core: r[8], menuTip: r[9], bkWhy: r[10] || '', area: r[11] || '', areaIcon: r[12] || '', areaLine: r[13] || '', swaps: r[14] || ''
   }));
 
   const questions = [];
@@ -515,74 +547,123 @@ function makeBreakfast(code,kcal,diet,meal){
 
 function buildMail(d, text, forPdf) {
   const e = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-  const br = v => e(String(v).replace(/\\n/g, '\n')).replace(/\*\*(.+?)\*\*/g, '<b style="color:#FF5C8D">$1</b>').replace(/\n/g, '<br>');
+  const br = v => e(String(v).replace(/\\n/g, '\n')).replace(/\*\*(.+?)\*\*/g, '<b style="color:#FF3D7A">$1</b>').replace(/\n/g, '<br>');
   const L = v => String(v || '').split(/[｜|\n]/).map(x => x.trim()).filter(Boolean);
-  const C = { bg: '#FFF7F9', panel: '#FFFFFF', panel2: '#FFF0F4', ink: '#2E1A24', muted: '#7D6470', faint: '#B49AA6', line: '#F5DCE5', pink: '#FF5C8D', rose: '#FF3D7A' };
-  const font = "'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif";
-  const mono = "'DM Mono',Menlo,monospace";
-  const h2 = (n, zh, en) => '<tr><td style="padding:28px 28px 10px"><div style="font-family:' + mono + ';font-size:11px;letter-spacing:2px;color:' + C.pink + '">' + n + ' · ' + en.toUpperCase() + '</div><div style="font-size:20px;font-weight:700;color:' + C.ink + ';margin-top:4px">' + zh + '</div></td></tr>';
-  const p = (html, st) => '<tr><td style="padding:0 28px 12px;font-size:15px;line-height:1.8;color:' + C.muted + ';' + (st || '') + '">' + html + '</td></tr>';
+  const C = { ink: '#2E1A24', muted: '#7D6470', faint: '#B49AA6', line: '#F5DCE5', pink: '#FF5C8D', rose: '#FF3D7A', tint: '#FFE6EE', p2: '#FFF0F4', peach: '#FFF3EA' };
+  const font = "'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif", mono = "Menlo,Consolas,monospace";
+  const IMG = SITE_URL.replace(/\/?$/, '/');
+  const W = 680, PAD = 32, INNER = W - PAD * 2;
   const t = d.t, sorted = d.main.slice().sort((a, b) => d.pct[b.code] - d.pct[a.code]);
-  const bar = (x) => { const on = x.code === t.code, v = d.pct[x.code];
-    return '<tr><td style="padding:3px 0;font-size:13.5px;color:' + (on ? C.ink : C.muted) + ';width:44%">No.' + ('0' + (d.main.indexOf(x) + 1)).slice(-2) + ' ' + e(x.name) + '</td>' +
-      '<td style="padding:3px 8px"><div style="background:' + C.line + ';height:6px;border-radius:3px"><div style="width:' + v + '%;background:' + (on ? C.pink : C.faint) + ';height:6px;border-radius:3px"></div></div></td>' +
-      '<td style="padding:3px 0;width:44px;text-align:right;font-family:' + mono + ';font-size:13px;color:' + (on ? C.pink : C.muted) + '">' + v + '%</td></tr>'; };
-  const cell = (k, v, s) => '<td width="50%" style="padding:6px"><div style="background:' + C.panel2 + ';border-radius:14px;padding:14px 16px"><div style="font-size:12px;color:' + C.faint + '">' + k + '</div><div style="font-family:' + mono + ';font-size:22px;color:' + C.ink + ';margin:2px 0">' + v + '</div><div style="font-size:12px;color:' + C.muted + '">' + s + '</div></div></td>';
+  const noOf = x => d.main.indexOf(x) + 1;
+  const grad = 'background:#FF5C8D;background-image:linear-gradient(135deg,#FF5C8D,#FF3D7A);';
+  const soft = 'background:#FFE6EE;background-image:linear-gradient(135deg,#FFE6EE,#FFF3EA);';
+  const sec = (n, en, zh) => '<tr><td style="padding:30px ' + PAD + 'px 12px"><div style="font-family:' + mono + ';font-size:11px;letter-spacing:2px;color:' + C.pink + '">' + n + ' · ' + en.toUpperCase() + '</div><div style="font-size:21px;font-weight:900;color:' + C.ink + ';margin-top:4px">' + zh + '</div></td></tr>';
+  const row = html => '<tr><td style="padding:0 ' + PAD + 'px">' + html + '</td></tr>';
+  // 等寬格子：cells = 每格 HTML
+  const grid = (cells, cols, gap, style) => {
+    let h = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:' + gap + 'px">';
+    for (let i = 0; i < cells.length; i += cols) {
+      h += '<tr>';
+      for (let j = 0; j < cols; j++) { const c = cells[i + j]; h += '<td valign="top" width="' + Math.floor(100 / cols) + '%" style="' + (c == null ? '' : style) + '">' + (c == null ? '' : c) + '</td>'; }
+      h += '</tr>';
+    }
+    return h + '</table>';
+  };
   const n = d.n;
-  const bmiTag = b => b < 18.5 ? '可以再多吃一點，把身體養好' : b < 24 ? '在健康範圍內' : b < 27 ? '比健康範圍多一點點' : '還有一些調整空間';
-  const sig = L(text['資歷']);
-  const btn = (href, label) => '<a href="' + e(href) + '" style="display:inline-block;background:' + C.pink + ';color:#FFFFFF;text-decoration:none;font-weight:700;font-size:15px;padding:14px 28px;border-radius:99px">' + label + '</a>';
+  const bmiTag = b => b < 18.5 ? '可以再多吃一點' : b < 24 ? '在健康範圍內' : b < 27 ? '比健康範圍多一點點' : '還有一些調整空間';
+  const ICON = { '地瓜': '🍠', '馬鈴薯': '🥔', '燕麥': '🥣', '吐司': '🥪', '蛋餅': '🌯', '豆漿': '🥛', '鮮奶': '🥛', '咖啡': '☕', '鮪魚': '🐟', '蛋': '🥚', '豆腐': '🍲', '毛豆': '🫛', '番茄': '🍅', '沙拉': '🥗', '生菜': '🥗' };
+  const iconOf = name => { for (const k in ICON) if (name.indexOf(k) >= 0) return ICON[k]; return '🍽️'; };
+  const swaps = L(t.swaps).map(x => x.split(/→|->/).map(y => y.trim())).filter(x => x.length === 2 && x[0] && x[1]);
+  const chartCfg = { type: 'radar', data: { labels: d.main.map(x => 'No.' + noOf(x)), datasets: [{ data: d.main.map(x => d.pct[x.code]), backgroundColor: 'rgba(255,92,141,0.22)', borderColor: '#FF5C8D', borderWidth: 2, pointRadius: 4, pointBackgroundColor: '#FF3D7A' }] },
+    options: { legend: { display: false }, scale: { ticks: { display: false, min: 0, max: 100, stepSize: 25 }, gridLines: { color: '#F5DCE5' }, angleLines: { color: '#F5DCE5' }, pointLabels: { fontSize: 13, fontColor: '#7D6470' } } } };
+  const chartUrl = 'https://quickchart.io/chart?w=300&h=270&bkg=white&c=' + encodeURIComponent(JSON.stringify(chartCfg));
 
-  let rows = '';
-  // hero
-  rows += '<tr><td style="padding:28px"><div style="background:' + C.bg + ';border:1px solid ' + C.line + ';border-radius:22px;padding:28px 24px;background-image:radial-gradient(120% 100% at 100% 0%,rgba(255,92,141,.16),transparent 60%)">' +
-    '<div style="font-family:' + mono + ';font-size:11px;letter-spacing:2px;color:' + C.faint + '">YOUR METABOLIC TYPE · REPORT NO.' + e(d.reportNo) + '</div>' +
-    '<div style="font-family:' + mono + ';font-size:14px;color:' + C.pink + ';margin-top:16px">No.' + d.no + '</div>' +
-    '<div style="font-family:\'Noto Sans TC\',sans-serif;font-size:32px;font-weight:900;color:' + C.ink + ';line-height:1.3">' + e(t.name) + '</div>' +
-    '<div style="font-family:\'Playfair Display\',serif;font-style:italic;font-size:16px;color:' + C.pink + '">' + e(t.en) + '</div>' +
-    '<div style="font-size:15px;color:' + C.muted + ';margin-top:12px;line-height:1.8">' + e(t.tag) + '</div>' +
-    (d.s ? '<div style="display:inline-block;margin-top:14px;border:1px solid ' + C.line + ';border-radius:99px;padding:5px 14px;font-size:13px;color:' + C.muted + '">混合 <b style="color:' + C.ink + '">No.' + d.sNo + ' ' + e(d.s.name) + '</b> 傾向</div>' : '') +
-    '</div></td></tr>';
-  rows += p(br(text['信件開頭']), 'color:' + C.ink);
-  // body now
-  rows += h2('01', '你的身體，現在大概是這樣', 'Where you are');
-  rows += p(L(t.why).map((w, i) => '<div style="margin-bottom:8px"><span style="color:' + C.pink + ';font-family:' + mono + '">' + (i + 1) + '　</span>' + e(w) + '</div>').join(''));
-  rows += '<tr><td style="padding:4px 28px 8px"><table width="100%" cellpadding="0" cellspacing="0">' + sorted.map(bar).join('') + '</table></td></tr>';
-  if (d.s) rows += '<tr><td style="padding:10px 28px"><div style="background:' + C.panel2 + ';border-radius:14px;padding:14px 16px;font-size:14px;color:' + C.muted + ';line-height:1.8"><b style="color:' + C.ink + '">你是混合型。</b>主要是' + e(t.name) + '，也帶有 ' + d.pct[d.s.code] + '% 的' + e(d.s.name) + '傾向。調整時先從主要型態下手，另一型的地雷也順便避開。</div></td></tr>';
-  const mines = L(t.mines);
-  if (mines.length) rows += '<tr><td style="padding:12px 28px"><div style="border-left:2px solid ' + C.pink + ';padding:4px 0 4px 14px;font-size:14.5px;color:' + C.muted + ';line-height:1.8"><b style="color:' + C.pink + '">你最該先避開的地雷：</b><span style="color:' + C.ink + '">' + e(mines[0]) + '</span><br>' + (mines.length > 1 ? '其他常見的還有：' + mines.slice(1).map(e).join('、') : '') + '</div></td></tr>';
-  // protocol
-  rows += h2('02', e(t.name) + '的調整方向', 'Protocol');
-  rows += p('<b style="color:' + C.ink + '">飲食</b><br>' + L(t.food).map(x => '・' + e(x)).join('<br>') + '<br><br><b style="color:' + C.ink + '">生活</b><br>' + L(t.life).map(x => '・' + e(x)).join('<br>'));
-  if (t.core) rows += p('<i style="font-family:\'Noto Sans TC\',sans-serif;font-size:17px;color:' + C.pink + '">「' + e(t.core) + '」</i>');
-  // numbers
-  if (n) {
-    rows += h2('03', '你每天該吃多少', 'Your numbers');
-    rows += '<tr><td style="padding:0 22px"><table width="100%" cellpadding="0" cellspacing="0"><tr><td colspan="2" style="padding:6px"><div style="background:' + C.bg + ';border:1px solid ' + C.pink + ';border-radius:14px;padding:16px 18px"><div style="font-size:12px;color:' + C.faint + '">建議熱量</div><div style="font-family:' + mono + ';font-size:30px;color:' + C.pink + '">' + n.kcal.toLocaleString() + ' <span style="font-size:13px;color:' + C.muted + '">大卡／天</span></div><div style="font-size:12.5px;color:' + C.muted + '">' + e(n.note) + '</div></div></td></tr>' +
-      '<tr>' + cell('BMI', e(n.bmi), bmiTag(+n.bmi)) + cell('體脂率', n.bf ? n.bf + '%' : '—', '建議 ' + (n.sex === '男' ? 25 : 30) + '% 以內') + '</tr>' +
-      '<tr>' + cell('理想體重', n.ideal[0] + '–' + n.ideal[1] + ' kg', '健康 BMI 的範圍') + cell('腰圍', n.waist ? n.waist + ' cm' : '—', '建議 ' + (n.sex === '男' ? 90 : 80) + ' cm 以內') + '</tr></table></td></tr>';
+  let r = '';
+  // 頂部
+  r += '<tr><td style="padding:18px ' + PAD + 'px;border-bottom:1px solid ' + C.line + '"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:14px;color:' + C.ink + '"><b style="font-weight:900">' + e(text['品牌名稱']) + '</b>&nbsp; <i style="color:' + C.rose + ';font-family:Georgia,serif">' + e(text['品牌英文']) + '</i></td><td align="right" style="font-family:Georgia,serif;font-style:italic;font-size:12.5px;color:' + C.muted + '">' + e(text['Slogan英文']) + '</td></tr></table></td></tr>';
+  // 主卡
+  r += '<tr><td style="padding:24px ' + PAD + 'px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="' + soft + 'border-radius:24px"><tr>' +
+    '<td valign="middle" style="padding:28px 0 28px 28px">' +
+      '<table role="presentation" cellpadding="0" cellspacing="0"><tr><td><img src="' + IMG + 'yan-face.jpg" width="40" height="40" style="display:block;border-radius:50%;border:2px solid #fff" alt=""></td><td style="padding-left:10px;font-size:14px;color:' + C.muted + '">Hi，我是彥彥，你的報告我看過了</td></tr></table>' +
+      '<div style="font-size:16px;color:' + C.ink + ';margin-top:14px;font-weight:500">你現在卡在這一關 ——</div>' +
+      '<div style="font-family:' + mono + ';color:' + C.rose + ';font-size:14px;margin-top:6px">No.' + d.no + '</div>' +
+      '<div style="font-size:38px;font-weight:900;color:' + C.ink + ';line-height:1.2">' + e(t.name) + '</div>' +
+      '<div style="font-family:Georgia,serif;font-style:italic;color:' + C.rose + ';font-size:16px">' + e(t.en) + '</div>' +
+      (d.s ? '<div style="display:inline-block;margin-top:12px;background:#fff;border-radius:99px;padding:5px 14px;font-size:13px;color:' + C.muted + '">同時帶有 <b style="color:' + C.ink + '">No.' + d.sNo + ' ' + e(d.s.name) + '</b> 傾向</div>' : '') +
+    '</td>' +
+    (t.area ? '<td valign="middle" width="170" style="padding:20px 22px 20px 12px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:20px"><tr><td align="center" style="padding:18px 10px">' +
+      '<div style="width:54px;height:54px;line-height:54px;border-radius:50%;background:' + C.tint + ';font-size:26px;text-align:center;margin:0 auto 8px">' + e(t.areaIcon) + '</div>' +
+      '<div style="font-size:11px;color:' + C.faint + '">卡關的位置</div><div style="font-size:15px;font-weight:700;color:' + C.rose + '">' + e(t.area) + '</div><div style="font-size:11.5px;color:' + C.faint + ';margin-top:6px;line-height:1.5">' + e(t.areaLine) + '</div></td></tr></table></td>' : '') +
+    '</tr></table></td></tr>';
+  // 彥彥的話
+  r += '<tr><td style="padding:22px ' + PAD + 'px 0"><div style="border-left:3px solid ' + C.pink + ';background:' + C.p2 + ';border-radius:0 16px 16px 0;padding:18px 20px;font-size:15px;line-height:1.85;color:' + C.ink + '">' + br(text['信件開頭']) + '<br><span style="color:' + C.muted + '">' + e(t.tag) + '</span></div></td></tr>';
+  // 01 六角圖
+  r += sec('01', 'Where you are', '你的身體，現在大概是這樣');
+  const top = sorted[0];
+  const fpRows = sorted.map((x, i) => '<tr><td style="padding:7px 12px;font-size:13.5px;' + (i === 0 ? 'background:' + C.rose + ';color:#fff;border-radius:12px;font-weight:700' : 'color:' + C.ink) + '">No.' + noOf(x) + ' ' + e(x.name) + '</td><td align="right" style="padding:7px 12px;font-family:' + mono + ';font-size:13px;' + (i === 0 ? 'background:' + C.rose + ';color:#fff;border-radius:12px' : 'color:' + (i === 1 ? C.rose : C.muted)) + '">' + d.pct[x.code] + '%</td></tr>').join('');
+  r += row('<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td valign="middle" width="300"><img src="' + chartUrl + '" width="300" height="270" style="display:block;max-width:100%" alt="代謝指紋六角圖"></td><td valign="middle" style="padding-left:16px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:' + C.p2 + ';border-radius:16px;padding:6px">' + fpRows + '</table><div style="font-size:12px;color:' + C.faint + ';margin-top:8px;line-height:1.6">百分比越高，代表這個卡關點越明顯。</div></td></tr></table>');
+  // 02 原因
+  r += sec('02', "Why you're stuck", '為什麼你會卡在這一關');
+  r += row(grid(L(t.why).slice(0, 3).map((w, i) => '<div style="width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;background:' + C.tint + ';color:' + C.rose + ';font-weight:900;font-size:14px;margin-bottom:8px">' + (i + 1) + '</div><div style="font-size:14px;line-height:1.7;color:' + C.ink + '">' + e(w) + '</div>'), 3, 6, 'border:1px solid ' + C.line + ';border-radius:18px;padding:16px'));
+  // 03 換個吃法
+  if (swaps.length) {
+    r += sec('03', "Swap, don't skip", '不用忌口，換個吃法就好');
+    r += row(grid(swaps.map(x => '<div style="font-size:13px;color:' + C.faint + ';text-decoration:line-through">' + e(x[0]) + '</div><div style="font-size:14px;color:' + C.ink + ';font-weight:700;margin-top:4px"><span style="color:' + C.rose + '">→</span> ' + e(x[1]) + '</div>'), 2, 6, 'background:' + C.p2 + ';border-radius:16px;padding:14px 16px'));
   }
-  // breakfast
-  rows += h2(n ? '04' : '03', '明天早餐這樣吃', "Tomorrow's breakfast");
-  rows += '<tr><td style="padding:0 28px">' + d.bk.items.map(x => '<div style="background:' + C.panel2 + ';border-radius:14px;padding:12px 16px;margin-bottom:8px"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:15px;color:' + C.ink + ';font-weight:600">' + e(x.n) + '</td><td style="text-align:right;font-family:' + mono + ';color:' + C.pink + ';font-size:13.5px">' + e(x.a) + '</td></tr></table></div>').join('') + '</td></tr>';
-  rows += p('<span style="font-size:13.5px">' + e(d.bk.alt) + (d.bk.tip ? '<br><b style="color:' + C.ink + '">點餐小提醒　</b>' + e(d.bk.tip) : '') + '</span>');
-  if (t.bkWhy) rows += '<tr><td style="padding:0 28px 12px"><div style="background:' + C.panel2 + ';border-radius:14px;padding:14px 16px"><div style="font-family:' + mono + ';font-size:11px;letter-spacing:2px;color:' + C.pink + '">WHY · 為什麼這樣吃</div><div style="font-size:14.5px;color:' + C.ink + ';line-height:1.8;margin-top:4px">' + e(t.bkWhy) + '</div></div></td></tr>';
-  if (t.menuTip) rows += p('<div style="border-left:2px solid ' + C.pink + ';padding-left:14px"><b style="color:' + C.pink + '">提醒　</b>' + e(t.menuTip) + '</div>');
+  let k = swaps.length ? 4 : 3;
+  // 04 數字
+  if (n) {
+    r += sec('0' + k++, 'Your numbers', '你每天該吃多少');
+    r += row('<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="' + grad + 'border-radius:20px"><tr><td style="padding:20px 22px;color:#fff"><div style="font-size:13px;opacity:.85">每日建議熱量</div><div style="font-family:' + mono + ';font-size:40px;font-weight:700;line-height:1.1">' + n.kcal.toLocaleString() + '</div></td><td align="right" valign="bottom" style="padding:20px 22px;color:#fff;font-size:13px;line-height:1.6">大卡／天<br>' + e(n.note) + '</td></tr></table><div style="height:6px"></div>');
+    const nt = (k2, v, s) => '<div style="font-size:11.5px;color:' + C.faint + '">' + k2 + '</div><div style="font-family:' + mono + ';font-size:20px;color:' + C.ink + ';margin:2px 0">' + v + '</div><div style="font-size:11.5px;color:' + C.muted + '">' + s + '</div>';
+    r += row(grid([nt('BMI', e(n.bmi), bmiTag(+n.bmi)), nt('體脂率', n.bf ? n.bf + '%' : '—', '建議 ' + (n.sex === '男' ? 25 : 30) + '% 以內'), nt('理想體重', n.ideal[0] + '–' + n.ideal[1], 'kg'), nt('腰圍', n.waist ? n.waist : '—', '建議 ' + (n.sex === '男' ? 90 : 80) + ' cm 以內')], 4, 5, 'background:' + C.p2 + ';border-radius:16px;padding:12px 14px'));
+  }
+  // 05 早餐
+  r += sec('0' + k++, "Tomorrow's breakfast", '明天早餐這樣吃');
+  const items = d.bk.items;
+  r += row(grid(items.map(x => '<div style="font-size:30px;line-height:1.2">' + iconOf(x.n) + '</div><div style="font-size:13.5px;font-weight:700;color:' + C.ink + ';margin-top:6px;line-height:1.4">' + e(x.n.replace(/（.*）/, '').replace('或荷包蛋', '')) + '</div><div style="font-family:' + mono + ';color:' + C.rose + ';font-size:12.5px;margin-top:2px">' + e(x.a.replace(/（.*）/, '')) + '</div>'), Math.min(items.length, 5), 4, 'border:1px solid ' + C.line + ';border-radius:18px;padding:16px 8px;text-align:center'));
+  r += row('<div style="font-size:13px;color:' + C.muted + ';margin:4px 0 6px;line-height:1.7">' + e(d.bk.alt) + '</div>');
+  const tip = [t.menuTip, d.bk.tip].filter(Boolean).join(' ');
+  r += row(grid([
+    '<div style="font-family:' + mono + ';font-size:10.5px;letter-spacing:2px;color:' + C.rose + ';margin-bottom:4px">WHY · 為什麼這樣吃</div><div style="font-size:14px;line-height:1.75;color:' + C.ink + '">' + e(t.bkWhy) + '</div>',
+    '<div style="font-family:' + mono + ';font-size:10.5px;letter-spacing:2px;color:' + C.rose + ';margin-bottom:4px">TIP · 彥彥提醒</div><div style="font-size:14px;line-height:1.75;color:' + C.ink + '">' + e(tip) + '</div>'
+  ], 2, 6, 'background:' + C.p2 + ';border-radius:18px;padding:14px 16px'));
   // CTA
-  rows += '<tr><td style="padding:24px 28px"><div style="border:1px solid ' + C.pink + ';border-radius:22px;padding:24px;text-align:center">' +
-    '<div style="font-size:19px;font-weight:700;color:' + C.ink + '">' + e(text['結果CTA標題']) + '</div>' +
-    '<div style="font-size:14.5px;color:' + C.muted + ';line-height:1.8;margin:10px 0 18px">' + br(text['信件結尾']) + '</div>' +
-    btn(text['IG網址'] || SITE_URL, e(text['信件按鈕'] || 'IG 私訊「代謝」')) + '</div></td></tr>';
-  if (!forPdf) rows += '<tr><td style="padding:0 28px 8px;text-align:center"><a href="' + e(d.link) + '" style="color:' + C.pink + ';font-size:14px">回到我的完整報告 →</a></td></tr>';
-  // signature
-  rows += '<tr><td style="padding:22px 28px;border-top:1px solid ' + C.line + '"><div style="font-family:\'Noto Sans TC\',sans-serif;font-size:17px;color:' + C.ink + ';font-weight:700">' + e(text['品牌名稱']) + '</div>' +
-    '<div style="font-size:12.5px;color:' + C.faint + ';line-height:1.8;margin-top:4px">' + sig.map(e).join('<br>') + '</div>' +
-    '<div style="font-size:12.5px;margin-top:6px"><a href="' + e(text['IG網址']) + '" style="color:' + C.pink + '">' + e(text['IG帳號']) + '</a></div></td></tr>';
-  rows += '<tr><td style="padding:14px 28px 24px;font-size:11.5px;color:' + C.faint + ';line-height:1.7">' + e(text['免責聲明']) + (forPdf ? '' : '<br>不想再收到信？直接回覆這封信告訴我，我會把你的資料刪除。') + '</td></tr>';
+  r += '<tr><td style="padding:28px ' + PAD + 'px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="' + soft + 'border-radius:24px"><tr>' +
+    '<td valign="middle" width="96" style="padding:24px 0 24px 24px"><img src="' + IMG + 'yan-face.jpg" width="96" height="96" style="display:block;border-radius:50%;border:3px solid #fff" alt=""></td>' +
+    '<td valign="middle" style="padding:24px"><div style="font-size:19px;font-weight:900;color:' + C.ink + '">' + e(text['結果CTA標題']) + '</div><div style="font-size:14px;color:' + C.muted + ';line-height:1.75;margin:6px 0 14px">' + br(text['信件結尾']) + '</div>' +
+    '<a href="' + e(text['IG網址'] || SITE_URL) + '" style="display:inline-block;' + grad + 'color:#fff;text-decoration:none;font-weight:700;font-size:14.5px;padding:12px 24px;border-radius:99px">' + e(text['信件按鈕'] || 'IG 私訊彥彥') + ' →</a></td></tr></table></td></tr>';
+  if (!forPdf) r += '<tr><td align="center" style="padding:18px"><a href="' + e(d.link) + '" style="color:' + C.rose + ';font-size:14px">回到我的完整報告 →</a></td></tr>';
+  // 彥彥的故事＋簽名
+  r += '<tr><td style="padding:22px ' + PAD + 'px;border-top:1px solid ' + C.line + '"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>' +
+    '<td valign="top" width="60"><img src="' + IMG + 'yan-face.jpg" width="52" height="52" style="display:block;border-radius:50%" alt=""></td>' +
+    '<td valign="top" style="font-size:13.5px;color:' + C.muted + ';line-height:1.8">' + e(text['品牌故事']) +
+      '<div style="margin-top:10px;font-size:13px;color:' + C.rose + '">' + e(text['Slogan英文']) + '<br>' + e(text['Slogan中文']) + '</div>' +
+      '<img src="' + IMG + 'sig.png" width="72" style="display:block;margin:10px 0 4px" alt="彥彥">' +
+      '<div style="font-size:12px;color:' + C.faint + '"><b style="color:' + C.ink + '">' + e(text['品牌名稱']) + '</b>　' + e(text['品牌英文']) + '<br>' + L(text['資歷']).map(e).join('｜') + '<br><a href="' + e(text['IG網址']) + '" style="color:' + C.rose + '">' + e(text['IG帳號']) + '</a></div></td></tr></table></td></tr>';
+  r += '<tr><td style="padding:0 ' + PAD + 'px 24px;font-size:11px;color:' + C.faint + ';line-height:1.7">' + e(text['免責聲明']) + (forPdf ? '' : '<br>不想再收到信？直接回覆這封信告訴我，我會把你的資料刪除。') + '</td></tr>';
 
   return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>' +
-    '<body style="margin:0;padding:0;background:' + C.bg + '"><table width="100%" cellpadding="0" cellspacing="0" style="background:' + C.bg + '"><tr><td align="center" style="padding:' + (forPdf ? '0' : '20px 10px') + '">' +
-    '<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:' + C.panel + ';border:1px solid ' + C.line + ';border-radius:24px;font-family:' + font + '">' + rows + '</table></td></tr></table></body></html>';
+    '<body style="margin:0;padding:0;background:#F4EEF0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EEF0"><tr><td align="center" style="padding:' + (forPdf ? '0' : '24px 8px') + '">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:' + W + 'px;background:#ffffff;border-radius:28px;font-family:' + font + ';color:' + C.ink + '">' + r + '</table></td></tr></table></body></html>';
+}
+
+// 改版用：把「網站文案」的指定項目和整個「型態」分頁，換成程式裡的最新預設內容（題目不動）
+function refreshContent() {
+  const ss = SS();
+  const keys = ['品牌英文', 'Slogan英文', 'Slogan中文', '品牌故事', '首頁標題', '首頁說明', '開始按鈕', '資歷', '首頁徽章', '首頁前言', '首頁英文', '結果CTA標題', '結果CTA說明', '信件開頭', '信件結尾', '信件按鈕', '信件寄件人', '信件主旨'];
+  const t = ss.getSheetByName(SHEET_TEXT);
+  const vals = t.getRange(2, 1, Math.max(t.getLastRow() - 1, 1), 1).getValues().map(r => String(r[0]).trim());
+  keys.forEach(k => { const i = vals.indexOf(k); if (i >= 0) t.getRange(i + 2, 2).setValue(DEFAULT_TEXT[k]); });
+  setup();   // 補上新的項目
+  const ty = ss.getSheetByName(SHEET_TYPE);
+  ty.clear();
+  const rows = [T_HEADERS].concat(DEFAULT_TYPES.map(x => [x.code, x.name, x.en, x.tag, x.why.join('｜'), x.mines.join('｜'), x.food.join('｜'), x.life.join('｜'), x.core, x.menuTip, x.bkWhy, x.area, x.areaIcon, x.areaLine, x.swaps]));
+  ty.getRange(1, 1, rows.length, T_HEADERS.length).setValues(rows);
+  styleHeader(ty, T_HEADERS.length);
+  ty.getRange(2, 1, rows.length, T_HEADERS.length).setWrap(true).setVerticalAlignment('top');
+  for (let c = 4; c <= 15; c++) ty.setColumnWidth(c, 260);
+  Logger.log('已更新');
 }
 
 // 第一次使用：在編輯器選這個函式按「執行」，授權寄信，並寄一封範例信給你自己
