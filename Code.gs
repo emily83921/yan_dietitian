@@ -18,6 +18,8 @@ const SHEET_DATA = '填答資料', SHEET_Q = '題目', SHEET_TYPE = '型態', SH
 const Q_HEADERS = ['啟用', '維度', '題目', '情境小語', '選項A', 'A加分', '選項B', 'B加分', '選項C', 'C加分', '選項D', 'D加分'];
 const T_HEADERS = ['代號', '名稱', '英文名稱', '一句話', '卡關原因', '常踩地雷', '飲食調整', '生活調整', '核心句', '菜單提醒', '早餐原因'];
 const BASE_HEADERS = ['編號', '填寫時間', '狀態', '報告寄送', '備註'];
+const SHEET_ID = '1LWcy7e5Oe6kcSZPDLhZhbvUQyp8_ghPetr155U3HY4g';   // 你的 Google 試算表 ID（網址 /d/ 後面那串）
+function SS() { return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet(); }
 const SITE_URL = 'https://emily83921.github.io/yan_dietitian/';   // 信件裡「回到我的完整報告」只允許連回這個網址
 
 const DEFAULT_TEXT = {
@@ -259,7 +261,7 @@ const DEFAULT_QS = [{"dim": "Body Signals · 身體訊號", "t": "脂肪最容�
 
 /* ---------- 第一次設定 ---------- */
 function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SS();
 
   if (!ss.getSheetByName(SHEET_TEXT)) {
     const t = ss.insertSheet(SHEET_TEXT);
@@ -334,7 +336,7 @@ function doGet(e) {
 }
 
 function getConfig() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SS();
   const read = (name, n) => { const s = ss.getSheetByName(name); return s && s.getLastRow() > 1 ? s.getRange(2, 1, s.getLastRow() - 1, n).getDisplayValues() : []; };
 
   const text = {};
@@ -381,7 +383,7 @@ function submit(data, mail) {
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = SS();
     if (!ss.getSheetByName(SHEET_DATA)) setup();
     const sh = ss.getSheetByName(SHEET_DATA);
     const row = Object.assign({
@@ -409,7 +411,7 @@ function clean(v) {
 }
 
 function listRows() {
-  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_DATA);
+  const sh = SS().getSheetByName(SHEET_DATA);
   if (!sh || sh.getLastRow() < 2) return { ok: true, rows: [] };
   const values = sh.getRange(1, 1, sh.getLastRow(), sh.getLastColumn()).getDisplayValues();
   const headers = values.shift();
@@ -418,7 +420,7 @@ function listRows() {
 }
 
 function updateRow(id, status, note) {
-  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_DATA);
+  const sh = SS().getSheetByName(SHEET_DATA);
   const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
   const idCol = headers.indexOf('編號') + 1, stCol = headers.indexOf('狀態') + 1, noteCol = headers.indexOf('備註') + 1;
   const ids = sh.getRange(2, idCol, Math.max(sh.getLastRow() - 1, 1), 1).getValues().map(r => String(r[0]));
