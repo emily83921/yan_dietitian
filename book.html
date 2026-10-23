@@ -19,8 +19,10 @@ h1,h2,p{margin:0}
 [hidden]{display:none!important}
 .bar{position:fixed;top:0;left:0;right:0;height:4px;background:var(--line);z-index:10}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--rose));transition:width .35s}
-.brand{position:fixed;top:14px;left:max(20px,env(safe-area-inset-left,0px));font-size:13px;color:var(--muted);z-index:10}
-.brand b{color:var(--ink)}.brand i{font-family:"Playfair Display",serif;color:var(--rose);margin-left:6px}
+.brand{position:fixed;top:0;left:0;right:0;padding:14px max(20px,env(safe-area-inset-left,0px)) 10px;font-size:13px;color:var(--muted);z-index:9;background:rgba(255,247,249,.9);backdrop-filter:blur(8px);display:flex;flex-direction:column;gap:1px}
+.brand b{color:var(--ink)}.brand i{font-family:"Playfair Display",serif;color:var(--rose);margin-left:6px}.brand .cn{color:var(--rose);margin-left:4px;font-size:12.5px}
+.brand em{font-family:"Playfair Display",serif;font-size:12px;color:var(--faint);letter-spacing:.02em}
+.stage{padding-top:96px}
 .stage{min-height:100%;display:flex;align-items:center;justify-content:center;padding:70px max(22px,env(safe-area-inset-left,0px)) 90px}
 .q{width:100%;max-width:620px;animation:in .45s ease}
 @keyframes in{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
@@ -47,10 +49,15 @@ textarea.txt:focus{border-color:var(--pink)}
 .intro .who{display:flex;align-items:center;gap:14px;margin-bottom:22px}
 .intro .who img{width:68px;height:68px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 8px 20px rgba(255,92,141,.2)}
 .intro .who b{display:block;font-size:17px}.intro .who small{color:var(--muted);font-size:13px}
-.intro h1{font-size:clamp(28px,7vw,40px);font-weight:900;line-height:1.3}
+.intro h1{font-size:clamp(30px,8vw,44px);font-weight:900;line-height:1.25;letter-spacing:.02em}
+.intro .kick{display:block;font-family:"Playfair Display",serif;font-style:italic;color:var(--rose);font-size:16px;margin-bottom:4px}
+.intro .hl{color:var(--rose);background:linear-gradient(transparent 64%,rgba(255,179,138,.5) 64%,rgba(255,179,138,.5) 90%,transparent 90%);padding:0 .05em}
+.feats{margin-top:24px;display:grid;gap:10px}
+.ft{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:0 6px 18px rgba(255,92,141,.06)}
+.ft .n{font-family:"Playfair Display",serif;font-style:italic;font-size:22px;color:var(--rose);line-height:1.2;min-width:30px}
+.ft b{display:block;font-size:15.5px}
+.ft p{font-size:13.5px;color:var(--muted);margin-top:2px;line-height:1.6}
 .intro .offer{display:inline-block;margin-top:12px;background:var(--tint);color:var(--rose);border-radius:99px;padding:4px 14px;font-weight:700;font-size:14.5px}
-.intro ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:8px;color:var(--muted);font-size:15px}
-.intro li::before{content:"✓";color:var(--rose);font-weight:900;margin-right:8px}
 .nav{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px max(20px,env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px));background:rgba(255,247,249,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:10}
 .nav button{border:1.5px solid var(--rose);border-radius:99px;padding:9px 18px;background:#fff;color:var(--rose);font:inherit;font-weight:700;font-size:14.5px;cursor:pointer}
 .nav #down{background:var(--rose);color:#fff}
@@ -62,14 +69,25 @@ textarea.txt:focus{border-color:var(--pink)}
 .golink{display:inline-block;margin-top:22px;border-radius:99px;padding:14px 26px;font-weight:700;color:#fff;text-decoration:none;background:linear-gradient(135deg,var(--pink),var(--rose));box-shadow:0 10px 28px rgba(255,61,122,.28)}
 .sigrow{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:14px;text-align:left}
 .sigrow .sl{color:var(--rose);font-size:13.5px;line-height:1.7}
-.sigrow .me{display:flex;align-items:flex-end;gap:6px;flex:0 0 auto}
-.sigrow .face{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 4px 12px rgba(255,92,141,.2)}
-.sigrow .sig{width:32px;opacity:.85}
+.sigrow .me{position:relative;flex:0 0 auto;width:64px;height:64px}
+.sigrow .face{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 4px 12px rgba(255,92,141,.2)}
+.sigrow .sig{position:absolute;right:3px;bottom:3px;width:22px;filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 3px #fff)}
+.golink.sub{background:#fff;color:var(--rose);border:1.5px solid var(--rose);box-shadow:none;margin-top:14px}
+.nextcard{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;text-align:center;box-shadow:0 10px 28px rgba(255,92,141,.1)}
+.nextcard .tag{display:inline-block;background:var(--tint);color:var(--rose);border-radius:99px;padding:2px 12px;font-size:12.5px;font-weight:700}
+.nextcard h3{font-size:20px;font-weight:900;margin:8px 0 4px}
+.nextcard p{color:var(--muted);font-size:14px}
+.nextcard .acct{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:14px;text-align:left}
+.nextcard .acct img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.nextcard .acct b{display:block}.nextcard .acct small{color:var(--muted);font-size:12px}
+.nextcard .golink{margin-top:14px}
+.golink.line{background:#06C755;box-shadow:0 10px 28px rgba(6,199,85,.25)}
+.golink.off{background:#D9D2D5;box-shadow:none;cursor:default}
 </style>
 </head>
 <body>
 <div class="bar"><i id="bar"></i></div>
-<div class="brand"><b>營養師彥彥</b><i>Brighter Me</i></div>
+<div class="brand"><div><b>營養師彥彥</b><i>Brighter Me</i><span class="cn">輕盈閃耀</span></div><em>Lighter every day, brighter every way</em></div>
 <main class="stage"><div id="screen" class="q"></div></main>
 <div class="nav" id="nav"><button type="button" id="up">← 上一題</button><span id="pos"></span><button type="button" id="down">下一題 →</button></div>
 <script>
@@ -78,6 +96,9 @@ textarea.txt:focus{border-color:var(--pink)}
    ============================================================ */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0Nxt96fvNhbqZiAakp7eYNWfbSMcsAAE0RSGLydxpFaMZBCofaEoE5UUoWgVhEe4yiA/exec";
 const OFFER = "";   // 例如「首次諮詢免費」，留空就不顯示
+const IG_HANDLE = "@yan_dietitian";
+const IG_DM = "https://ig.me/m/yan_dietitian";   // 直接打開 IG 私訊
+const LINE_URL = "";   // ← LINE 官方帳號網址，有了再貼上
 /* ============================================================ */
 const TYPES={P:"高壓緊繃型",E:"情緒飢餓型",N:"作息失衡型",M:"代謝低速型",G:"血糖起伏型",D:"節食耗損型"};
 const $=id=>document.getElementById(id);
@@ -113,15 +134,25 @@ function render(){
   if(q.id==="intro"){
     s.innerHTML=`<div class="intro">
       <div class="who"><img src="yan-face.jpg" alt=""><div><b>營養師彥彥</b><small>臺北醫學大學・肥胖研究學會 體重管理營養師</small></div></div>
-      <h1>預約一對一<br>營養諮詢</h1>
+      <span class="kick">One-on-One Consultation</span>
+      <h1>預約一對一<br><span class="hl">營養諮詢</span></h1>
       ${OFFER?`<span class="offer">${esc(OFFER)}</span>`:""}
-      <ul><li>依你的代謝型態，排出先做什麼、後做什麼</li><li>外食、聚餐、加班也做得到的飲食安排</li><li>填寫約 2 分鐘，彥彥會主動聯絡你</li></ul>
+      <div class="feats">
+        <div class="ft"><span class="n">01</span><div><b>為你排出優先順序</b><p>依你的代謝型態，先做什麼、後做什麼，一步一步來</p></div></div>
+        <div class="ft"><span class="n">02</span><div><b>生活裡做得到的飲食</b><p>外食、聚餐、加班，也有對應的吃法</p></div></div>
+        <div class="ft"><span class="n">03</span><div><b>彥彥親自聯絡你</b><p>填寫約 2 分鐘，送出後由彥彥主動和你約時間</p></div></div>
+      </div>
       <div class="act"><button class="ok" id="okBtn" type="button">開始填寫 →</button><small>按 Enter 也可以</small></div></div>`;
   } else if(q.id==="done"){
     const tc=Object.keys(TYPES).find(k=>TYPES[k]===A.type);
-    const go=tc?`<a class="golink" href="guide.html?t=${tc}">看「${esc(A.type)}」減脂對策 →</a>`:`<a class="golink" href="./">先做代謝卡關檢測 →</a>`;
+    const go=tc?`<a class="golink sub" href="guide.html?t=${tc}">看「${esc(A.type)}」減脂對策 →</a>`:`<a class="golink sub" href="./">先做代謝卡關檢測 →</a>`;
+    let next="";
+    if(A.via.startsWith("Instagram")) next=`<div class="nextcard"><span class="tag">下一步</span><h3>追蹤並私訊彥彥的 IG</h3><p>私訊一句「我預約了」，彥彥會更快找到你。</p><div class="acct"><img src="yan-face.jpg" alt=""><div><b>${esc(IG_HANDLE)}</b><small>營養師彥彥｜Brighter Me 輕盈閃耀</small></div></div><a class="golink" href="${esc(IG_DM)}" target="_blank" rel="noopener">打開 IG 私訊彥彥 →</a></div>`;
+    else if(A.via==="LINE") next=LINE_URL?`<div class="nextcard"><span class="tag">下一步</span><h3>加入彥彥的 LINE</h3><p>加入後傳一句「我預約了」，彥彥會更快找到你。</p><a class="golink line" href="${esc(LINE_URL)}" target="_blank" rel="noopener">加入 LINE 好友 →</a></div>`
+      :`<div class="nextcard"><span class="tag">下一步</span><h3>加入彥彥的 LINE</h3><p>LINE 官方帳號準備中，這段時間彥彥會用你留下的 LINE ID 主動加你。</p><span class="golink line off">LINE 即將開放</span></div>`;
     s.innerHTML=`<div class="done"><div class="em">💌</div><h2 style="font-size:28px;font-weight:900;margin-top:10px">收到你的預約了，${esc(A.name)}！</h2>
-      <p style="color:var(--muted);margin-top:12px">彥彥會在 1–2 個工作天內，用 ${esc(A.via.replace(" 私訊",""))} 聯絡你。<br>這段時間，可以先從對策頁的「這週先做這 3 件事」開始。</p>
+      <p style="color:var(--muted);margin-top:12px">彥彥會在 1–2 個工作天內，用 ${esc(A.via.replace(" 私訊",""))} 聯絡你。</p>
+      ${next}
       ${go}
       <div class="sigrow"><p class="sl">Lighter every day, brighter every way<br>每天輕盈一點，遇見更閃耀的自己</p><div class="me"><img class="face" src="yan-face.jpg" alt=""><img class="sig" src="sig.png" alt="彥彥"></div></div></div>`;
     return;
